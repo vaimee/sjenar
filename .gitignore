@@ -41,3 +41,8 @@ hs_err_*
 
 # Fuseki file area
 run/
+rebuild-all-11.bat
+rebuild-all-13.bat
+rebuild-all-16.bat
+rebuild-all-base.bat
+rebuild-all.bat
