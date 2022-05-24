@@ -94,7 +94,6 @@ import org.junit.runners.Suite ;
     , TS_SparqlLib.class
 
     , TS_RDF_Star.class
-    // And scripted tests.
 })
 
 public class TC_ARQ

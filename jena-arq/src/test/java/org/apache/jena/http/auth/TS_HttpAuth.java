@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses( {
-    TestAuthHeaderParser.class
+    TestAuthStringTokenizer.class
     , TestAuthDigest.class
 })
 public class TS_HttpAuth {

@@ -347,29 +347,15 @@ public class HttpLib {
         return uriStr.substring(0, idx);
     }
 
-    /**
-     * RFC7616, section 3.4 The Effective Request URI (Section 5.5 of [RFC7230]).
-     * Unclear whether the query string is/isn't included but for SPARQL, while the query
-     * may change, the resource is the query service, not a resource named by the
-     * uri+query string.
-     *
-     * This makes query-by-GET and query-by-POST work.
-     */
+    /** RFC7320 "request-target", used in digest authentication. */
     public static String requestTarget(URI uri) {
-        // RFC7616 -> 7230 5.5
-        //   If the request-target is in authority-form or asterisk-form, the
-        //   effective request URI's combined path and query component is
-        //   empty.
-
         String path = uri.getRawPath();
         if ( path == null || path.isEmpty() )
             path = "/";
-        return path;
-//        // This would include the query string in encoded form.
-//        String qs = uri.getRawQuery();
-//        if ( qs == null || qs.isEmpty() )
-//            return path;
-//        return path+"?"+qs;
+        String qs = uri.getQuery();
+        if ( qs == null || qs.isEmpty() )
+            return path;
+        return path+"?"+qs;
     }
 
     /** URI, without query string and fragment. */
@@ -377,7 +363,7 @@ public class HttpLib {
         if ( uri.getRawQuery() == null && uri.getRawFragment() == null )
             return uri;
         try {
-            // Same URI except without query string and fragment.
+            // Same URI except without query strinf an fragment.
             return new URI(uri.getScheme(), uri.getRawAuthority(), uri.getRawPath(), null, null);
         } catch (URISyntaxException x) {
             throw new IllegalArgumentException(x.getMessage(), x);
@@ -538,12 +524,12 @@ public class HttpLib {
         AuthEnv authEnv = AuthEnv.get();
 
         if ( uri.getUserInfo() != null ) {
-            String[] userpasswd = uri.getUserInfo().split(":");
-            if ( userpasswd.length == 2 ) {
+            String[] up = uri.getUserInfo().split(":");
+            if ( up.length == 2 ) {
                 // Only if "user:password@host", not "user@host"
                 key = HttpLib.endpointURI(uri);
                 // The auth key will be with u:p making it specific.
-                authEnv.registerUsernamePassword(key, userpasswd[0], userpasswd[1]);
+                authEnv.registerUsernamePassword(key, up[0], up[1]);
             }
         }
         try {
@@ -630,7 +616,7 @@ public class HttpLib {
     }
 
     /**
-     * Allow setting additional/optional HTTP headers and query parameters on a per remote service (including for SERVICE) basis.
+     * Allow setting additional/optional query parameters on a per remote service (including for SERVICE).
      * <ul>
      * <li>ARQ.httpRequestModifer - the specific modifier</li>
      * <li>ARQ.httpRegistryRequestModifer - the registry, keyed by service URL.</li>

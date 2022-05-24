@@ -21,13 +21,8 @@ package org.apache.jena.arq;
 import org.apache.jena.atlas.TC_Atlas_ARQ;
 import org.apache.jena.atlas.legacy.BaseTest2;
 import org.apache.jena.common.TC_Common;
-import org.apache.jena.external.Scripts_LangSuiteCG;
-import org.apache.jena.external.Scripts_RDFStar;
-import org.apache.jena.external.Scripts_SPARQL11;
 import org.apache.jena.http.auth.TS_HttpAuth;
 import org.apache.jena.rdfs.TS_InfRdfs;
-import org.apache.jena.riot.Scripts_AltTurtle;
-import org.apache.jena.riot.Scripts_LangSuite;
 import org.apache.jena.riot.TC_Riot;
 import org.apache.jena.sparql.*;
 import org.apache.jena.sparql.expr.E_Function;
@@ -58,24 +53,12 @@ import org.junit.runners.Suite;
     // Main ARQ java tests
     TC_ARQ.class,
 
-    // All scripted tests.
-
-    // RIOT
-    Scripts_LangSuite.class,
-    Scripts_AltTurtle.class,
-    // rdf-tests CG - RDF language tests
-    Scripts_LangSuiteCG.class,
-
-    // ARQ
+    // ARQ SPARQL scripted.
     Scripts_ARQ.class,
     Scripts_DAWG.class,
+    //Scripts_SPARQL11.class, // Covered by Scripts_ARQ
     Scripts_RefEngine.class,
-    // rdf-tests CG - SPARQL 1.1 tests
-    Scripts_SPARQL11.class,
-
-    Scripts_TIM.class,
-    // rdf-star CG tests
-    Scripts_RDFStar.class
+    Scripts_TIM.class
 
     // Only runs when src-examples is a source folder, which it isn't in the build.
     //, org.apache.jena.arq.examples.TC_Examples.class

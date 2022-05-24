@@ -45,6 +45,7 @@ public class ServletAction extends HttpServlet {
     public ServletAction(ActionProcessor actionProcessor, Logger log) {
         this.actionProcessor = Objects.requireNonNull(actionProcessor, "actionProcessor is null");;
         this.log = log;
+
     }
 
     /**

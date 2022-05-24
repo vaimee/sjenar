@@ -76,11 +76,7 @@ public abstract class ServletBase extends HttpServlet {
     static final String varyHeaderSetting = String.join(",",
          HttpNames.hAccept,
          HttpNames.hAcceptEncoding,
-         HttpNames.hAcceptCharset,
-         HttpNames.hOrigin,
-         HttpNames.hAccessControlRequestMethod,
-         HttpNames.hAccessControlRequestHeaders
-            );
+         HttpNames.hAcceptCharset);
 
     public static void setVaryHeader(HttpServletResponse httpResponse) {
         httpResponse.setHeader(HttpNames.hVary, varyHeaderSetting);

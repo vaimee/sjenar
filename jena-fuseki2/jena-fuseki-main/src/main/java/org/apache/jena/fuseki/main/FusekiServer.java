@@ -417,9 +417,8 @@ public class FusekiServer {
         // Order does not matter, the rules of pathspec dispatch are "exact match"
         // before "prefix match".
         private Map<String, HttpServlet> servlets           = new HashMap<>();
-        // whereas several filters can share a path spec and order matters.
-        private List<Pair<String, Filter>> beforeFilters    = new ArrayList<>();
-        private List<Pair<String, Filter>> afterFilters     = new ArrayList<>();
+        // whereas several filters can share a path spec an dorder matters.
+        private List<Pair<String, Filter>> filters          = new ArrayList<>();
 
         private String                   contextPath        = "/";
         private String                   staticContentDir   = null;
@@ -807,18 +806,8 @@ public class FusekiServer {
                 realm(realmStr);
 
             String authStr = GraphUtils.getAsStringValue(server, FusekiVocab.pAuth);
-            if ( authStr != null ) {
-                AuthScheme authScheme = AuthScheme.scheme(authStr);
-                switch (authScheme) {
-                    case BASIC: case DIGEST:
-                        break;
-                    case BEARER:
-                        throw new FusekiConfigException("Authentication scheme not support: \""+authStr+"\"");
-                    case UNKNOWN: default:
-                        throw new FusekiConfigException("Authentication scheme not recognized: \""+authStr+"\"");
-                    }
-                auth(authScheme);
-            }
+            if ( authStr != null )
+                auth(AuthScheme.scheme(authStr));
             serverAuth = FusekiConfig.allowedUsers(server);
         }
 
@@ -1011,7 +1000,7 @@ public class FusekiServer {
         public Builder addFilter(String pathSpec, Filter filter) {
             requireNonNull(pathSpec, "pathSpec");
             requireNonNull(filter, "filter");
-            beforeFilters.add(Pair.create(pathSpec, filter));
+            filters.add(Pair.create(pathSpec, filter));
             return this;
         }
 
@@ -1416,10 +1405,7 @@ public class FusekiServer {
                 addFilterHolder(context, "/*", holder);
             }
 
-            beforeFilters.forEach(pair -> addFilter(context, pair.getLeft(), pair.getRight()));
-
-            // End of chain though there may be custom "afterFilters".
-            // This servlet filter may dispatch and not pass on requests.
+            // End of chain. May dispatch and not pass on requests.
             // Looks for any URL that starts with a dataset name.
             FusekiFilter ff = new FusekiFilter();
             addFilter(context, "/*", ff);
@@ -1437,7 +1423,7 @@ public class FusekiServer {
                 addServlet(context, "/$/tasks/*", new ActionTasks());
 
             servlets.forEach((pathspecp, servlet) -> addServlet(context, pathspecp, servlet));
-            afterFilters.forEach(pair -> addFilter(context, pair.getLeft(), pair.getRight()));
+            filters.forEach(pair -> addFilter(context, pair.getLeft(), pair.getRight()));
 
             // Finally, drop to state content if configured.
             if ( staticContentDir != null ) {

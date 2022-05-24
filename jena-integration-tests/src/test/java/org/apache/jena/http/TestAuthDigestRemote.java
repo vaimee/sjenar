@@ -31,8 +31,6 @@ import org.apache.jena.fuseki.jetty.JettyLib;
 import org.apache.jena.fuseki.main.FusekiServer;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.http.auth.AuthEnv;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryFactory;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.exec.QueryExec;
@@ -47,8 +45,7 @@ import org.junit.Test;
 
 /**
  * Digest authentication.
- * Digest auth is not provided by java.net.http,
- * so {@code Authenticator} on the {@code HttpClient} does not work.
+ * Digest auth is not provided by java.net.http.
  * Jena has to implement it itself (in AuthLib).
  */
 public class TestAuthDigestRemote {
@@ -116,32 +113,33 @@ public class TestAuthDigestRemote {
         });
     }
 
+//    @Test
+//    public void auth_disgest_qe_good_auth() {
+//        // Digest auth does not work with java.net.http.
+//        // Jena has to implement it itself (in AuthLib).
+//        Authenticator authenticator = AuthLib.authenticator(user, password);
+//        HttpClient hc = HttpClient.newBuilder().authenticator(authenticator).build();
+//
+//        expect401(()->{
+//            try ( QueryExec qexec = QueryExecHTTP.newBuilder()
+//                    .httpClient(hc)
+//                    .endpoint(dsEndpoint)
+//                    .queryString("ASK{}")
+//                    .build()) {
+//                qexec.ask();
+//            }
+//        });
+//    }
+
     @Test
     public void auth_disgest_qe_good_registered() {
-        // Digest auth is not provided by java.net.http.
-        // Digest only works via AuthEnv.
+        // Digest only work via AuthEnv.
         AuthEnv.get().registerUsernamePassword(dsEndpointURI, user, password);
 
         try ( QueryExec qexec = QueryExecHTTP.newBuilder()
                 //.httpClient(hc)
                 .endpoint(dsEndpoint)
                 .queryString("ASK{}")
-                .build()) {
-            qexec.ask();
-        }
-    }
-
-    @Test
-    public void auth_disgest_qe_good_registered_query() {
-        // Digest only works via AuthEnv.
-        AuthEnv.get().registerUsernamePassword(dsEndpointURI, user, password);
-        // This has a query string with newlines.
-        // Issue: https://github.com/apache/jena/issues/1318
-        Query query = QueryFactory.create("ASK{}");
-        try ( QueryExec qexec = QueryExecHTTP.newBuilder()
-                //.httpClient(hc)
-                .endpoint(dsEndpoint)
-                .query(query)
                 .build()) {
             qexec.ask();
         }
@@ -159,6 +157,7 @@ public class TestAuthDigestRemote {
             }
         });
     }
+
 
     // ---- GSP
 
