@@ -23,12 +23,12 @@
   <artifactId>jena</artifactId>
   <packaging>pom</packaging>
   <url>https://jena.apache.org/</url>
-  <version>4.6.0-SNAPSHOT</version>
+  <version>4.3.2</version>
 
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>26</version>
+    <version>24</version>
   </parent>
 
   <licenses>
@@ -47,38 +47,22 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/jena.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/jena.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf/jena.git</url>
-    <tag>HEAD</tag>
+    <tag>jena-4.3.2</tag>
   </scm>
 
    <properties>
-     <!-- Build -->
-    <java.version>11</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.outputTimestamp>2022-05-01T13:46:56Z</project.build.outputTimestamp>
-
-    <!-- Testing -->
     <ver.junit>4.13.2</ver.junit>  
-    <ver.mockito>4.4.0</ver.mockito>
-    <ver.awaitility>4.1.1</ver.awaitility>
-    <ver.contract.tests>0.2.0</ver.contract.tests>
 
-    <!-- Dependencies -->
-    <ver.slf4j>1.7.36</ver.slf4j>
-    <ver.log4j2>2.17.2</ver.log4j2>
+    <ver.slf4j>1.7.32</ver.slf4j>
+    <ver.log4j2>2.16.0</ver.log4j2>
+    <ver.shade-plugin>3.2.4</ver.shade-plugin>
 
-    <ver.lucene>8.11.1</ver.lucene>
+    <ver.jetty>10.0.7</ver.jetty>
+    <ver.shiro>1.8.0</ver.shiro>
 
-    <ver.jetty>10.0.9</ver.jetty>
-    <ver.shiro>1.9.0</ver.shiro>
+    <ver.protobuf>3.17.3</ver.protobuf>
+    <ver.libthrift>0.15.0</ver.libthrift>
 
-    <ver.protobuf>3.19.3</ver.protobuf>
-    <ver.libthrift>0.16.0</ver.libthrift>
-
-    <!-- JSON-LD 1.1 -->
-    <ver.titanium-json-ld>1.2.0</ver.titanium-json-ld>
-    <ver.jakarta.json>2.0.1</ver.jakarta.json>
-
-    <!-- JSON-LD 1.0 -->
     <!-- jsonld-java depends on depends on Jackson core
          and Jackson databind. databind has had a few CVEs
          so we exclude from jsonldjava and select the version
@@ -87,13 +71,9 @@
          POM for the correct dependency versions
          and use that or later.
     -->
-    <ver.jsonldjava>0.13.4</ver.jsonldjava>
-    <ver.jackson>2.13.2.20220328</ver.jackson>
-    <ver.httpclient>4.5.13</ver.httpclient>
-    <ver.httpcore>4.4.15</ver.httpcore>
+    <ver.jsonldjava>0.13.3</ver.jsonldjava>
+    <ver.jackson>2.13.0</ver.jackson>
 
-    <ver.shaded-guava>31.1-jre</ver.shaded-guava>
-    <ver.gson>2.9.0</ver.gson>
     <ver.commonsio>2.11.0</ver.commonsio>
     <ver.commonscli>1.5.0</ver.commonscli>
     <ver.commonslang3>3.12.0</ver.commonslang3>
@@ -101,16 +81,25 @@
     <ver.commonscsv>1.9.0</ver.commonscsv>
     <ver.commons-codec>1.15</ver.commons-codec>
     <ver.commons-compress>1.21</ver.commons-compress>
+
     <ver.dexxcollection>0.7</ver.dexxcollection>
-    <ver.micrometer>1.8.5</ver.micrometer>
+    <ver.micrometer>1.7.5</ver.micrometer>
 
-    <!-- For testing, not shipped -->
-    <ver.graalvm>22.0.0.2</ver.graalvm>
+    <ver.httpclient>4.5.13</ver.httpclient>
+    <ver.httpcore>4.4.14</ver.httpcore>
+    
+    <ver.lucene>8.10.1</ver.lucene>
+    <ver.graalvm>21.3.0</ver.graalvm>
     <ver.jython>2.7.2</ver.jython>
+    <ver.jcommander>1.81</ver.jcommander>
+    <ver.mockito>4.0.0</ver.mockito>
+    <ver.awaitility>4.1.1</ver.awaitility>
+    <ver.contract.tests>0.2.0</ver.contract.tests>
 
-    <!--- GeoSPARQL related -->
-    <ver.jcommander>1.82</ver.jcommander>
-    <ver.sis>1.1</ver.sis>
+    <java.version>11</java.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.outputTimestamp>2021-12-17T18:39:20Z</project.build.outputTimestamp>
 
   </properties>
 
@@ -177,14 +166,12 @@
         <module>jena-shex</module>
         <module>jena-rdfconnection</module>
         <module>jena-tdb</module>
-        <module>jena-db</module>
- 
+        <module>jena-db</module> 
         <module>apache-jena-libs</module>
 
         <module>jena-text</module>
         
         <module>jena-cmds</module>
-        <module>jena-geosparql</module>
         <module>jena-fuseki2</module>
 
         <module>jena-integration-tests</module>
@@ -249,7 +236,7 @@
         <!--
             Tests of artifacts that require additional 
             modules built later in the build process.
-            For example, using Fuseki as a test server to
+            For example, use Fuseki as a test server to
             test remote client APIs.
         -->
         <module>jena-integration-tests</module>
@@ -267,7 +254,6 @@
 
       </modules>
     </profile>
-
   </profiles>
 
   <dependencyManagement>
@@ -277,6 +263,45 @@
         <artifactId>junit</artifactId>
         <version>${ver.junit}</version>
         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient-cache</artifactId>
+        <version>${ver.httpclient}</version>
+        <exclusions>
+          <!-- Replace with slf4j adapter -->
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+          </exclusion>
+          <!-- JENA 2137: scope=provided and the enforcer plugin -->
+          <exclusion>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${ver.httpclient}</version>
+        <exclusions>
+          <!-- Replace with slf4j adapter -->
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -295,13 +320,6 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>${ver.commons-compress}</version>
-        <exclusions>
-          <exclusion>
-            <!-- This is scope=provided but interferes with log4j JENA-2137 -->
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <dependency>
@@ -383,13 +401,6 @@
       </dependency>
       
       <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>${ver.gson}</version>
-      </dependency>    
-      
-      <!-- jsonld-java for JSON-LD 1.0 -->
-      <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java</artifactId>
         <version>${ver.jsonldjava}</version>
@@ -429,66 +440,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-
-      <!-- Control version of Apache HttpClient components -->
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient-cache</artifactId>
-        <version>${ver.httpclient}</version>
-        <exclusions>
-          <!-- Replace with slf4j adapter -->
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-          </exclusion>
-          <!-- JENA 2137: scope=provided and the enforcer plugin -->
-          <exclusion>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>${ver.httpclient}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-          </exclusion>
-          <!-- JENA 2137: scope=provided and the enforcer plugin -->
-          <exclusion>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>${ver.httpcore}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
       
       <!-- JSON-LD 1.1 read support -->
       <!-- Titanium JSON-LD -->
@@ -496,7 +447,7 @@
         <!-- Apache License -->
         <groupId>com.apicatalog</groupId>
         <artifactId>titanium-json-ld</artifactId>
-        <version>${ver.titanium-json-ld}</version>
+        <version>1.1.0</version>
       </dependency>
       <!-- Eclipse Public License 2.0 (category-B) -->
       <!--
@@ -507,14 +458,14 @@
       <dependency>
         <groupId>jakarta.json</groupId>
         <artifactId>jakarta.json-api</artifactId>
-        <version>${ver.jakarta.json}</version>
+        <version>2.0.1</version>
       </dependency>
 
       <!-- Eclipse Public License 2.0 (category-B) -->
       <dependency>
         <groupId>org.glassfish</groupId>
         <artifactId>jakarta.json</artifactId>
-        <version>${ver.jakarta.json}</version>
+        <version>2.0.1</version>
       </dependency>
       <!-- End JSON-LD 1.1 read support -->
 
@@ -584,10 +535,7 @@
         <version>${ver.slf4j}</version>
       </dependency>
 
-      <!-- 
-           java.util.logging (JUL)
-           Do not use jul-to-slf4j and slf4j-jdk14 together.
-      -->
+      <!-- java.util.logging (JUL) -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-jdk14</artifactId>
@@ -603,23 +551,12 @@
         <type>pom</type>
       </dependency>
 
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
-        <version>${ver.log4j2}</version>
-        <optional>true</optional>
-      </dependency>
-
-      <!-- JENA-2137
-           log4j depends on an old version of org.osgi.core (the minimum supported).
-           Other dependencies may pull in org.osgi (even if scope=provided)
-           and cause an enforcer error.
-      -->
+      <!-- JENA-2137 -->
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
-        <version>${ver.log4j2}</version>
         <optional>true</optional>
+        <version>${ver.log4j2}</version>
         <exclusions>
           <exclusion>
             <groupId>org.osgi</groupId>
@@ -697,10 +634,6 @@
             <artifactId>commons-cli</artifactId>
             <groupId>commons-cli</groupId>
           </exclusion>
-          <exclusion>
-            <artifactId>commons-logging</artifactId>
-            <groupId>commons-logging</groupId>
-          </exclusion>
         </exclusions>
       </dependency>
       
@@ -736,75 +669,11 @@
         <version>${ver.micrometer}</version>
       </dependency>
 
-      <!-- jena-geosparql, jena-fuseki-geosparql related -->
-
       <dependency>
         <groupId>com.beust</groupId>
         <artifactId>jcommander</artifactId>
         <version>${ver.jcommander}</version>
       </dependency>
-
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.sis.core</groupId>
-        <artifactId>sis-referencing</artifactId>
-        <version>${ver.sis}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.locationtech.jts</groupId>
-        <artifactId>jts-core</artifactId>
-        <version>1.18.2</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jdom</groupId>
-        <artifactId>jdom2</artifactId>
-        <version>2.0.6.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.github.galbiston</groupId>
-        <artifactId>expiring-map</artifactId>
-        <version>1.0.2</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.github.galbiston</groupId>
-        <artifactId>rdf-tables</artifactId>
-        <version>1.0.4</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>jena-tdb</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.apache.jena</groupId>
-            <artifactId>jena-tdb2</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-beanutils</groupId>
-        <artifactId>commons-beanutils</artifactId>
-        <version>1.9.4</version>
-      </dependency>
-
-      <!-- END jena geosparql -->
 
     </dependencies>
 
@@ -834,9 +703,6 @@
                   <message>No SNAPSHOT dependencies are allowed!</message>
                   <onlyWhenRelease>true</onlyWhenRelease>
                 </requireReleaseDeps>
-                <requireMavenVersion>
-                  <version>3.8.1</version>
-                </requireMavenVersion>
               </rules>
               <fail>true</fail>
               <failFast>false</failFast>
@@ -885,20 +751,32 @@
     <!-- Plugin version list: https://maven.apache.org/plugins/index.html -->
     <pluginManagement>
       <plugins>
-
+<!--
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>3.3.0</version>
         </plugin>
-
+-->
         <plugin>
+        
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
+          <version>3.8.1</version>
           <configuration>
             <release>${java.version}</release>
           </configuration>
+          <!-- Java8 compiler for Java8 output : retain temporarily 2021-01
+          <configuration>
+            <showDeprecation>false</showDeprecation>
+            <encoding>UTF-8</encoding>
+            <debug>true</debug>
+            <debuglevel>source,lines,vars</debuglevel>
+            <optimize>true</optimize>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+          </configuration>
+          -->
         </plugin>
 
         <plugin>
@@ -929,14 +807,8 @@
                 <goal>jar-no-fork</goal>
               </goals>
             </execution>
-            <!-- Only needed in some jars 
-                 <execution> 
-                   <id>attach-sources-test</id> 
-                   <goals> 
-                     <goal>test-jar-no-fork</goal> 
-                   </goals>
-                 </execution>
-            -->
+            <!-- Only needed in some jars <execution> <id>attach-sources-test</id> 
+                 <goals> <goal>test-jar-no-fork</goal> </goals> </execution> -->
           </executions>
         </plugin>
 
@@ -1062,14 +934,14 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>5.1.4</version>
+          <version>5.1.2</version>
           <extensions>true</extensions>
         </plugin>
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>${ver.shade-plugin}</version>
         </plugin>
 
         <plugin>
@@ -1161,12 +1033,33 @@
             </lifecycleMappingMetadata>
           </configuration>
         </plugin>
-
+		 <plugin>
+		      <artifactId>maven-assembly-plugin</artifactId>
+		      <configuration>
+		        <archive>
+		          <manifest>
+		            <mainClass>fully.qualified.MainClass</mainClass>
+		          </manifest>
+		        </archive>
+		        <descriptorRefs>
+		          <descriptorRef>jar-with-dependencies</descriptorRef>
+		        </descriptorRefs>
+		      </configuration>
+			  <executions>
+			        <execution>
+			          <id>make-assembly</id> <!-- this is used for inheritance merges -->
+			          <phase>package</phase> <!-- bind to the packaging phase -->
+			          <goals>
+			            <goal>single</goal>
+			          </goals>
+			        </execution>
+			  </executions>
+		    </plugin>
       </plugins>
     </pluginManagement>
   </build>
-
-  <reporting>
+    <modules></modules>
+    <reporting>
     <!-- <outputDirectory>${project.build.directory}/site</outputDirectory> -->
 
     <plugins>

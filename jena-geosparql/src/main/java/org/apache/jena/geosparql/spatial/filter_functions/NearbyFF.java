@@ -19,7 +19,6 @@ package org.apache.jena.geosparql.spatial.filter_functions;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.geosparql.implementation.GeometryWrapper;
-import org.apache.jena.geosparql.implementation.UnitsConversionException;
 import org.apache.jena.geosparql.implementation.index.GeometryLiteralIndex;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
@@ -60,7 +59,7 @@ public class NearbyFF extends FunctionBase4 {
             }
             boolean result = relate(geometry1, geometry2, radius, unitsURI);
             return NodeValue.makeBoolean(result);
-        } catch (DatatypeFormatException | UnitsConversionException ex) {
+        } catch (DatatypeFormatException ex) {
             throw new ExprEvalException(ex.getMessage(), ex);
         }
     }
@@ -69,7 +68,7 @@ public class NearbyFF extends FunctionBase4 {
         try {
             double distance = geometry1.distance(geometry2, unitsURI);
             return distance < radius;
-        } catch (FactoryException | MismatchedDimensionException | TransformException | UnitsConversionException ex) {
+        } catch (FactoryException | MismatchedDimensionException | TransformException ex) {
             throw new ExprEvalException(ex.getMessage() + ": " + geometry1.asLiteral() + ", " + geometry2.asLiteral() + ", " + Double.toString(radius) + ", " + unitsURI, ex);
         }
     }

@@ -42,4 +42,5 @@ public interface TripleTable extends TupleTable<Triple> {
     default void clear() {
         find(null, null, null).forEach(this::delete);
     }
+    
 }

@@ -33,8 +33,8 @@ import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDF;
 import org.apache.jena.riot.thrift.wire.RDF_StreamRow;
 import org.apache.jena.sparql.core.Var;
-import org.apache.jena.sparql.exec.RowSet;
-import org.apache.jena.sparql.exec.RowSetStream;
+import org.apache.jena.sparql.engine.ResultSetStream;
+import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TTransportException;
@@ -198,51 +198,37 @@ public class ThriftRDF {
         iOut.flush() ;
     }
 
-    /** @deprecated Use {@link #readRowSet} */
-    @Deprecated
     public static ResultSet readResultSet(InputStream in) {
-        return ResultSet.adapt(readRowSet(in));
+        return readResultSet(TRDF.protocol(in)) ;
     }
 
-    public static RowSet readRowSet(InputStream in) {
-        return readRowSet(TRDF.protocol(in)) ;
-    }
-
-    public static RowSet readRowSet(TProtocol protocol) {
+    public static ResultSet readResultSet(TProtocol protocol) {
         Thift2Binding t2b = new Thift2Binding(protocol) ;
-        return RowSetStream.create(t2b.getVars(), t2b) ;
+        List<String> varsNames = Var.varNames(t2b.getVars()) ;
+        return ResultSetStream.create(varsNames, null, t2b) ;
     }
 
-    /** @deprecated Use {@link #writeRowSet(OutputStream, RowSet)} */
-    @Deprecated
     public static void writeResultSet(OutputStream out, ResultSet resultSet) {
-        writeRowSet(out, RowSet.adapt(resultSet), false) ;
+        writeResultSet(out, resultSet, false) ;
     }
 
-    public static void writeRowSet(OutputStream out, RowSet rowSet) {
-        writeRowSet(out, rowSet, false) ;
-    }
-
-    /** @deprecated Use {@link #writeRowSet(OutputStream, RowSet, boolean)} */
-    @Deprecated
     public static void writeResultSet(OutputStream out, ResultSet resultSet, boolean withValues) {
-        writeRowSet(out, RowSet.adapt(resultSet), withValues) ;
-    }
-
-    public static void writeRowSet(OutputStream out, RowSet rowSet, boolean withValues) {
         out = TRDF.ensureBuffered(out);
-        writeRowSet(TRDF.protocol(out), rowSet, withValues) ;
+        writeResultSet(TRDF.protocol(out), resultSet, withValues) ;
         IO.flush(out) ;
     }
 
-    public static void writeRowSet(TProtocol protocol, RowSet rowSet) {
-        writeRowSet(protocol, rowSet, false) ;
+    public static void writeResultSet(TProtocol protocol, ResultSet resultSet) {
+        writeResultSet(protocol, resultSet, false) ;
     }
 
-    public static void writeRowSet(TProtocol protocol, RowSet rowSet, boolean encodeValues) {
-        List<Var> vars = rowSet.getResultVars();
+    public static void writeResultSet(TProtocol protocol, ResultSet resultSet, boolean encodeValues) {
+        List<Var> vars = Var.varList(resultSet.getResultVars()) ;
         try ( Binding2Thrift b2t = new Binding2Thrift(protocol, vars, encodeValues) ) {
-            rowSet.forEachRemaining(b2t::output);
+            for ( ; resultSet.hasNext() ; ) {
+                Binding b = resultSet.nextBinding() ;
+                b2t.output(b) ;
+            }
         }
         //Done by Binding2Thrift.close() -- LibThriftRDF.flush(protocol) ;
     }

@@ -25,6 +25,10 @@ import org.apache.jena.util.FileManager ;
 
 public class IO_JenaReaders
 {
+//    private static String riotBase = "http://jena.apache.org/riot/" ;
+//    private static String streamManagerSymbolStr = riotBase+"streammanager" ;
+//    public static Symbol streamManagerSymbol = Symbol.create(streamManagerSymbolStr) ;
+
     private static FileManager coreFileManager = null;
     private static boolean     isWiredIn       = false;
 
@@ -33,7 +37,8 @@ public class IO_JenaReaders
         if ( isWiredIn )
             return ;
         isWiredIn = true ;
-        coreFileManager = FileManager.getInternalNoInit();
+        if ( coreFileManager == null )
+            coreFileManager = FileManager.getInternal();
         FileManager.setGlobalFileManager(AdapterFileManager.get());
         RDFReaderFImpl.alternative(new RDFReaderFactoryRIOT());
     }
@@ -44,6 +49,7 @@ public class IO_JenaReaders
             return ;
         isWiredIn = false ;
         RDFReaderFImpl.alternative(null);
+        // Or set to null - this forces reinitialization if ever used.
         FileManager.setGlobalFileManager(coreFileManager) ;
     }
 }

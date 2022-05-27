@@ -19,10 +19,8 @@
 package org.apache.jena.sparql.exec.http;
 
 import java.net.http.HttpClient;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.atlas.logging.Log;
@@ -36,14 +34,11 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.sparql.SystemARQ ;
 import org.apache.jena.sparql.algebra.Op ;
 import org.apache.jena.sparql.algebra.OpAsQuery ;
-import org.apache.jena.sparql.algebra.OpVars;
 import org.apache.jena.sparql.algebra.op.OpService ;
-import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.QueryIterator ;
 import org.apache.jena.sparql.engine.Rename;
 import org.apache.jena.sparql.engine.http.HttpParams;
 import org.apache.jena.sparql.engine.http.QueryExceptionHTTP;
-import org.apache.jena.sparql.engine.iterator.QueryIter;
 import org.apache.jena.sparql.engine.iterator.QueryIterPlainWrapper;
 import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.syntax.Element;
@@ -130,46 +125,22 @@ public class Service {
                 query.setQueryPattern(el);
                 query.setResultVars();
             }
-        }
+        } else {
+            // This relies on the observation that the query was originally correct,
+            // so reversing the scope renaming is safe (it merely restores the
+            // algebra expression).
+            //
+            // Any variables that reappear should be internal ones that were hidden
+            // by renaming in the first place.
+            //
+            // Any substitution is also safe because it replaces variables by
+            // values.
+            //
+            // It is safer to rename/unrename than skipping SERVICE during rename
+            // to avoid substituting hidden variables.
 
-        // This relies on the observation that the query was originally correct,
-        // so reversing the scope renaming is safe (it merely restores the
-        // algebra expression).
-        //
-        // Any variables that reappear should be internal ones that were hidden
-        // by renaming in the first place.
-        //
-        // Any substitution is also safe because it replaces variables by
-        // values.
-        //
-        // It is safer to rename/unrename than skipping SERVICE during rename
-        // to avoid substituting hidden variables.
-
-        Op opRestored = Rename.reverseVarRename(opRemote, true);
-        query = OpAsQuery.asQuery(opRestored);
-        // Transforming: Same object means "no change"
-        boolean requiresRemapping = false;
-        Map<Var, Var> varMapping = null;
-        if ( ! opRestored.equals(opRemote) ) {
-            varMapping = new HashMap<>();
-            Set<Var> originalVars = OpVars.visibleVars(op);
-            Set<Var> remoteVars = OpVars.visibleVars(opRestored);
-
-            for (Var v : originalVars) {
-                if (v.getName().contains("/")) {
-                    // A variable which was scope renamed so has a different name
-                    String origName = v.getName().substring(v.getName().lastIndexOf('/') + 1);
-                    Var remoteVar = Var.alloc(origName);
-                    if (remoteVars.contains(remoteVar)) {
-                        varMapping.put(remoteVar, v);
-                        requiresRemapping = true;
-                    }
-                } else {
-                    // A variable which does not have a different name
-                    if (remoteVars.contains(v))
-                        varMapping.put(v, v);
-                }
-            }
+            Op opRestored = Rename.reverseVarRename(opRemote, true);
+            query = OpAsQuery.asQuery(opRestored);
         }
 
         // -- Setup
@@ -199,8 +170,6 @@ public class Service {
             // Detach from the network stream.
             RowSet rowSet = qExec.select().materialize();
             QueryIterator qIter = QueryIterPlainWrapper.create(rowSet);
-            if (requiresRemapping)
-                qIter = QueryIter.map(qIter, varMapping);
             return qIter;
         } catch (HttpException ex) {
             throw QueryExceptionHTTP.rewrap(ex);
@@ -219,8 +188,8 @@ public class Service {
             Object client = context.get(httpQueryClient);
             if ( client != null ) {
                 // Check for old HttpClient
-                if ( client.getClass().getName().equals("org.apache.http.client.HttpClient") ) {
-                    LOGGER.warn("Found Apache HttpClient for context symbol "+httpQueryClient+". Jena now uses java.net.http.HttpClient");
+                if ( client instanceof org.apache.http.client.HttpClient ) {
+                    LOGGER.warn("Found Apache HttpClient for content symbol "+httpQueryClient+". Jena now uses java.net.http.HttpClient");
                     client = null;
                 } else if ( client instanceof HttpClient ) {
                     httpClient = (HttpClient)client;

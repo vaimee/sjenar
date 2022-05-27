@@ -34,9 +34,7 @@ import org.apache.jena.shacl.vocabulary.SHACL;
 
 public class Parameters {
 
-    /** Parse a parameter declaration */
-    /*package*/ static List<Parameter> parseParameters(Graph shapesGraph, Node sccNode) {
-        // scc is the SPARQL Constraint Component or SPARQL target type node.
+    public static List<Parameter> parseParameters(Graph shapesGraph, Node sccNode) {
         List<Parameter> params =
             G.listSP(shapesGraph, sccNode, SHACL.parameter).stream()
                 .map(pn->parseParameter(shapesGraph, sccNode, pn))
@@ -44,7 +42,7 @@ public class Parameters {
         return params;
     }
 
-    private static Parameter parseParameter(Graph shapesGraph, Node sccNode, Node parameterNode) {
+    public static Parameter parseParameter(Graph shapesGraph, Node sccNode, Node parameterNode) {
         Node path = G.getZeroOrOneSP(shapesGraph, parameterNode, SHACL.path);
         if ( ! path.isURI() )
             throw new ShaclParseException("SparqlConstraintComponent: Not a URI for parameter name: "+path);
@@ -77,4 +75,5 @@ public class Parameters {
         }
         return true;
     }
+
 }

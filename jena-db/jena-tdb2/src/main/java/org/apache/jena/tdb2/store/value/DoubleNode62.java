@@ -71,7 +71,7 @@ import org.apache.jena.atlas.lib.BitsLong;
  * The canonical NaN is 0x1FF8000000000000L, i.e. mantissa 0x8000...
  * </pre>
  *
- * for a maximum value of (2-2^-52)*2^255 = 1.157921e+77 and smallest denormalized of
+ * for a maximum value of (2-2^-52)*2^255 = 1.157921e+77 and smallest denormlized of
  * (1-2^-52)*2^-254 = 3.4544674e-77
  * <p>
  * 0 is not a legal encoding because the high bit is the pointer/value bit.
@@ -101,7 +101,7 @@ public class DoubleNode62 {
             return NO_ENCODING;
         long significand = BitsLong.unpack(x, 0, 52);
         // Do not set the value bit or double bit.
-        // This is done in NodeId.toBytes and NodeId.toByteBuffer.
+        // This is done when outting into bytes.
         long z = 0;
         z = BitsLong.pack(z, sign, 61, 62);
         z = BitsLong.pack(z, exp9, 52, 61);
@@ -134,7 +134,7 @@ public class DoubleNode62 {
         return d;
     }
 
-    // Exponent: returns -1 for out of inline range.
+    // Exponent: returns -1 for out of inlien range.
     private static long encode11to9(long exp11) {
         if ( exp11 == 0 )
             return 0L;

@@ -21,7 +21,6 @@ package org.apache.jena.shacl.sys;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.TransactionHandler;
 import org.apache.jena.graph.impl.TransactionHandlerBase;
-import org.apache.jena.riot.other.G;
 import org.apache.jena.shacl.*;
 import org.apache.jena.sparql.graph.GraphWrapper;
 
@@ -83,10 +82,13 @@ public class ValidationGraph extends GraphWrapper {
      * if there are any validation results from shapes.
      */
     public ValidationReport updateAndReport(Runnable action) {
-        return G.calcTxn(get(), ()-> {
+        TransactionHandler superTH = get().getTransactionHandler();
+        if ( superTH.transactionsSupported() ) {
+            superTH.execute(action);
+        } else {
             action.run();
-            return ShaclValidator.get().validate(shapes, get());
-        });
+        }
+        return ShaclValidator.get().validate(shapes, get());
     }
 
     private static class TransactionHandlerValidate extends TransactionHandlerBase {

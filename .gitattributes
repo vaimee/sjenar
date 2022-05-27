@@ -1,4 +1,2 @@
-*.png binary
-*.jpg binary
-*.gif binary
-*.bat binary
+# Auto detect text files and perform LF normalization
+* text=auto

@@ -19,6 +19,7 @@
 package org.apache.jena.sparql.modify.request;
 
 import org.apache.jena.sparql.ARQException ;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.NodeIsomorphismMap ;
 import org.apache.jena.update.Update ;
 
@@ -28,11 +29,12 @@ public abstract class UpdateBinaryOp extends Update
     private Target dest ;
     private boolean silent ;
 
-    protected UpdateBinaryOp(Target src, Target dest, boolean silent)
+    protected UpdateBinaryOp(Target src, Target dest, boolean silent,Context connCtx)
     {
+        super(connCtx);
         checkTarget(src) ;
         checkTarget(dest) ;
-        this.src = src ;
+        this.src = src ; 
         this.dest = dest ;
         this.silent = silent ;
     }
@@ -40,20 +42,15 @@ public abstract class UpdateBinaryOp extends Update
     private static void checkTarget(Target target)
     {
         if ( ! target.isDefault() && ! target.isOneNamedGraph() )
-            throw new ARQException("Illegal target: must identify a single graph: "+target) ;
+            throw new ARQException("Illegal target: must identify a single graph: "+target) ; 
     }
 
     public Target getSrc()      { return src ; }
 
     public Target getDest()     { return dest ; }
-
-    /**
-     * @deprecated use {@link #isSilent}
-     */
-    @Deprecated
-    public boolean getSilent()  { return isSilent() ; }
-    public boolean isSilent()   { return silent ; }
-
+    
+    public boolean getSilent()  { return silent ; }
+    
     @Override
     final
     public boolean equalTo(Update obj, NodeIsomorphismMap isoMap) {

@@ -37,6 +37,7 @@ import org.apache.jena.sparql.JenaTransactionException ;
  *      {@literal @}Override public void begin(TxnType txnType)        { txn().begin(txnType) ; }
  *      {@literal @}Override public void begin()                       { txn().begin(); }
  *      {@literal @}Override public void begin(TxnType txnType)        { txn().begin(txnType); }
+ *      {@literal @}Override public void begin(ReadWrite mode)         { txn().begin(mode); }
  *      {@literal @}Override public boolean promote()                  { return txn().promote(); }
  *      {@literal @}Override public void commit()                      { txn().commit(); }
  *      {@literal @}Override public void abort()                       { txn().abort(); }
@@ -54,6 +55,7 @@ public class TransactionalLock implements Transactional {
     private final Transactional txn()                   { return txn; }
     @Override public void begin()                       { txn().begin(); }
     @Override public void begin(TxnType txnType)        { txn().begin(txnType); }
+    @Override public void begin(ReadWrite mode)         { txn().begin(mode); }
     @Override public void commit()                      { txn().commit(); }
     @Override public void abort()                       { txn().abort(); }
     @Override public boolean isInTransaction()          { return txn().isInTransaction(); }

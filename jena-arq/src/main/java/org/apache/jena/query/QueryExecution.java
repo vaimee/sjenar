@@ -66,6 +66,7 @@ public interface QueryExecution extends AutoCloseable
         return QueryExecution.service(endpointURL).query(queryString).build();
     }
 
+
     // Short cuts to QueryExecution builders.
 
     /** Create a local execution builder on a dataset */

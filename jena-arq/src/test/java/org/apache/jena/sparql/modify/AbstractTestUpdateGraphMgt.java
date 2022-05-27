@@ -25,13 +25,9 @@ import static org.junit.Assert.fail;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.graph.GraphFactory;
-import org.apache.jena.sparql.modify.request.Target;
-import org.apache.jena.sparql.modify.request.UpdateAdd;
 import org.apache.jena.sparql.modify.request.UpdateCreate;
 import org.apache.jena.sparql.modify.request.UpdateDrop;
-import org.apache.jena.sparql.sse.SSE;
 import org.apache.jena.update.Update;
 import org.apache.jena.update.UpdateAction;
 import org.apache.jena.update.UpdateException;
@@ -46,7 +42,11 @@ public abstract class AbstractTestUpdateGraphMgt extends AbstractTestUpdateBase
         DatasetGraph gStore = getEmptyDatasetGraph();
         Update u = new UpdateCreate(graphIRI);
 
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
+        // Only true if a graph caching layer exists.
+        // JENA-1068 removed that layer
+        // (which wasn't safe anyway - it only "existed" in the memory cache)
+// assertTrue(gStore.containsGraph(graphIRI)) ;
         assertTrue(graphEmpty(gStore.getGraph(graphIRI)));
 
         // With "auto SILENT" then these aren't errors.
@@ -55,20 +55,20 @@ public abstract class AbstractTestUpdateGraphMgt extends AbstractTestUpdateBase
         if ( !silentMode ) {
             // try again - should fail (already exists)
             try {
-                UpdateAction.execute(u, gStore);
+                UpdateAction.execute(u, gStore,null);
                 fail();
             } catch (UpdateException ex) {}
         }
 
         // Drop it.
         u = new UpdateDrop(graphIRI);
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
         assertFalse(gStore.containsGraph(graphIRI));
 
         if ( !silentMode ) {
             // Drop it again. - should fail
             try {
-                UpdateAction.execute(u, gStore);
+                UpdateAction.execute(u, gStore,null);
                 fail();
             } catch (UpdateException ex) {}
         }
@@ -79,17 +79,19 @@ public abstract class AbstractTestUpdateGraphMgt extends AbstractTestUpdateBase
     public void testCreateDrop2() {
         DatasetGraph gStore = getEmptyDatasetGraph();
         Update u = new UpdateCreate(graphIRI);
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
 
         u = new UpdateCreate(graphIRI, true);
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
+        // JENA-1068
+// assertTrue(gStore.containsGraph(graphIRI)) ;
         assertTrue(graphEmpty(gStore.getGraph(graphIRI)));
 
         u = new UpdateDrop(graphIRI);
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
         assertFalse(gStore.containsGraph(graphIRI));
         u = new UpdateDrop(graphIRI, true);
-        UpdateAction.execute(u, gStore);
+        UpdateAction.execute(u, gStore,null);
 
     }
 
@@ -108,20 +110,5 @@ public abstract class AbstractTestUpdateGraphMgt extends AbstractTestUpdateBase
         gStore.addGraph(graphIRI, GraphFactory.createDefaultGraph());
         script(gStore, "drop-1.ru");
         assertFalse(gStore.containsGraph(graphIRI));
-    }
-
-    @Test
-    public void testAdd() {
-        DatasetGraph gStore = DatasetGraphFactory.create();
-        Node g1 = SSE.parseNode(":g1");
-        Node g2 = SSE.parseNode(":g2");
-        gStore.add(SSE.parseQuad("( :g1 :s :p :o )"));
-        // ADD GRAPH :g1 TO GRAPH :g2, not SILENT
-        Update add = new UpdateAdd(Target.create(g1), Target.create(g2), false);
-        assertFalse(gStore.containsGraph(g2));
-
-        UpdateAction.execute(add, gStore);
-
-        assertTrue(gStore.containsGraph(g2));
     }
 }

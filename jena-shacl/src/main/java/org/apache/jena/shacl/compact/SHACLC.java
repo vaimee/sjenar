@@ -51,13 +51,11 @@ public class SHACLC {
             if ( JenaSystem.DEBUG_INIT )
                 System.err.println("SHACLC.init - start");
 
-            // Reader
+            // Lang.SHACLC is in RIOT RDFLanguages.
             ReaderRIOTFactory factoryReader = (Lang language, ParserProfile profile)->new ReaderRIOTShaclc();
             RDFParserRegistry.registerLangTriples(Lang.SHACLC, factoryReader);
 
-            // Writer
             WriterGraphRIOTFactory factoryWriter = (rdfFormat)->new WriterRIOTShaclc();
-            RDFWriterRegistry.register(Lang.SHACLC, RDFFormat.SHACLC);
             RDFWriterRegistry.register(RDFFormat.SHACLC, factoryWriter);
 
             if ( JenaSystem.DEBUG_INIT )

@@ -83,7 +83,7 @@ public class TestUpdateBuild {
         dsg.execute(()->{
             UpdateExec.newBuilder()
                 .dataset(dsg)
-                .update("INSERT DATA { <x:s> <x:p> <x:o> }")
+                .update("INSERT DATA { <x:s> <x:p> <x:o> }",null)
                 .execute();
         });
         assertFalse(dsg.isEmpty());
@@ -95,8 +95,8 @@ public class TestUpdateBuild {
         dsg.execute(()->{
             UpdateExec.newBuilder()
                 .dataset(dsg)
-                .update("INSERT DATA { <x:s> <x:p> <x:o1> }")
-                .update("INSERT DATA { <x:s> <x:p> <x:o2> }")
+                .update("INSERT DATA { <x:s> <x:p> <x:o1> }",null)
+                .update("INSERT DATA { <x:s> <x:p> <x:o2> }",null)
                 .execute();
         });
         assertEquals(2, Iter.count(dsg.find()));

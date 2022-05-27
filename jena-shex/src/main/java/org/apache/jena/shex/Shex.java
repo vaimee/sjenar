@@ -19,7 +19,6 @@
 package org.apache.jena.shex;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
@@ -98,85 +97,72 @@ public class Shex {
     }
 
     /** Print shapes - the format details the internal structure */
-    public static void printSchema(ShexSchema shexSchema) {
+    public static void printSchema(ShexSchema shapes) {
         IndentedWriter iOut = IndentedWriter.clone(IndentedWriter.stdout);
-        printSchema(iOut, shexSchema);
-    }
-
-    /** Print shapes - the format details the internal structure */
-    public static void printSchema(OutputStream outStream, ShexSchema shexSchema) {
-        IndentedWriter iOut = new IndentedWriter(outStream);
-        printSchema(iOut, shexSchema);
-    }
-
-    /** Print shapes - the format details the internal structure */
-    public static void printSchema(IndentedWriter iOut, ShexSchema shexSchema) {
+        iOut.setLinePrefix("");
         Set<String> visited = new HashSet<>();
-        if ( shexSchema.getSource() != null )
-            visited.add(shexSchema.getSource());
-        printSchema(iOut, shexSchema, visited);
+        if ( shapes.getSource() != null )
+            visited.add(shapes.getSource());
+        printSchema(iOut, shapes, visited);
     }
 
-    private static void printSchema(IndentedWriter iOut, ShexSchema shexSchema, Set<String> visited) {
-        try {
-            boolean havePrinted = false;
+    private static void printSchema(IndentedWriter iOut, ShexSchema shapes, Set<String> visited) {
+        boolean havePrinted = false;
 
-            if ( ! shexSchema.getPrefixMap().isEmpty() ) {
-                RiotLib.writePrefixes(iOut, shexSchema.getPrefixMap(), true);
-                havePrinted = true;
-            }
-
-            if ( shexSchema.hasImports() ) {
-                if ( havePrinted )
-                    iOut.println();
-                shexSchema.getImports().forEach(iriStr->{
-                    String pname = shexSchema.getPrefixMap().abbreviate(iriStr);
-                    if ( pname == null )
-                        iOut.printf("IMPORT <%s>\n", iriStr);
-                    else
-                        iOut.printf("IMPORT %s\n", pname);
-                });
-                havePrinted = true;
-            }
-
-            if ( ! shexSchema.getShapes().isEmpty() ) {
-                boolean shapePrinted = false;
-                NodeFormatter nFmt = new NodeFormatterTTL(null, shexSchema.getPrefixMap());
-                for ( ShexShape shape : shexSchema.getShapes() ) {
-                    if ( havePrinted )
-                        iOut.println();
-                    shape.print(iOut, nFmt);
-                    havePrinted = true;
-                }
-            }
-
-            // Print imports.
-            if ( shexSchema.hasImports() ) {
-                if ( havePrinted )
-                    iOut.println();
-                shexSchema.getImports().forEach(iriStr->{
-                    if ( visited.contains(iriStr) )
-                        return;
-                    visited.add(iriStr);
-                    String prefix = iOut.getLinePrefix();
-                    iOut.println("Import = <"+iriStr+">");
-                    iOut.incIndent(4);
-                    try {
-                        ShexSchema imports = readSchema(iriStr);
-                        iOut.setLinePrefix(prefix+"I");
-                        printSchema(iOut, imports, visited);
-                    } catch (Exception ex) {
-                        iOut.println("Failed to read shapes: "+ex.getMessage());
-                    } finally {
-                        iOut.setLinePrefix(prefix);
-                        iOut.decIndent(4);
-                    }
-                });
-                havePrinted = true;
-            }
-        } finally {
-            iOut.flush();
+        if ( ! shapes.getPrefixMap().isEmpty() ) {
+            RiotLib.writePrefixes(iOut, shapes.getPrefixMap(), true);
+            havePrinted = true;
         }
+
+        if ( shapes.hasImports() ) {
+            if ( havePrinted )
+                iOut.println();
+            shapes.getImports().forEach(iriStr->{
+                String pname = shapes.getPrefixMap().abbreviate(iriStr);
+                if ( pname == null )
+                    iOut.printf("IMPORT <%s>\n", iriStr);
+                else
+                    iOut.printf("IMPORT %s\n", pname);
+            });
+            havePrinted = true;
+        }
+
+        if ( ! shapes.getShapes().isEmpty() ) {
+            boolean shapePrinted = false;
+            NodeFormatter nFmt = new NodeFormatterTTL(null, shapes.getPrefixMap());
+            for ( ShexShape shape : shapes.getShapes() ) {
+                if ( havePrinted )
+                    iOut.println();
+                shape.print(iOut, nFmt);
+                havePrinted = true;
+            }
+        }
+
+        // Print imports.
+        if ( shapes.hasImports() ) {
+            if ( havePrinted )
+                iOut.println();
+            shapes.getImports().forEach(iriStr->{
+                if ( visited.contains(iriStr) )
+                    return;
+                visited.add(iriStr);
+                String prefix = iOut.getLinePrefix();
+                iOut.println("Import = <"+iriStr+">");
+                iOut.incIndent(4);
+                try {
+                    ShexSchema imports = readSchema(iriStr);
+                    iOut.setLinePrefix(prefix+"I");
+                    printSchema(iOut, imports, visited);
+                } catch (Exception ex) {
+                    iOut.println("Failed to read shapes: "+ex.getMessage());
+                } finally {
+                    iOut.setLinePrefix(prefix);
+                    iOut.decIndent(4);
+                }
+            });
+            havePrinted = true;
+        }
+        iOut.flush();
     }
 
     /**

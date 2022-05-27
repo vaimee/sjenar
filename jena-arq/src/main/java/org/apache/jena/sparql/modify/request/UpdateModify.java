@@ -21,7 +21,9 @@ package org.apache.jena.sparql.modify.request;
 import java.util.List ;
 
 import org.apache.jena.sparql.core.Quad ;
+import org.apache.jena.sparql.modify.UpdateResult;
 import org.apache.jena.sparql.syntax.Element ;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Iso ;
 import org.apache.jena.sparql.util.NodeIsomorphismMap ;
 import org.apache.jena.update.Update ;
@@ -33,9 +35,18 @@ public class UpdateModify extends UpdateWithUsing
     private boolean hasInsert = false ;
     private boolean hasDelete = false ;
     private Element wherePattern ;
-    
+
     public UpdateModify() 
     { 
+        super(null);
+        this.deletePattern = new QuadAcc() ;
+        this.insertPattern = new QuadAcc() ;
+        this.wherePattern = null ;
+    }
+    
+    public UpdateModify(Context connCtx) 
+    { 
+        super(connCtx);
         this.deletePattern = new QuadAcc() ;
         this.insertPattern = new QuadAcc() ;
         this.wherePattern = null ;
@@ -96,8 +107,9 @@ public class UpdateModify extends UpdateWithUsing
     }
 
     @Override
-    public void visit(UpdateVisitor visitor)
-    { visitor.visit(this) ; }
+    public UpdateResult visit(UpdateVisitor visitor){ 
+        return visitor.visit(this) ; 
+    }
 
     @Override
     public boolean equalTo(Update obj, NodeIsomorphismMap isoMap) {

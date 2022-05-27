@@ -20,15 +20,15 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>jena-arq</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - ARQ</name>
+  <name>Apache Jena - ARQ (SPARQL 1.1 Query Engine)</name>
   <parent>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
 
-  <description>SPARQL 1.1 query engine and RDF parsers for Apache Jena</description>
+  <description>ARQ is a SPARQL 1.1 query engine for Apache Jena</description>
 
   <properties>
     <build.time.xsd>${maven.build.timestamp}</build.time.xsd>
@@ -40,14 +40,14 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-core</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-core</artifactId>
       <classifier>tests</classifier>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -55,48 +55,19 @@
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-base</artifactId>
       <classifier>tests</classifier>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <scope>test</scope>
     </dependency>
 
-    <!-- jsonld-java for JSON-LD 1.0 -->
-    <dependency>
-      <groupId>com.github.jsonld-java</groupId>
-      <artifactId>jsonld-java</artifactId>
-    </dependency>
-    <!-- replace that used via jsonld-java -->
-
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-    </dependency>    
-
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient-cache</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
-    <!--
-        Intercept any uses of Jakarta Commons Logging
-         e.g. Apache Common HTTP client (JSON-LD 1.0 support)
-    -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </dependency>
 
-    <!-- End jsonld-java -->
+    <dependency>
+      <groupId>com.github.jsonld-java</groupId>
+      <artifactId>jsonld-java</artifactId>
+    </dependency>
 
     <!-- For Titanium JSON-LD 1.1 -->
     <dependency>
@@ -118,6 +89,22 @@
     </dependency>
     <!-- End Titanium JSON-LD 1.1 -->
     
+    <!-- See parent POM. Our choice of version here. -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+
+    <!-- replace that used via jsonld-java -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient-cache</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
@@ -126,6 +113,15 @@
     <dependency>
       <groupId>org.apache.thrift</groupId>
       <artifactId>libthrift</artifactId>
+    </dependency>
+
+    <!--
+         Intercept any uses of Jakarta Commons Logging
+         e.g. Apache Common HTTP client.
+    -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
     </dependency>
 
     <dependency>
@@ -230,13 +226,6 @@
             <goals>
               <goal>test-jar-no-fork</goal>
             </goals>
-            <configuration>
-              <archive>
-                <manifestEntries>
-                  <Automatic-Module-Name>${automatic.module.name}.test</Automatic-Module-Name>
-                </manifestEntries>
-              </archive>
-            </configuration>
           </execution>
         </executions>
 
@@ -271,6 +260,7 @@
           <encoding>UTF-8</encoding>
           <windowtitle>Apache Jena ARQ</windowtitle>
           <doctitle>Apache Jena ARQ ${project.version}</doctitle>
+          <excludePackageNames>arq:arq.*:riotcmd:riotcmd.*</excludePackageNames>
           <groups>
             <group>
               <title>SPARQL Query and Update</title>

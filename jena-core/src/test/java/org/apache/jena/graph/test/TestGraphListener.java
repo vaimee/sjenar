@@ -32,14 +32,13 @@ import org.apache.jena.mem.GraphMem ;
  * and verifies that after every notification modified graph
  * and original are isomorphic.
  */
-@SuppressWarnings("deprecation")
 public class TestGraphListener extends MetaTestGraph {
 	public TestGraphListener(String name) {
 		super(name);
 	}
-    public TestGraphListener( Class<? extends Graph> graphClass, String name)
+    public TestGraphListener( Class<? extends Graph> graphClass, String name) 
     { super( graphClass, name); }
-
+    
     public static TestSuite suite()
     { return MetaTestGraph.suite( TestGraphListener.class, GraphMem.class ); }
 	/**
@@ -66,7 +65,7 @@ public class TestGraphListener extends MetaTestGraph {
 		@Override
         public void notifyAddIterator(Graph g, Iterator<Triple> it) {
 			while (it.hasNext()) copy.add(it.next());
-			verify();
+			verify();		
 	    }
 
 		@Override
@@ -144,10 +143,10 @@ public class TestGraphListener extends MetaTestGraph {
 	}
 
     @Override
-	public Graph getGraph() {
+	public Graph getGraph() { 
     	Graph g = Factory.createGraphMem();
-
+    	
     	g.getEventManager().register(new CheckChanges("simple tracking",g));
-	    return g;
+	    return g; 
 	}
 }

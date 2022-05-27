@@ -26,8 +26,7 @@ import org.junit.runners.Suite;
     TestShexSyntax.class,
     TestShexSyntaxBad.class,
     TestShexValidation.class,
-    TestShexShapeMapSyntax.class,
-    TestShexPrintShexC.class
+    TestShexShapeMapSyntax.class
 })
 
 public class TS_Shex {

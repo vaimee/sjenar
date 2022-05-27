@@ -147,7 +147,7 @@ public class TransactionCoordinator {
      * This must be setup before recovery is attempted.
      */
     public TransactionCoordinator add(TransactionalComponent elt) {
-        checkAllowModification();
+        checklAllowModification();
         components.add(elt);
         return this;
     }
@@ -157,19 +157,19 @@ public class TransactionCoordinator {
      * @see #add
      */
     public TransactionCoordinator remove(TransactionalComponent elt) {
-        checkAllowModification();
+        checklAllowModification();
         components.remove(elt.getComponentId());
         return this;
     }
 
     public TransactionCoordinator addListener(TransactionListener listener) {
-        checkAllowModification();
+        checklAllowModification();
         listeners.add(listener);
         return this;
     }
 
     public TransactionCoordinator removeListener(TransactionListener listener) {
-        checkAllowModification();
+        checklAllowModification();
         listeners.remove(listener);
         return this;
     }
@@ -207,23 +207,23 @@ public class TransactionCoordinator {
      * and hence hooks may not get called.
      */
     public void add(TransactionCoordinator.ShutdownHook hook) {
-        checkAllowModification();
+        checklAllowModification();
         shutdownHooks.add(hook);
     }
 
     /** Remove a shutdown hook */
     public void remove(TransactionCoordinator.ShutdownHook hook) {
-        checkAllowModification();
+        checklAllowModification();
         shutdownHooks.remove(hook);
     }
 
     public void setQuorumGenerator(QuorumGenerator qGen) {
-        checkAllowModification();
+        checklAllowModification();
         this.quorumGenerator = qGen;
     }
 
     public void start() {
-        checkAllowModification();
+        checklAllowModification();
         recovery();
         configurable = false;
     }
@@ -328,7 +328,7 @@ public class TransactionCoordinator {
     }
 
     // Can modifications be made?
-    private void checkAllowModification() {
+    private void checklAllowModification() {
         if ( ! configurable )
             throw new TransactionException("TransactionCoordinator configuration is locked");
     }

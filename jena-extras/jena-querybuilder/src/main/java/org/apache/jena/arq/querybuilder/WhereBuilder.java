@@ -233,4 +233,8 @@ public class WhereBuilder extends AbstractQueryBuilder<WhereBuilder> implements 
         return block;
     }
 
+    @Override
+    public String toString() {
+        return query.toString();
+    }
 }

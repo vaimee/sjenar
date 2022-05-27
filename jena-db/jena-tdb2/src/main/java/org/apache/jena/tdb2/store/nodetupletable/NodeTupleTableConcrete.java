@@ -67,7 +67,7 @@ public class NodeTupleTableConcrete implements NodeTupleTable
     private void finishRead()   { }
 
     @Override
-    public void addRow(Node... nodes)
+    public boolean addRow(Node... nodes)
     {
         try  {
             startWrite();
@@ -76,15 +76,17 @@ public class NodeTupleTableConcrete implements NodeTupleTable
                 n[i] = nodeTable.getAllocateNodeId(nodes[i]);
 
             Tuple<NodeId> t = TupleFactory.create(n);
-            tupleTable.add(t);
+            return tupleTable.add(t);
         } finally
         {
             finishWrite();
         }
+        
+        
     }
 
     @Override
-    public void deleteRow(Node... nodes)
+    public boolean deleteRow(Node... nodes)
     {
         try
         {
@@ -93,16 +95,17 @@ public class NodeTupleTableConcrete implements NodeTupleTable
             for (int i = 0; i < nodes.length; i++)
             {
                 NodeId id = idForNode(nodes[i]);
-                if (NodeId.isDoesNotExist(id)) return;
+                if (NodeId.isDoesNotExist(id)) return false;
                 n[i] = id;
             }
 
             Tuple<NodeId> t = TupleFactory.create(n);
-            tupleTable.delete(t);
+            return tupleTable.delete(t);
         } finally
         {
             finishWrite();
         }
+        
     }
 
     @Override

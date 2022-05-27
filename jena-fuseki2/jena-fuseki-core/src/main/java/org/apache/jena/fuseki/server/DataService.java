@@ -36,7 +36,6 @@ import org.apache.jena.fuseki.auth.AuthPolicy;
 import org.apache.jena.fuseki.build.FusekiConfig;
 import org.apache.jena.fuseki.servlets.ActionService;
 import org.apache.jena.query.TxnType;
-import org.apache.jena.riot.out.NodeFmtLib;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphWrapper;
 
@@ -80,7 +79,7 @@ public class DataService {
     /** Create a {@code DataService} for the given dataset. */
     private DataService(DatasetGraph dataset, Map<String, EndpointSet> endpoints, ListMultimap<Operation, Endpoint> operationsMap, AuthPolicy authPolicy) {
         this.dataset = dataset;
-        this.endpoints = Map.copyOf(endpoints);
+        this.endpoints = new HashMap<>(endpoints);
         this.operationsMap = ArrayListMultimap.create(operationsMap);
         this.authPolicy = authPolicy;
         counters.add(CounterName.Requests);
@@ -204,7 +203,7 @@ public class DataService {
         state = OFFLINE;
     }
 
-    /** Set any {@link ActionService} processors that are currently unset. */
+    /** Set any {@link ActionService} processors is currently unset. */
     public void setEndpointProcessors(OperationRegistry operationRegistry) {
         // Make sure the processor is set for each endpoint.
         forEachEndpoint(ep->{
@@ -214,11 +213,10 @@ public class DataService {
     }
 
     private void ensureEnpointProcessors() {
+        // Better is to have then set purposefully.
         forEachEndpoint(ep->{
-            if ( ep.getProcessor() == null ) {
-                String x = NodeFmtLib.strNT(ep.getOperation().getId());
-                Fuseki.configLog.warn("No processor for operation "+x);
-            }
+            if ( ep.getProcessor() == null )
+                Fuseki.configLog.warn("No processor for "+ep.getName());
         });
     }
 
@@ -306,7 +304,7 @@ public class DataService {
         boolean isTDB1 = isTDB1(base);
         boolean isTDB2 = isTDB2(base);
 
-        if ( isTDB1 || isTDB2 ) {
+        if ( ( isTDB1 || isTDB2 ) ) {
             // JENA-1586: Remove database from the process.
             if ( isTDB1 )
                 org.apache.jena.tdb.sys.TDBInternal.expel(base);
@@ -351,7 +349,6 @@ public class DataService {
         }
 
         public Builder dataset(DatasetGraph dsg) { this.dataset = dsg; return this; }
-        public DatasetGraph dataset()            { return this.dataset; }
 
         public Builder withStdServices(boolean withUpdate) {
             FusekiConfig.populateStdServices(this, withUpdate);
@@ -393,7 +390,7 @@ public class DataService {
             return this;
         }
 
-        private void removeEndpoint$(Endpoint endpoint) {
+        private void xremoveEndpoint$(Endpoint endpoint) {
             EndpointSet eps = endpoints.get(endpoint.getName());
             if ( eps == null )
                 return;

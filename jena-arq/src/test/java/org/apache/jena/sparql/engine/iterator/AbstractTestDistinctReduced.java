@@ -82,8 +82,8 @@ public abstract class AbstractTestDistinctReduced {
         assertEquals(output+" :: "+iterList,
                      output.size() , iterList.size()) ;
         // Assume results has no duplicates so same size, same members => order dependent same.
-        Set<Binding> testExpected = Set.copyOf(output) ;
-        Set<Binding> testResult = Set.copyOf(iterList) ;
+        Set<Binding> testExpected = new HashSet<>(output) ;
+        Set<Binding> testResult = new HashSet<>(iterList) ;
         assertEquals(testExpected , testResult) ;
 
     }

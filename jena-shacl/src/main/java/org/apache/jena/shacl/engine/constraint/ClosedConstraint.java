@@ -54,6 +54,7 @@ public class ClosedConstraint implements Constraint {
         expected = shapeProperties(shapeGraph, shapeNode);
         this.active = active;
         List<Node> ignored = ignoredProperties(shapeGraph, shapeNode);
+        //ignoredProperties = (ignored == null) ? Collections.emptySet() : new HashSet<>(ignored);
         ignoredProperties = (ignored == null) ? Collections.emptyList() : ignored;
     }
 

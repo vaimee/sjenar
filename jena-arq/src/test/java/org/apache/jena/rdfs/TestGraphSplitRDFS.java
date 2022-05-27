@@ -20,11 +20,7 @@ package org.apache.jena.rdfs;
 
 import org.apache.jena.graph.Graph;
 
-/**
- * Separate data and vocabulary grpahs.
- * <p>
- * This setup does not include RDF inferences in the graph find results.
- */
+/** Separate data and vocabulary; do not include RDF inferences - normal pattern of use */
 public class TestGraphSplitRDFS extends AbstractTestGraphRDFS {
     private Graph testGraph = null;
 

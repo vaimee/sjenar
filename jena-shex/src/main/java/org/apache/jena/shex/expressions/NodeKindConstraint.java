@@ -28,14 +28,12 @@ import org.apache.jena.riot.out.NodeFormatter;
 import org.apache.jena.shex.sys.ReportItem;
 import org.apache.jena.shex.sys.ValidationContext;
 
-public class NodeKindConstraint extends NodeConstraintComponent {
+public class NodeKindConstraint extends NodeConstraint {
     private NodeKind nodeKind;
 
     public NodeKindConstraint(NodeKind nodeKind) {
         this.nodeKind = nodeKind;
     }
-
-    public NodeKind getNodeKind() { return nodeKind; }
 
     @Override
     public ReportItem nodeSatisfies(ValidationContext vCxt, Node n) {
@@ -72,7 +70,7 @@ public class NodeKindConstraint extends NodeConstraintComponent {
     }
 
     @Override
-    public void visit(NodeConstraintVisitor visitor) {
+    public void visit(ShapeExprVisitor visitor) {
         visitor.visit(this);
     }
 

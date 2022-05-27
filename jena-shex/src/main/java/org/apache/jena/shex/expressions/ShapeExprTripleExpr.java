@@ -64,18 +64,6 @@ public class ShapeExprTripleExpr extends ShapeExpression {
 
     public TripleExpression getTripleExpr() { return tripleExpr; }
 
-    public Node getLabel() {
-        return label;
-    }
-
-    public Set<Node> getExtras() {
-        return extras;
-    }
-
-    public boolean isClosed() {
-        return closed;
-    }
-
     @Override
     public boolean satisfies(ValidationContext vCxt, Node node) {
         // Pass extras

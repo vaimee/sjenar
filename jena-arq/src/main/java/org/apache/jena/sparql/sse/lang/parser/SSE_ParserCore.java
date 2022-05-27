@@ -36,9 +36,9 @@ parseStart() ;
 parseFinish() ;
   }
 
-  final public void atom() throws ParseException {
+  final public void term() throws ParseException {
 parseStart() ;
-    TermAtom();
+    Term();
     jj_consume_token(0);
 parseFinish() ;
   }
@@ -59,7 +59,7 @@ parseFinish() ;
     case STRING_LITERAL_LONG2:
     case LT2:
     case SYMBOL:{
-      TermAtom();
+      Term();
       label_2:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -195,7 +195,7 @@ listFinish(t.beginLine, t.beginColumn) ;
     }
   }
 
-  final public void TermAtom() throws ParseException {
+  final public void Term() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case SYMBOL:{
       Symbol();
@@ -214,7 +214,7 @@ listFinish(t.beginLine, t.beginColumn) ;
     case STRING_LITERAL_LONG1:
     case STRING_LITERAL_LONG2:
     case LT2:{
-      RDFTermAtom();
+      RDFTerm();
       break;
       }
     default:
@@ -224,7 +224,7 @@ listFinish(t.beginLine, t.beginColumn) ;
     }
   }
 
-  final public void RDFTermAtom() throws ParseException {
+  final public void RDFTerm() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case IRIref:{
       IRIref();
@@ -343,7 +343,7 @@ emitBNode(t.beginLine, t.beginColumn, stripChars(t.image, 2)) ;
       jj_consume_token(WS);
     }
 tripleTermStart(t1.beginLine, t1.beginColumn);
-    RDFTermAtom();
+    RDFTerm();
     label_9:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -357,7 +357,7 @@ tripleTermStart(t1.beginLine, t1.beginColumn);
       }
       jj_consume_token(WS);
     }
-    RDFTermAtom();
+    RDFTerm();
     label_10:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -371,7 +371,7 @@ tripleTermStart(t1.beginLine, t1.beginColumn);
       }
       jj_consume_token(WS);
     }
-    RDFTermAtom();
+    RDFTerm();
     label_11:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {

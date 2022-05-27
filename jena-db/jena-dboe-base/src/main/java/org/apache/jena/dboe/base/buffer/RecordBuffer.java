@@ -203,26 +203,22 @@ final public class RecordBuffer extends BufferBase {
         StringBuilder str = new StringBuilder(40000);
         str.append(format("Len=%d Max=%d: ", numSlot, bb.limit() / slotLen));
 
-        // Compact form
-        // Print first and last
-        str.append(" ");
-        str.append(format("[%s...%s]", this.getLow(), this.getHigh()));
+        // Print active slots as records.
+        for ( int i = 0; i < numSlot ; i++ ) {
+            if ( i != 0 )
+                str.append(" ");
+            Record r = _get(i);
+            str.append(r.toString());
+        }
 
-//        // Print active slots as records.
-//        for ( int i = 0; i < numSlot ; i++ ) {
-//            if ( i != 0 )
-//                str.append(" ");
-//            Record r = _get(i);
-//            str.append(r.toString());
-//        }
-
-//        // Print remaining area as bytes.
-//        for ( int i = numSlot * slotLen ; i < maxSlot * slotLen ; i++ ) {
-//            if ( i != 0 && i % slotLen == 0 )
-//                str.append(" ");
-//            byte b = bb.get(i);
-//            str.append(format("%02x", b));
-//        }
+        // // Print empty slots
+        // for ( int i = numSlot*slotLen; i < maxSlot*slotLen ; i++ )
+        // {
+        // if ( i != 0 && i%slotLen == 0 )
+        // str.append(" ");
+        // byte b = bb.get(i);
+        // str.append(format("%02x", b));
+        // }
         String s = str.toString();
         return s;
     }

@@ -27,6 +27,7 @@ import java.lang.reflect.Constructor ;
 
 import org.apache.jena.assembler.Assembler ;
 import org.apache.jena.assembler.Mode ;
+import org.apache.jena.assembler.assemblers.AssemblerBase ;
 import org.apache.jena.atlas.logging.Log ;
 import org.apache.jena.query.Dataset ;
 import org.apache.jena.query.text.TextDatasetFactory ;
@@ -35,11 +36,10 @@ import org.apache.jena.query.text.TextIndex ;
 import org.apache.jena.rdf.model.Resource ;
 import org.apache.jena.sparql.ARQConstants ;
 import org.apache.jena.sparql.core.DatasetGraph ;
-import org.apache.jena.sparql.core.assembler.DatasetAssembler;
 import org.apache.jena.sparql.util.ClsLoader ;
 import org.apache.jena.sparql.util.graph.GraphUtils ;
 
-public class TextDatasetAssembler extends DatasetAssembler implements Assembler
+public class TextDatasetAssembler extends AssemblerBase implements Assembler
 {
     public static Resource getType() { return textDataset ; }
 
@@ -50,12 +50,6 @@ public class TextDatasetAssembler extends DatasetAssembler implements Assembler
     .
 
      */
-
-    @Override
-    public DatasetGraph createDataset(Assembler a, Resource root) {
-        // Should have come via open();
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Dataset open(Assembler a, Resource root, Mode mode)
@@ -101,5 +95,6 @@ public class TextDatasetAssembler extends DatasetAssembler implements Assembler
             return null;
         }
     }
+
 }
 

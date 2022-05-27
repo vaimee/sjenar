@@ -69,13 +69,10 @@ public interface DatasetGraph extends Transactional, Closeable
      */
     public boolean containsGraph(Node graphNode) ;
 
-    /**
-     * Set the default graph.
-     * This replaces the contents default graph, not merge data into it.
-     * Do not assume that the same object is returned by {@link #getDefaultGraph}
-     * @deprecated Do not use. To be removed.
+    /** Set the default graph.  Set the active graph if it was null.
+     *  This replaces the contents default graph, not merge data into it.
+     *  Do not assume that the same object is returned by {@link #getDefaultGraph}
      */
-    @Deprecated
     public void setDefaultGraph(Graph g) ;
 
     /**
@@ -97,13 +94,13 @@ public interface DatasetGraph extends Transactional, Closeable
     // ---- Quad view
 
     /** Add a quad */
-    public void add(Quad quad) ;
+    public boolean add(Quad quad) ;
 
     /** Delete a quad */
-    public void delete(Quad quad) ;
+    public boolean delete(Quad quad) ;
 
     /** Add a quad */
-    public void add(Node g, Node s, Node p, Node o) ;
+    public boolean add(Node g, Node s, Node p, Node o) ;
 
     /** Add the {@code src} DatasetGraph to this one. */
     public default void addAll(DatasetGraph src) {
@@ -111,7 +108,7 @@ public interface DatasetGraph extends Transactional, Closeable
     }
 
     /** Delete a quad */
-    public void delete(Node g, Node s, Node p, Node o) ;
+    public boolean delete(Node g, Node s, Node p, Node o) ;
 
     /** Delete any quads matching the pattern */
     public void deleteAny(Node g, Node s, Node p, Node o) ;

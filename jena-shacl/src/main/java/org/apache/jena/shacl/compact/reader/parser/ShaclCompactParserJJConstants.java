@@ -129,27 +129,25 @@ public interface ShaclCompactParserJJConstants {
   /** RegularExpression Id. */
   int A2ZN = 101;
   /** RegularExpression Id. */
-  int SURROGATE_PAIR = 102;
+  int PN_CHARS_BASE = 102;
   /** RegularExpression Id. */
-  int PN_CHARS_BASE = 103;
+  int PN_CHARS_U = 103;
   /** RegularExpression Id. */
-  int PN_CHARS_U = 104;
+  int PN_CHARS = 104;
   /** RegularExpression Id. */
-  int PN_CHARS = 105;
+  int PN_PREFIX = 105;
   /** RegularExpression Id. */
-  int PN_PREFIX = 106;
+  int PN_LOCAL = 106;
   /** RegularExpression Id. */
-  int PN_LOCAL = 107;
+  int VARNAME = 107;
   /** RegularExpression Id. */
-  int VARNAME = 108;
+  int PN_LOCAL_ESC = 108;
   /** RegularExpression Id. */
-  int PN_LOCAL_ESC = 109;
+  int PLX = 109;
   /** RegularExpression Id. */
-  int PLX = 110;
+  int PERCENT = 110;
   /** RegularExpression Id. */
-  int PERCENT = 111;
-  /** RegularExpression Id. */
-  int UNKNOWN = 112;
+  int UNKNOWN = 111;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -258,7 +256,6 @@ public interface ShaclCompactParserJJConstants {
     "<LANGTAG>",
     "<A2Z>",
     "<A2ZN>",
-    "<SURROGATE_PAIR>",
     "<PN_CHARS_BASE>",
     "<PN_CHARS_U>",
     "<PN_CHARS>",

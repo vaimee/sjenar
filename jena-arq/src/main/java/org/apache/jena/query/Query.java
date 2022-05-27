@@ -295,9 +295,9 @@ public class Query extends Prologue implements Cloneable, Printable
 
     public Element getQueryPattern() { return queryPattern ; }
 
-    /** Location of the source for the data.  If the model is not set,
+     /** Location of the source for the data.  If the model is not set,
      *  then the QueryEngine will attempt to load the data from these URIs
-     *  into the default (unnamed) graph.
+     *  into the default (unamed) graph.
      */
     public void addGraphURI(String s)
     {

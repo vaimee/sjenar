@@ -34,8 +34,9 @@ public class UpdateRequestSink implements UpdateSink
     }
 
     @Override
-    public void send(Update update) {
+    public boolean send(Update update) {
         updateRequest.add(update);
+        return true;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class UpdateRequestSink implements UpdateSink
     @Override
     public QuadDataAccSink createInsertDataSink() {
         QuadDataAcc quads = new QuadDataAcc();
-        send(new UpdateDataInsert(quads));
+        send(new UpdateDataInsert(quads,this.updateRequest.getConnectionContext()));
 
         return quads;
     }
@@ -57,7 +58,7 @@ public class UpdateRequestSink implements UpdateSink
     @Override
     public QuadDataAccSink createDeleteDataSink() {
         QuadDataAcc quads = new QuadDataAcc();
-        send(new UpdateDataDelete(quads));
+        send(new UpdateDataDelete(quads,this.updateRequest.getConnectionContext()));
 
         return quads;
     }

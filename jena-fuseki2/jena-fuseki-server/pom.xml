@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-fuseki</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.3.2</version>
     <relativePath>../</relativePath>
   </parent> 
 
@@ -43,13 +43,13 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-text</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-fuseki-access</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
@@ -89,7 +89,7 @@
           <!-- 
             https://issues.apache.org/jira/browse/LOG4J2-954
             Multiple Log4j2Plugins.dat
-            jena-fuseki-server only pick up one Log4j2Plugins.dat (from log4j-core)
+            jena-fuseki-server only pick up one Log4j2Plugins.dat (from log4j-core-2.13.2)
             No need to run the transformer to merge them.
             If it becomes necessary, see: https://github.com/edwgiz/maven-shaded-log4j-transformer
           -->
@@ -136,4 +136,5 @@
     </plugins>
 
   </build>
+  
 </project>

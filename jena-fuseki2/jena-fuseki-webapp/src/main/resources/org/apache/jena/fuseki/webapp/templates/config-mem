@@ -19,6 +19,7 @@
     fuseki:serviceQuery                "query" ;
     fuseki:serviceUpdate               "" ;
     fuseki:serviceUpdate               "update" ;
+    fuseki:serviceUpload               "upload" ;
     fuseki:serviceReadWriteGraphStore  "data" ;     
     fuseki:serviceReadGraphStore       "get" ;
     fuseki:dataset                     <#dataset> ;

@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.jena.atlas.io.IO;
-import org.apache.jena.atlas.web.HttpException;
 
 /** Multipart HTTP PUT/POST. */
 public class FileSender {
@@ -52,8 +51,7 @@ public class FileSender {
         items.add(e);
     }
 
-    /** Return response code */
-    public int send(String method) {
+    public void send(String method) {
         try {
             String WNL = "\r\n";   // Web newline
             String boundary = UUID.randomUUID().toString();
@@ -75,10 +73,7 @@ public class FileSender {
             }
             connection.connect();
             int responseCode = connection.getResponseCode();
-            if ( responseCode >= 300 )
-                throw new HttpException(responseCode);
-            return responseCode;
-        } catch (IOException ex) { IO.exception(ex); return -1;}
+        } catch (IOException ex) { IO.exception(ex); }
     }
 }
 

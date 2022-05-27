@@ -18,19 +18,18 @@
 
 package org.apache.jena.update;
 
+import java.util.List;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.sparql.exec.http.UpdateExecutionHTTP;
 import org.apache.jena.sparql.exec.http.UpdateExecutionHTTPBuilder;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 
 /** An instance of a execution of an UpdateRequest */
 public interface UpdateExecution extends UpdateProcessor
 {
-    public static UpdateExecutionDatasetBuilder create() {
-        return UpdateExecutionDatasetBuilder.create();
-    }
-
-    public static UpdateExecutionDatasetBuilder dataset(Dataset dataset) {
-        return create().dataset(dataset);
+    public static UpdateExecutionDatasetBuilder dataset(Dataset dataset,Context ctx) {
+        return UpdateExecutionDatasetBuilder.create(ctx).dataset(dataset);
     }
 
     public static UpdateExecutionHTTPBuilder service(String serviceURL) {
@@ -39,6 +38,5 @@ public interface UpdateExecution extends UpdateProcessor
 
     /** Execute */
     @Override
-    public void execute() ;
-
+    public List<UpdateResult> execute() ;
 }

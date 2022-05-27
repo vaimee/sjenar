@@ -120,14 +120,15 @@ public class shex_validate extends CmdGeneral {
         try {
             shapes = Shex.readSchema(shapesfile);
         } catch (ShexException ex) {
-            throw new CmdException("Failed to read shapes: " + ex.getMessage());
+            System.err.println("Failed to read shapes: " + ex.getMessage());
+            throw new CmdException();
         }
 
         Graph dataGraph;
         try {
             dataGraph = load(datafile, "data file");
         } catch (RiotException ex) {
-            throw new CmdException("Failed to load data: " + ex.getMessage());
+            throw new CmdException("Failed to data: " + ex.getMessage());
         }
 
 //        if ( targetNode != null ) {

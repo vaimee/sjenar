@@ -18,6 +18,7 @@
 
 package org.apache.jena.rdflink;
 
+import java.util.List;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.query.Query;
@@ -27,7 +28,8 @@ import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Transactional;
 import org.apache.jena.sparql.exec.QueryExec;
 import org.apache.jena.sparql.exec.QueryExecBuilder;
-import org.apache.jena.sparql.exec.UpdateExecBuilder;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.update.UpdateRequest;
 
 /**
@@ -40,6 +42,7 @@ public class RDFLinkModular implements RDFLink {
     private final LinkSparqlUpdate updateConnection;
     private final LinkDatasetGraph datasetConnection;
     private final Transactional transactional;
+    private final Context       ctx = new Context();
 
     @Override public void begin()                       { transactional.begin(); }
     @Override public void begin(TxnType txnType)        { transactional.begin(txnType); }
@@ -72,12 +75,6 @@ public class RDFLinkModular implements RDFLink {
         this.transactional = connection;
     }
 
-    // Accessors - not for internal use.
-    public LinkSparqlQuery queryLink()     { return queryConnection; }
-    public LinkSparqlUpdate updateLink()   { return updateConnection; }
-    public LinkDatasetGraph datasetLink()  { return datasetConnection; }
-
-    // For use in a query / update/data operation. Must be non-null.
     private LinkSparqlQuery queryConnection() {
         if ( queryConnection == null )
             throw new UnsupportedOperationException("No LinkSparqlQuery");
@@ -97,23 +94,14 @@ public class RDFLinkModular implements RDFLink {
     }
 
     @Override
-    public QueryExec query(Query query) {
-        return queryConnection().query(query);
-    }
+    public QueryExec query(Query query) { return queryConnection().query(query); }
 
     @Override
-    public QueryExecBuilder newQuery() {
-        return queryConnection().newQuery();
-    }
+    public QueryExecBuilder newQuery() { return queryConnection().newQuery(); }
 
     @Override
-    public UpdateExecBuilder newUpdate() {
-        return updateConnection().newUpdate();
-    }
-
-    @Override
-    public void update(UpdateRequest update) {
-        updateConnection().update(update);
+    public List<UpdateResult> update(UpdateRequest update) {
+        return updateConnection().update(update);
     }
 
     @Override
@@ -200,14 +188,12 @@ public class RDFLinkModular implements RDFLink {
     }
 
     @Override
-    public void clearDataset() {
-        datasetConnection().clearDataset();
-    }
+    public void clearDataset() { datasetConnection().clearDataset(); }
 
     @Override
     public boolean isClosed() { return false; }
 
-    /** Close this connection. */
+    /** Close this connection.  Use with try-resource. */
     @Override
     public void close() {
         if ( queryConnection != null )
@@ -216,6 +202,11 @@ public class RDFLinkModular implements RDFLink {
             updateConnection.close();
         if ( datasetConnection != null )
             datasetConnection.close();
+    }
+
+    @Override
+    public Context getContext() {
+        return ctx;
     }
 }
 

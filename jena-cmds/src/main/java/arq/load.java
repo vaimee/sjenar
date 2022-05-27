@@ -79,7 +79,7 @@ public class load extends CmdUpdate {
         if ( loadFiles.size() == 0 )
             throw new CmdException("Nothing to do");
 
-        UpdateRequest req = new UpdateRequest();
+        UpdateRequest req = new UpdateRequest(null);
         for ( String filename : loadFiles ) {
             UpdateLoad loadReq = new UpdateLoad(filename, graphName);
             req.add(loadReq);

@@ -93,52 +93,9 @@ public class Rename {
      * op was renamed by VarRename.rename
      */
     public static Op reverseVarRename(Op op, boolean repeatedly) {
-        NodeTransform x = n->Rename.reverseVarRename(n, prefix, repeatedly);
-        //NodeTransform renamer = new UnrenameAnyVars(prefix, repeatedly);
-        return NodeTransformLib.transform(x, op);
+        NodeTransform renamer = new UnrenameAnyVars(prefix, repeatedly);
+        return NodeTransformLib.transform(renamer, op);
     }
-
-    // ---- Node reverseRename.
-
-    /**
-     * Undo the effect of the rename operation, once or repeatedly. This assumes the
-     * node was renamed by VarRename.rename
-     */
-    public static Node reverseVarRename(Node node) {
-        //return new UnrenameAnyVars(prefix, true).apply(node);
-        return reverseVarRename(node, prefix, true);
-    }
-
-    private static Node reverseVarRename(Node node, String varPrefix, boolean repeatedly) {
-        if ( node.isNodeTriple() ) {
-            Triple t1 = node.getTriple();
-            Triple t2 = NodeTransformLib.transform(n->Rename.reverseVarRename(n, varPrefix, repeatedly), t1);
-            return Objects.equals(t1, t2) ? node : NodeFactory.createTripleNode(t2);
-        }
-
-        if ( !Var.isVar(node) )
-            return node;
-
-        Var var = (Var)node;
-        return reverseVarRename(var, varPrefix, repeatedly);
-    }
-
-    private static Node reverseVarRename(Var var, String varPrefix, boolean repeatedly) {
-        String varName = var.getName();
-        if ( repeatedly ) {
-            while (varName.startsWith(varPrefix))
-                varName = varName.substring(varPrefix.length());
-        } else {
-            if ( varName.startsWith(varPrefix) )
-                varName = varName.substring(varPrefix.length());
-        }
-
-        if ( varName == var.getName() )
-            return var;
-        return Var.alloc(varName);
-
-    }
-
 
     // ---- Transforms that do the renaming and unrenaming.
 
@@ -159,7 +116,6 @@ public class Rename {
         }
     }
 
-    // This transform is stateful - it keeps aliases.
     static class RenameAnyVars implements NodeTransform {
         private final Map<Var, Var> aliases = new HashMap<>();
         private final Collection<Var> constants;
@@ -198,8 +154,6 @@ public class Rename {
 
     /**
      * Reverse a renaming (assuming renaming was done by prefixing variable names)
-     * This does not need to track allocations.
-     * Retained for symmetry.
      */
     static class UnrenameAnyVars implements NodeTransform {
         private final String varPrefix;
@@ -212,7 +166,28 @@ public class Rename {
 
         @Override
         public Node apply(Node node) {
-            return reverseVarRename(node, varPrefix, repeatedly);
+            if ( node.isNodeTriple() ) {
+                Triple t1 = node.getTriple();
+                Triple t2 = NodeTransformLib.transform(this, t1);
+                return Objects.equals(t1, t2) ? node : NodeFactory.createTripleNode(t2);
+            } else if ( !Var.isVar(node) ) {
+                return node;
+            }
+
+            Var var = (Var)node;
+            String varName = var.getName();
+
+            if ( repeatedly ) {
+                while (varName.startsWith(varPrefix))
+                    varName = varName.substring(varPrefix.length());
+            } else {
+                if ( varName.startsWith(varPrefix) )
+                    varName = varName.substring(varPrefix.length());
+            }
+
+            if ( varName == var.getName() )
+                return node;
+            return Var.alloc(varName);
         }
     }
 }

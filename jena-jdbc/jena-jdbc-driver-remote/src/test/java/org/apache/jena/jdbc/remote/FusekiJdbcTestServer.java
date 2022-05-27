@@ -24,8 +24,12 @@ import static org.apache.jena.jdbc.remote.FusekiJdbcTestServer.ServerScope.TEST;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.jena.atlas.io.IO;
 import org.apache.jena.atlas.web.WebLib;
 import org.apache.jena.fuseki.main.FusekiServer;
+import org.apache.jena.riot.web.HttpOp1;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.modify.request.Target;
@@ -47,6 +51,10 @@ import org.apache.jena.update.UpdateProcessor;
  * slow. One server per test class is a good compromise.
  * <p>
  * The data in the server is always reseet between tests.
+ * <p>
+ * Using a connection pooling HttpClient (see {@link HttpOp1#createPoolingHttpClient()}) is
+ * important, both for test performance and for reducing the TCP connection load on the
+ * operating system.
  * <p>
  * Usage:
  * </p>
@@ -94,6 +102,7 @@ import org.apache.jena.update.UpdateProcessor;
  *   }
  * </pre>
  */
+@SuppressWarnings("deprecation")
 public class FusekiJdbcTestServer {
     /* Cut&Paste versions:
 
@@ -135,6 +144,7 @@ public class FusekiJdbcTestServer {
 
     public static void ctlBeforeTestSuite() {
         if ( serverScope == SUITE  ) {
+            setPoolingHttpClient();
             allocServer();
         }
     }
@@ -142,6 +152,7 @@ public class FusekiJdbcTestServer {
     public static void ctlAfterTestSuite()  {
         if ( serverScope == SUITE  ) {
             freeServer();
+            resetDefaultHttpClient();
         }
     }
 
@@ -150,6 +161,7 @@ public class FusekiJdbcTestServer {
      */
     public static void ctlBeforeClass() {
         if ( serverScope == CLASS  ) {
+            setPoolingHttpClient();
             allocServer();
         }
     }
@@ -160,6 +172,7 @@ public class FusekiJdbcTestServer {
     public static void ctlAfterClass() {
         if ( serverScope == CLASS  ) {
             freeServer();
+            resetDefaultHttpClient();
         }
     }
 
@@ -168,6 +181,7 @@ public class FusekiJdbcTestServer {
      */
     public static void ctlBeforeTest() {
         if ( serverScope == TEST  ) {
+            setPoolingHttpClient();
             allocServer();
         }
     }
@@ -178,8 +192,27 @@ public class FusekiJdbcTestServer {
     public static void ctlAfterTest() {
         if ( serverScope == TEST  ) {
             freeServer();
+            resetDefaultHttpClient();
         } else
             resetServer();
+    }
+
+    /** Set a PoolingHttpClient */
+    public static void setPoolingHttpClient() {
+        setHttpClient(HttpOp1.createPoolingHttpClient());
+    }
+
+    /** Restore the original setup */
+    private static void resetDefaultHttpClient() {
+        setHttpClient(HttpOp1.createDefaultHttpClient());
+    }
+
+    /** Set the HttpClient - close the old one if appropriate */
+    public static void setHttpClient(HttpClient newHttpClient) {
+        HttpClient hc = HttpOp1.getDefaultHttpClient();
+        if ( hc instanceof CloseableHttpClient )
+            IO.close((CloseableHttpClient)hc);
+        HttpOp1.setDefaultHttpClient(newHttpClient);
     }
 
     // reference count of start/stop server

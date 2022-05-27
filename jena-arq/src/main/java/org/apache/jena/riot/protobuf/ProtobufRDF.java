@@ -24,14 +24,14 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.jena.atlas.io.IO;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.riot.protobuf.wire.PB_RDF.RDF_StreamRow;
 import org.apache.jena.riot.system.PrefixMapFactory;
 import org.apache.jena.riot.system.StreamRDF;
 import org.apache.jena.riot.thrift.ThriftRDF;
 import org.apache.jena.sparql.core.Var;
+import org.apache.jena.sparql.engine.ResultSetStream;
 import org.apache.jena.sparql.engine.binding.Binding;
-import org.apache.jena.sparql.exec.RowSet;
-import org.apache.jena.sparql.exec.RowSetStream;
 
 /**
  * Operations on binary RDF using <a href="https://developers.google.com/protocol-buffers">Google Protobuf</a>.
@@ -133,30 +133,31 @@ public class ProtobufRDF {
     }
 
     /**
-     * Return a streaming {@link RowSet} read from an input stream (with delimiters per row)
+     * Return a streaming {@link ResultSet} read from an input stream (with delimiters per row)
      */
-    public static RowSet readRowSet(InputStream input) {
+    public static ResultSet readResultSet(InputStream input) {
         Protobuf2Binding p2b = new Protobuf2Binding(input);
-        return RowSetStream.create(p2b.getVars(), p2b);
+        List<String> resultVars = p2b.getVarNames();
+        return ResultSetStream.create(resultVars, null, p2b);
     }
 
     /**
-     * Write a {@link RowSet} to an output stream (with delimiters per row)
+     * Write a {@link ResultSet} to an output stream (with delimiters per row)
      */
-    public static void writeRowSet(OutputStream out, RowSet rowSet) {
-        writeRowSet(out, rowSet, false);
+    public static void writeResultSet(OutputStream out, ResultSet resultSet) {
+        writeResultSet(out, resultSet, false);
     }
 
     /**
-     * Write a {@link RowSet} to an output stream (with delimiters per row)
+     * Write a {@link ResultSet} to an output stream (with delimiters per row)
      */
-    public static void writeRowSet(OutputStream out, RowSet rowSet, boolean withValues) {
+    public static void writeResultSet(OutputStream out, ResultSet resultSet, boolean withValues) {
         out = IO.ensureBuffered(out);
         try {
-            List<Var> vars = rowSet.getResultVars();
+            List<Var> vars = Var.varList(resultSet.getResultVars()) ;
             try ( Binding2Protobuf b2p = new Binding2Protobuf(out, vars, false) ) {
-                for ( ; rowSet.hasNext() ; ) {
-                    Binding b = rowSet.next();
+                for ( ; resultSet.hasNext() ; ) {
+                    Binding b = resultSet.nextBinding();
                     b2p.output(b);
                 }
             }

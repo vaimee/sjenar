@@ -87,10 +87,10 @@ public class FusekiMain extends CmdARQ {
     private static ArgDecl  argGZip         = new ArgDecl(ArgDecl.HasValue, "gzip");
     private static ArgDecl  argBase         = new ArgDecl(ArgDecl.HasValue, "base", "files");
 
-    private static ArgDecl  argCORS         = new ArgDecl(ArgDecl.NoValue,  "withCORS", "cors", "CORS");
-    private static ArgDecl  argNoCORS       = new ArgDecl(ArgDecl.NoValue,  "noCORS", "no-cors");
-    private static ArgDecl  argWithPing     = new ArgDecl(ArgDecl.NoValue,  "withPing", "ping");
-    private static ArgDecl  argWithStats    = new ArgDecl(ArgDecl.NoValue,  "withStats", "stats");
+    private static ArgDecl  argCORS         = new ArgDecl(ArgDecl.NoValue, "withCORS", "cors", "CORS");
+    private static ArgDecl  argNoCORS       = new ArgDecl(ArgDecl.NoValue, "noCORS", "no-cors");
+    private static ArgDecl  argWithPing     = new ArgDecl(ArgDecl.NoValue, "withPing", "ping");
+    private static ArgDecl  argWithStats    = new ArgDecl(ArgDecl.NoValue, "withStats", "stats");
     private static ArgDecl  argWithMetrics  = new ArgDecl(ArgDecl.NoValue,  "withMetrics", "metrics");
     private static ArgDecl  argWithCompact  = new ArgDecl(ArgDecl.NoValue,  "withCompact", "compact");
 
@@ -318,8 +318,6 @@ public class FusekiMain extends CmdARQ {
         if ( contains(argFile) ) {
             List<String> filenames = getValues(argFile);
             serverConfig.datasetDescription = "in-memory, with files loaded";
-            // Update is not enabled by default for --file
-            serverConfig.allowUpdate = contains(argUpdate);
             serverConfig.dsg = DatasetGraphFactory.createTxnMem();
 
             for(String filename : filenames ) {
@@ -452,6 +450,12 @@ public class FusekiMain extends CmdARQ {
         serverConfig.withStats = contains(argWithStats);
         serverConfig.withMetrics = contains(argWithMetrics);
         serverConfig.withCompact = contains(argWithCompact);
+
+//            if ( contains(argGZip) ) {
+//                if ( !hasValueOfTrue(argGZip) && !hasValueOfFalse(argGZip) )
+//                    throw new CmdException(argGZip.getNames().get(0) + ": Not understood: " + getValue(argGZip));
+//                jettyServerConfig.enableCompression = super.hasValueOfTrue(argGZip);
+//            }
     }
 
     private int portNumber(ArgDecl arg) {

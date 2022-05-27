@@ -18,6 +18,7 @@
 
 package org.apache.jena.rdfconnection;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.jena.atlas.lib.InternalErrorException;
@@ -33,9 +34,9 @@ import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.core.DatasetGraphReadOnly;
 import org.apache.jena.sparql.graph.GraphReadOnly;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.system.Txn;
-import org.apache.jena.update.UpdateExecution;
-import org.apache.jena.update.UpdateExecutionBuilder;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateRequest;
 
@@ -52,7 +53,7 @@ import org.apache.jena.update.UpdateRequest;
  *     the underlying model or dataset will be seen.
  * <li>{@code NONE} (default) &ndash; Changes to the returned {@code Model}s or {@code Dataset}s act on the original object.
  * </ul>
- * @deprecated Use {@link RDFConnection#connect(Dataset)}.
+ * @deprecated Use {@link RDFConnectionFactory}.
  */
 @Deprecated
 public class RDFConnectionLocal implements RDFConnection {
@@ -60,14 +61,26 @@ public class RDFConnectionLocal implements RDFConnection {
 
     private Dataset dataset;
     private final Isolation isolation;
+    private final Context   ctx;
+    
+    public RDFConnectionLocal(Dataset dataset,Context ctx) {
+        this(dataset, Isolation.NONE,ctx);
+    }
 
+    public RDFConnectionLocal(Dataset dataset, Isolation isolation,Context ctx) {
+        this.dataset = dataset;
+        this.isolation = isolation;
+        this.ctx = ctx;
+    }
     public RDFConnectionLocal(Dataset dataset) {
         this(dataset, Isolation.NONE);
+        
     }
 
     public RDFConnectionLocal(Dataset dataset, Isolation isolation) {
         this.dataset = dataset;
         this.isolation = isolation;
+        this.ctx = new Context();
     }
 
     @Override
@@ -83,14 +96,36 @@ public class RDFConnectionLocal implements RDFConnection {
     }
 
     @Override
-    public void update(UpdateRequest update) {
-        checkOpen();
-        Txn.executeWrite(dataset, ()->UpdateExecutionFactory.create(update, dataset).execute() );
+    public Context getContext() {
+        return ctx;
     }
-
+    private class RunnableUpdate implements Runnable {
+        private final UpdateRequest update;
+        private final Dataset       dataSet;
+        private List<UpdateResult>       result;
+        public List<UpdateResult> getResult() {
+            return result;
+        }
+        public RunnableUpdate(UpdateRequest u, Dataset d ) {
+            update = u;
+            dataSet = d;
+        }
+        @Override
+        public void run() {
+            result = UpdateExecutionFactory.create(update, dataset).execute();
+        }
+        
+    }
     @Override
-    public UpdateExecutionBuilder newUpdate() {
-        return UpdateExecution.create().dataset(dataset);
+    public List<UpdateResult> update(UpdateRequest update) {
+        checkOpen();
+        final RunnableUpdate ru = new RunnableUpdate(update, dataset);
+        Txn.executeWrite(
+                dataset, 
+                ru
+        );
+        
+        return ru.getResult();
     }
 
     @Override

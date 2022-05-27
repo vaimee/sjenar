@@ -40,6 +40,7 @@ import org.junit.runners.Suite.SuiteClasses;
   , TestFileUpload.class
   , TestAuthQuery_JDK.class
   , TestAuthUpdate_JDK.class
+  , TestHttpOp_AHC.class
   , TestHttpOperations.class
   , TestHttpOptions.class
 

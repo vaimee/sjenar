@@ -68,11 +68,8 @@ public class FusekiTestLib {
       }
     }
 
-    // Same - except a QueryExceptionHTTP.
 
-    public static void expectQuery400(Runnable runnable) {
-        expectQueryFail(runnable, HttpSC.Code.BAD_REQUEST);
-    }
+    // Same - except a QueryExceptionHTTP.
 
     public static void expectQuery401(Runnable runnable) {
         expectQueryFail(runnable, HttpSC.Code.UNAUTHORIZED);

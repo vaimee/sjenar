@@ -24,19 +24,19 @@ public class TurtleJCC {
 
     // Must be a different content type.
     // Must be a different file extension.
-    public static Lang TTLJCC = LangBuilder.create("TurtleJavaCC", "text/turtle-jcc")
+    public static Lang lang = LangBuilder.create("TurtleJavaCC", "text/turtle-jcc")
                                         .addAltNames("ttljcc")
                                         .addFileExtensions("ttljcc")
                                         .build();
     public static ReaderRIOTFactory factory = (lang, profile) -> new TurtleJavaccReaderRIOT(profile) ;
 
     public static void register() {
-        RDFLanguages.register(TTLJCC);
-        RDFParserRegistry.registerLangTriples(TTLJCC, factory);
+        RDFLanguages.register(lang);
+        RDFParserRegistry.registerLangTriples(lang, factory);
     }
 
     public static void unregister() {
-        RDFParserRegistry.removeRegistration(TTLJCC);
-        RDFLanguages.unregister(TTLJCC);
+        RDFParserRegistry.removeRegistration(lang);
+        RDFLanguages.unregister(lang);
     }
 }

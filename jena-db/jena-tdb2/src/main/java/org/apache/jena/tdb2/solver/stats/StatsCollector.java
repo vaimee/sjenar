@@ -30,7 +30,7 @@ public class StatsCollector extends StatsCollectorBase<Node> {
     }
 
     @Override
-    protected Map<Node, Long> convert(Map<Node, Long> map) {
+    protected Map<Node, Integer> convert(Map<Node, Integer> map) {
         return map;
     }
 }

@@ -116,7 +116,7 @@ public class ConstraintComponents {
                 List<Node> required = scc.getRequiredParameters();
 
                 // Check not seen.
-                Set<Node> x = Set.copyOf(required);
+                Set<Node> x = new HashSet<>(required);
                 if ( seen.contains(x) ) {
                     return;
                 }
@@ -158,7 +158,7 @@ public class ConstraintComponents {
         return parameterValues;
     }
 
-    /** This handles all ConstraintComponents; only SPARQL ones are currently supported. */
+    /** This handles all ConstraintComponents; only SPARQL ones ar currently supported. */
     private static SparqlComponent sparqlConstraintComponent(Graph shapesGraph, Node constraintComponentNode) {
         if ( SHACL.JSConstraintComponent.equals(constraintComponentNode) )
             return null;

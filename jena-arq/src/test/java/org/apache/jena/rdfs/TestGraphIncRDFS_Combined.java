@@ -23,14 +23,7 @@ import org.apache.jena.graph.GraphUtil;
 import org.apache.jena.rdfs.engine.GraphIncRDFS;
 import org.apache.jena.sparql.graph.GraphFactory;
 
-/**
- * Data and vocabulary in the same graph.
- * <p>
- * This setup does include RDF vocabulary in the graph find results but it is not
- * complete RDFS (no axioms for example).
- * <p>
- * Normal usage is {@Link TestGraphSplitRDFS}.
- */
+/** Test a GraphRDFS */
 public class TestGraphIncRDFS_Combined extends AbstractTestGraphRDFS {
 
     private Graph testGraph = null;
@@ -55,4 +48,5 @@ public class TestGraphIncRDFS_Combined extends AbstractTestGraphRDFS {
     protected String getTestLabel() {
         return "Combined data, vocab";
     }
+
 }

@@ -21,6 +21,8 @@ package org.apache.jena.sparql.modify.request;
 import java.util.List ;
 
 import org.apache.jena.sparql.core.Quad ;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Iso ;
 import org.apache.jena.sparql.util.NodeIsomorphismMap ;
 import org.apache.jena.update.Update ;
@@ -28,14 +30,22 @@ import org.apache.jena.update.Update ;
 public class UpdateDeleteWhere extends Update
 {
     private final QuadAcc pattern ;
+    public UpdateDeleteWhere(QuadAcc pattern) { 
+        super(null);
+        this.pattern = pattern ; 
+    }
 
-    public UpdateDeleteWhere(QuadAcc pattern) { this.pattern = pattern ; }
+    public UpdateDeleteWhere(QuadAcc pattern,Context connCtx) { 
+        super(connCtx);
+        this.pattern = pattern ; 
+    }
     
     public List<Quad> getQuads() { return pattern.getQuads() ; }
     
     @Override
-    public void visit(UpdateVisitor visitor)
-    { visitor.visit(this) ; }
+    public UpdateResult visit(UpdateVisitor visitor) { 
+        return visitor.visit(this) ; 
+    }
 
     @Override
     public boolean equalTo(Update obj, NodeIsomorphismMap isoMap) {

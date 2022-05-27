@@ -20,6 +20,7 @@ package org.apache.jena.query;
 
 import java.util.List;
 import java.util.Objects ;
+import org.apache.jena.acl.DatasetACL;
 
 import org.apache.jena.assembler.Assembler;
 import org.apache.jena.rdf.model.Model;
@@ -28,11 +29,13 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.sparql.ARQException;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
-import org.apache.jena.sparql.core.DatasetGraphOne;
 import org.apache.jena.sparql.core.DatasetImpl;
+import org.apache.jena.sparql.core.DatasetOne;
 import org.apache.jena.sparql.core.assembler.DatasetAssembler;
 import org.apache.jena.sparql.util.DatasetUtils;
+import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.sparql.util.graph.GraphUtils;
+import static org.apache.jena.acl.DatasetACL.ACL_HANDLER_NAME;
 
 /**
  * Makes {@link Dataset}s in various ways.
@@ -68,7 +71,13 @@ public class DatasetFactory {
 	public static Dataset createTxnMem() {
 		return wrap(DatasetGraphFactory.createTxnMem());
 	}
-
+        
+        public static Dataset createTxnMem(DatasetACL acl) {
+            final Dataset ret = wrap(DatasetGraphFactory.createTxnMem());
+            ret.getContext().put(Symbol.create(ACL_HANDLER_NAME), acl);
+            return ret;
+        }
+ 
 	/**
 	 * Create a general-purpose  {@link Dataset}.<br/>
 	 * Any graphs needed are in-memory unless explicitly added with {@link Dataset#addNamedModel}.
@@ -126,7 +135,7 @@ public class DatasetFactory {
      */
     public static Dataset wrap(Model model) {
         Objects.requireNonNull(model, "Can't wrap a null Model reference") ;
-        return wrap(DatasetGraphOne.create(model.getGraph()));
+        return DatasetOne.create(model);
     }
 
     /**

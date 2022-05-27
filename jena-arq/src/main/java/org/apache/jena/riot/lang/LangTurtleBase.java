@@ -517,6 +517,7 @@ public abstract class LangTurtleBase extends LangBase {
         startList() ;
 
         for (;;) {
+            Token errorToken = peekToken() ;
             if ( eof() )
                 exception(peekToken(), "Unterminated list") ;
 
@@ -525,14 +526,14 @@ public abstract class LangTurtleBase extends LangBase {
                 break ;
             }
 
-            Token elementToken = peekToken() ;
             // The value.
             Node n = triplesNode() ;
+
             if ( n == null )
-                exception(elementToken, "Malformed list") ;
+                exception(errorToken, "Malformed list") ;
 
             // Node for the list structure.
-            Node nextCell = profile.createBlankNode(currentGraph, elementToken.getLine(), elementToken.getColumn()) ;
+            Node nextCell = NodeFactory.createBlankNode() ;
             if ( listHead == null )
                 listHead = nextCell ;
             if ( lastCell != null )

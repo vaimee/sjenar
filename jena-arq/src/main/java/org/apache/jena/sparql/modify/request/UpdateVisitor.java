@@ -18,6 +18,9 @@
 
 package org.apache.jena.sparql.modify.request;
 
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.modify.UpdateResult;
+
 public interface UpdateVisitor
 {
     public void visit(UpdateDrop update) ;
@@ -30,10 +33,10 @@ public interface UpdateVisitor
     public void visit(UpdateCopy update) ;
     public void visit(UpdateMove update) ;
     
-    public void visit(UpdateDataInsert update) ;
-    public void visit(UpdateDataDelete update) ;
-    public void visit(UpdateDeleteWhere update) ;
-    public void visit(UpdateModify update) ;
+    public UpdateResult visit(UpdateDataInsert update) ;
+    public UpdateResult visit(UpdateDataDelete update) ;
+    public UpdateResult visit(UpdateDeleteWhere update) ;
+    public UpdateResult visit(UpdateModify update) ;
     
 //    public Sink<Quad> createInsertDataSink();
 //    public Sink<Quad> createDeleteDataSink();

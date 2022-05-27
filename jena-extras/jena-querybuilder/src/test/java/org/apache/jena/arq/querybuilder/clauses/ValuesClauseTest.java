@@ -32,10 +32,8 @@ import java.util.Map;
 import org.apache.jena.arq.querybuilder.AbstractQueryBuilder;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
-import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryBuildException;
 import org.apache.jena.sparql.core.Var;
-import org.apache.jena.sparql.engine.binding.Binding;
 import org.junit.After;
 import org.junit.Before;
 import org.xenei.junit.contract.Contract;
@@ -74,34 +72,16 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
     public void testSetOneVar() {
 
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar("?x", "foo");
-        
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 1, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 1, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
+        assertContainsRegex(VALUES + var("x") + OPT_SPACE + OPEN_CURLY + quote("foo") + OPT_SPACE + CLOSE_CURLY,
+                builder.buildString());
     }
 
     @ContractTest
     public void testSetOneVarTwoValues() {
 
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar("?x", "foo", "bar");
-        
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 1, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-         binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("x"));
+        assertContainsRegex(VALUES + var("x") + OPT_SPACE + OPEN_CURLY + quote("foo") + SPACE + quote("bar") + OPT_SPACE
+                + CLOSE_CURLY, builder.buildString());
     }
 
     @ContractTest
@@ -110,20 +90,9 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar("?x", "foo", "fu");
         builder.addValueVar("?y", "bar", "bear");
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bear"), binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + quote("bear") + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
     }
 
     @ContractTest
@@ -132,20 +101,9 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar("?x", "foo", "fu");
         builder.addValueVar("?y", "bar", null);
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar" ), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu" ), binding.get("x"));
-        assertNull( binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
     }
 
     @ContractTest
@@ -155,23 +113,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         builder.addValueVar("?y", "bar", null);
         builder.addValueRow(null, "pub");
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 3, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
-        binding = bindings.get(2);
-        assertNull( binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "pub"), binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + "UNDEF" + SPACE + quote("pub") + CLOSE_PAREN
+                + CLOSE_CURLY, builder.buildString());
     }
 
     @ContractTest
@@ -188,21 +133,9 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         }
 
         builder.addValueVar("?y", "bear");
-        
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bear"), binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + quote("bear") + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
     }
 
     @ContractTest
@@ -211,20 +144,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         Collection<?> yCol = Arrays.asList("?y", "bar", null);
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar(xCol).addValueVar(yCol);
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
+
     }
 
     @ContractTest
@@ -232,20 +155,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         AbstractQueryBuilder<?> builder = valuesClause.addValueVar("?x", "foo", "fu").addValueVar(Var.alloc("y"), "bar",
                 null);
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
+
     }
 
     @ContractTest
@@ -256,21 +169,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         builder.addValueRow("foo", "bar");
         builder.addValueRow("fu", null);
 
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
     }
 
     @ContractTest
@@ -281,21 +183,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         map.put(Var.alloc("y"), Arrays.asList("bar", null));
         AbstractQueryBuilder<?> builder = valuesClause.addValueVars(map);
 
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
     }
 
     @ContractTest
@@ -312,33 +203,13 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
 
         builder.addValueVars(map2);
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 3, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        assertEquals( "z", vars.get(2).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 4, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        assertNull( binding.get("z"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
-        assertNull( binding.get("z"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + SPACE + var("z") + CLOSE_PAREN
+                + OPT_SPACE + OPEN_CURLY + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + SPACE + "UNDEF"
+                + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu") + SPACE + "UNDEF" + SPACE + "UNDEF" + CLOSE_PAREN
+                + OPT_SPACE + OPEN_PAREN + "UNDEF" + SPACE + quote("baz") + SPACE + quote("dog") + CLOSE_PAREN
+                + OPT_SPACE + OPEN_PAREN + "UNDEF" + SPACE + var("z") + SPACE + quote("cat") + CLOSE_PAREN
+                + CLOSE_CURLY, builder.buildString());
 
-        binding = bindings.get(2);
-        assertNull( binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "baz"), binding.get("y"));
-        assertEquals( NodeFactory.createLiteral( "dog"), binding.get("z"));
-
-        binding = bindings.get(3);
-        assertNull( binding.get("x"));
-        assertEquals( Var.alloc( "z"), binding.get("y"));
-        assertEquals( NodeFactory.createLiteral( "cat"), binding.get("z"));
     }
 
     @ContractTest
@@ -348,21 +219,11 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         builder.addValueVar("?y");
         builder.addValueRow("foo", "bar");
         builder.addValueRow("fu", null);
-        
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
+
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
+
     }
 
     @ContractTest
@@ -373,20 +234,10 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
         builder.addValueRow(Arrays.asList("foo", "bar"));
         builder.addValueRow(Arrays.asList("fu", null));
 
-        Query query = builder.build();
-        assertTrue( query.hasValues() );
-        List<Var> vars = query.getValuesVariables();
-        assertEquals( 2, vars.size() );
-        assertEquals( "x", vars.get(0).getVarName());
-        assertEquals( "y", vars.get(1).getVarName());
-        List<Binding> bindings = query.getValuesData();
-        assertEquals( 2, bindings.size() );
-        Binding binding = bindings.get(0);
-        assertEquals( NodeFactory.createLiteral( "foo"), binding.get("x"));
-        assertEquals( NodeFactory.createLiteral( "bar"), binding.get("y"));
-        binding = bindings.get(1);
-        assertEquals( NodeFactory.createLiteral( "fu"), binding.get("x"));
-        assertNull( binding.get("y"));
+        assertContainsRegex(VALUES + OPEN_PAREN + var("x") + SPACE + var("y") + CLOSE_PAREN + OPT_SPACE + OPEN_CURLY
+                + OPEN_PAREN + quote("foo") + SPACE + quote("bar") + CLOSE_PAREN + OPT_SPACE + OPEN_PAREN + quote("fu")
+                + SPACE + "UNDEF" + CLOSE_PAREN + CLOSE_CURLY, builder.buildString());
+
     }
 
     @ContractTest
@@ -418,6 +269,7 @@ public class ValuesClauseTest<T extends ValuesClause<?>> extends AbstractClauseT
 
         assertTrue(builder.getValuesVars().isEmpty());
         assertTrue(builder.getValuesMap().isEmpty());
+
     }
 
 }

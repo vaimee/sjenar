@@ -21,12 +21,7 @@ package org.apache.jena.rdfs;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdfs.engine.GraphIncRDFS;
 
-/**
- * Separate data and vocabulary; includes vocabulary and vocabulary derived
- * inferences.
- * <p>
- * Normal usage is {@Link TestGraphSplitRDFS}.
- */
+/** Separate data and vocabulary; include vocabaulry and vocabulary derived inferences. */
 public class TestGraphIncRDFS_Split extends AbstractTestGraphRDFS {
     private Graph testGraph = null;
 

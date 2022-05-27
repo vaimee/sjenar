@@ -18,13 +18,28 @@
 
 package org.apache.jena.sparql.modify.request;
 
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
+
 
 public class UpdateCopy extends UpdateBinaryOp
 {
-    public UpdateCopy(Target src, Target dest)                  { super(src, dest, true) ; }
-    public UpdateCopy(Target src, Target dest, boolean silent)  { super(src, dest, silent) ; }
+    public UpdateCopy(Target src, Target dest,Context connCtx)                  { 
+        super(src, dest, true,connCtx) ; 
+    }
+    public UpdateCopy(Target src, Target dest, boolean silent,Context connCtx)  { 
+        super(src, dest, silent,connCtx) ; 
+    }
+    public UpdateCopy(Target src, Target dest)                  { 
+        super(src, dest, true,null) ; 
+    }
+    public UpdateCopy(Target src, Target dest, boolean silent)  { 
+        super(src, dest, silent,null) ; 
+    }
 
     @Override
-    public void visit(UpdateVisitor visitor)
-    { visitor.visit(this) ; }
+    public UpdateResult visit(UpdateVisitor visitor){ 
+        visitor.visit(this) ; 
+        return null;
+    }
 }

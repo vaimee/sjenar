@@ -109,25 +109,30 @@ public class GeoSPARQLOperations {
      * @param dataset
      */
     public static final void applyDefaultGeometry(Dataset dataset) {
-        //Default Model
-        dataset.executeWrite(()->{
-            try {
-                //Default Model
-                Model defaultModel = dataset.getDefaultModel();
-                GeoSPARQLOperations.applyDefaultGeometry(defaultModel);
 
-                //Named Models
-                Iterator<String> graphNames = dataset.listNames();
-                while (graphNames.hasNext()) {
-                    String graphName = graphNames.next();
-                    Model namedModel = dataset.getNamedModel(graphName);
-                    GeoSPARQLOperations.applyDefaultGeometry(namedModel);
-                }
-                LOGGER.info("Applying hasDefaultGeometry - Completed");
-            } catch (Exception ex) {
-                LOGGER.error("Write Error: {}", ex.getMessage());
+        try {
+            LOGGER.info("Applying hasDefaultGeometry - Started");
+            //Default Model
+            dataset.begin(ReadWrite.WRITE);
+            Model defaultModel = dataset.getDefaultModel();
+            GeoSPARQLOperations.applyDefaultGeometry(defaultModel);
+
+            //Named Models
+            Iterator<String> graphNames = dataset.listNames();
+            while (graphNames.hasNext()) {
+                String graphName = graphNames.next();
+                Model namedModel = dataset.getNamedModel(graphName);
+                GeoSPARQLOperations.applyDefaultGeometry(namedModel);
             }
-        });
+
+            dataset.commit();
+            LOGGER.info("Applying hasDefaultGeometry - Completed");
+        } catch (Exception ex) {
+            LOGGER.error("Write Error: {}", ex.getMessage());
+        } finally {
+            dataset.end();
+        }
+
     }
 
     /**
@@ -287,10 +292,9 @@ public class GeoSPARQLOperations {
             dataset.commit();
             LOGGER.info("Applying GeoSPARQL Schema - Completed");
         } catch (Exception ex) {
-            try { dataset.abort(); } catch (Throwable th) {}
             LOGGER.error("Inferencing Error: {}", ex.getMessage());
         } finally {
-            try { dataset.end(); } catch (Throwable th) {}
+            dataset.end();
         }
     }
 

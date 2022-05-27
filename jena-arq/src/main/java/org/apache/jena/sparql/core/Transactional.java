@@ -115,9 +115,7 @@ public interface Transactional
     public void begin(TxnType type);
 
     /** Start either a READ or WRITE transaction. */
-    public default void begin(ReadWrite readWrite) {
-        begin(TxnType.convert(readWrite));
-    }
+    public void begin(ReadWrite readWrite) ;
 
     /**
      * Attempt to promote a transaction from "read" to "write" when the transaction
@@ -254,7 +252,7 @@ public interface Transactional
     public default <X> X calculateRead(Supplier<X> r) { return Txn.calculateRead(this, r); }
 
     /** Execute the Runnable in a write transaction */
-    public default void executeWrite(Runnable r) { Txn.executeWrite(this, r); }
+    public default <T extends Transactional> void executeWrite(Runnable r) { Txn.executeWrite(this, r); }
 
     /** Execute and return a value in a write transaction. */
     public default <X> X calculateWrite(Supplier<X> r) { return Txn.calculateWrite(this, r); }

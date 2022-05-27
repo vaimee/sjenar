@@ -38,7 +38,7 @@ import org.xml.sax.XMLReader;
  */
 public class RDFXMLParser extends XMLHandler {
 
-    private final XMLReader saxParser;
+    private XMLReader saxParser;
 
     private String readerXMLEncoding = null;
 
@@ -55,7 +55,7 @@ public class RDFXMLParser extends XMLHandler {
      * Consider using {@link SAXParserWithEncodingCheck}
      * @param rdr
      */
-    private RDFXMLParser(XMLReader rdr) {
+    protected RDFXMLParser(XMLReader rdr) {
         super();
         saxParser = rdr;
         try {
@@ -71,7 +71,6 @@ public class RDFXMLParser extends XMLHandler {
 
     public static RDFXMLParser create() {
         try {
-            // JenaXMLInput : safe XMLReader
             XMLReader xmlreader = JenaXMLInput.createXMLReader();
             RDFXMLParser a = new RDFXMLParser(xmlreader);
             // Default.

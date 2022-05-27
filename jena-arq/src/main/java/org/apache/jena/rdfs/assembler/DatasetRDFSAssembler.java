@@ -19,22 +19,33 @@
 package org.apache.jena.rdfs.assembler;
 
 import static org.apache.jena.sparql.util.graph.GraphUtils.getAsStringValue;
+import static org.apache.jena.sparql.util.graph.GraphUtils.getResourceValue;
 
 import org.apache.jena.assembler.Assembler;
+import org.apache.jena.assembler.Mode;
+import org.apache.jena.assembler.assemblers.AssemblerBase;
 import org.apache.jena.assembler.exceptions.AssemblerException;
 import org.apache.jena.graph.Graph;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdfs.DatasetGraphRDFS;
 import org.apache.jena.rdfs.RDFSFactory;
 import org.apache.jena.rdfs.SetupRDFS;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.core.assembler.DatasetAssembler;
 
-public class DatasetRDFSAssembler extends DatasetAssembler {
+public class DatasetRDFSAssembler extends AssemblerBase implements Assembler {
 
     public static Resource getType() {
         return VocabRDFS.tDatasetRDFS;
+    }
+
+    @Override
+    public Object open(Assembler a, Resource root, Mode mode) {
+        DatasetGraph dsg = createDataset(a, root, mode) ;
+        Dataset ds = DatasetFactory.wrap(dsg);
+        return ds ;
     }
 
     /**
@@ -51,12 +62,13 @@ public class DatasetRDFSAssembler extends DatasetAssembler {
      * </pre>
      */
 
-    @Override
-    public DatasetGraph createDataset(Assembler a, Resource root) {
+    public DatasetGraph createDataset(Assembler a, Resource root, Mode mode) {
 
-        DatasetGraph base = super.createBaseDataset(root, VocabRDFS.pDataset);
-        if ( base == null )
+        Resource dataset = getResourceValue(root, VocabRDFS.pDataset) ;
+        if ( dataset == null )
             throw new AssemblerException(root, "Required base dataset missing: "+VocabRDFS.pDataset) ;
+
+        Dataset base = (Dataset)Assembler.general.open(dataset);
 
         String schemaFile = getAsStringValue(root, VocabRDFS.pRdfsSchemaFile);
         if ( schemaFile == null )
@@ -64,7 +76,7 @@ public class DatasetRDFSAssembler extends DatasetAssembler {
 
         Graph schema = RDFDataMgr.loadGraph(schemaFile);
         SetupRDFS setup = RDFSFactory.setupRDFS(schema);
-        DatasetGraph dsg = new DatasetGraphRDFS(base, setup);
+        DatasetGraph dsg = new DatasetGraphRDFS(base.asDatasetGraph(), setup);
         return dsg;
     }
 }

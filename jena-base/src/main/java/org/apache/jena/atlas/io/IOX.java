@@ -66,7 +66,7 @@ public class IOX {
         return new RuntimeIOException(message, ioException);
     }
 
-    /** Run I/O code */
+    /** Run IO code */
     @FunctionalInterface
     public interface ActionIO { void run() throws IOException; }
 
@@ -86,13 +86,13 @@ public class IOX {
      * something went wrong (the function throws a runtime exception) and the file is not changed.
      */
     public static boolean safeWrite(Path file, IOConsumer<OutputStream> writerAction) {
-        Path tmp = createTempFile(file.toAbsolutePath().getParent(), file.getFileName().toString(), ".tmp");
+        Path tmp = createTempFile(file.getParent(), file.getFileName().toString(), ".tmp");
         return safeWrite(file, tmp, writerAction);
     }
 
     /** Write a file safely - the change happens (the function returns true) or
      * something went wrong (the function throws a runtime exception) and the file is not changed.
-     * Note that the tempfile must be in the same directory as the actual file so an OS-atomic rename can be done.
+     * Note that the tempfile must be in the same direct as the actual file so an OS-atomic rename can be done.
      */
     public static boolean safeWrite(Path file, Path tmpFile, IOConsumer<OutputStream> writerAction) {
         try {
@@ -103,20 +103,6 @@ public class IOX {
             return true;
         } catch(IOException ex) { throw IOX.exception(ex); }
     }
-
-    /** Write a file safely, but allow system to use copy-delete if the chnage can not be done atomically.
-     *  Prefer {@link #safeWrite} which requires an atomic move.
-     */
-    public static boolean safeWriteOrCopy(Path file, Path tmpFile, IOConsumer<OutputStream> writerAction) {
-        try {
-            try(OutputStream out = new BufferedOutputStream(Files.newOutputStream(tmpFile)) ) {
-                writerAction.actionEx(out);
-            }
-            moveAllowCopy(tmpFile, file);
-            return true;
-        } catch(IOException ex) { throw IOX.exception(ex); }
-    }
-
 
     /** Delete a file. */
     public static void delete(Path path) {
@@ -135,16 +121,6 @@ public class IOX {
             throw IOX.exception(ex);
         }
     }
-
-    /** Move a file, allowing the system to copy-delete it if it can not be moved atomically. */
-    public static void moveAllowCopy(Path src, Path dst) {
-        try { Files.move(src, dst); }
-        catch (IOException ex) {
-            FmtLog.error(IOX.class, ex, "IOException moving %s to %s", src, dst);
-            throw IOX.exception(ex);
-        }
-    }
-
 
     public static void deleteAll(String start) {
         deleteAll(Paths.get(start));

@@ -20,62 +20,90 @@ package org.apache.jena.sparql.modify.request;
 
 import java.util.Objects;
 
-import org.apache.jena.graph.Node;
-import org.apache.jena.graph.NodeFactory;
-import org.apache.jena.sparql.util.Iso;
-import org.apache.jena.sparql.util.NodeIsomorphismMap;
-import org.apache.jena.update.Update;
+import org.apache.jena.graph.Node ;
+import org.apache.jena.graph.NodeFactory ;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
+import org.apache.jena.sparql.util.Iso ;
+import org.apache.jena.sparql.util.NodeIsomorphismMap ;
+import org.apache.jena.update.Update ;
 
 public class UpdateLoad extends Update
 {
-    private final String source;
-    private final Node dest;
-    private boolean silent;
+    private final String source ;
+    private final Node dest ;
+    private boolean silent ;
+    
 
-
-    public UpdateLoad(String source, String dest) {
-        this(source, NodeFactory.createURI(dest), false);
+    public UpdateLoad(String source, String dest,Context connCtx)
+    {
+        this(source, NodeFactory.createURI(dest), false,connCtx) ;
+    }
+    
+    public UpdateLoad(String source, String dest, boolean silent,Context connCtx)
+    {
+        this(source, NodeFactory.createURI(dest), silent,connCtx) ;
     }
 
-    public UpdateLoad(String source, String dest, boolean silent) {
-        this(source, NodeFactory.createURI(dest), silent);
+    public UpdateLoad(String source, Node dest,Context connCtx)
+    {
+        this(source, dest, false,connCtx) ;
     }
 
-    public UpdateLoad(String source, Node dest) {
-        this(source, dest, false);
+    public UpdateLoad(String source, Node dest, boolean silent,Context connCtx)
+    {
+        super(connCtx);
+        this.source = source ;
+        this.dest = dest ;
+        this.silent = silent ;
     }
 
-    public UpdateLoad(String source, Node dest, boolean silent) {
-        this.source = source;
-        this.dest = dest;
-        this.silent = silent;
+    
+    public UpdateLoad(String source, String dest)
+    {
+        this(source, NodeFactory.createURI(dest), false) ;
+    }
+    
+    public UpdateLoad(String source, String dest, boolean silent)
+    {
+        this(source, NodeFactory.createURI(dest), silent) ;
     }
 
-    public String  getSource()      { return source; }
-    public Node    getDest()        { return dest; }
-    /**
-     * @deprecated use {@link #isSilent}
-     */
-    @Deprecated
-    public boolean getSilent()      { return isSilent(); }
-    public boolean isSilent()       { return silent; }
+    public UpdateLoad(String source, Node dest)
+    {
+        this(source, dest, false) ;
+    }
+
+    public UpdateLoad(String source, Node dest, boolean silent)
+    {
+        super(null);
+        this.source = source ;
+        this.dest = dest ;
+        this.silent = silent ;
+    }
+    
+    public String  getSource()      { return source ; }
+    public Node    getDest()        { return dest ; }
+    public boolean getSilent()      { return silent ; }
 
     @Override
-    public void visit(UpdateVisitor visitor)
-    { visitor.visit(this); }
+    public UpdateResult visit(UpdateVisitor visitor){ 
+        visitor.visit(this) ; 
+        return null;
+    }
 
     @Override
     public boolean equalTo(Update obj, NodeIsomorphismMap isoMap) {
         if (this == obj)
-            return true;
+            return true ;
         if (obj == null)
-            return false;
+            return false ;
         if (getClass() != obj.getClass())
-            return false;
-        UpdateLoad other = (UpdateLoad)obj;
-        return
+            return false ;
+        UpdateLoad other = (UpdateLoad)obj ;
+        return 
             silent == other.silent &&
             	Objects.equals(source, other.source) &&
-            Iso.nodeIso(dest, other.dest, isoMap);
+            Iso.nodeIso(dest, other.dest, isoMap) ;
     }
 }

@@ -81,7 +81,7 @@ public class TestResources extends AbstractModelTestBase
 		return result;
 	}
 
-	private void containerTest( final Model model, final Container cont1,
+	private void testContainer( final Model model, final Container cont1,
 			final Container cont2 )
 	{
 		final Literal tvLiteral = model.createLiteral("test 12 string 2");
@@ -241,23 +241,23 @@ public class TestResources extends AbstractModelTestBase
 	public void testEnhancedResources()
 	{
 		final Resource r = model.createResource();
-		resourceTest(model, r, 0);
+		testResource(model, r, 0);
 
-		resourceTest(model, model.createBag(), 1);
-		containerTest(model, model.createBag(), model.createBag());
+		testResource(model, model.createBag(), 1);
+		testContainer(model, model.createBag(), model.createBag());
 
-		resourceTest(model, model.createAlt(), 1);
-		containerTest(model, model.createAlt(), model.createAlt());
+		testResource(model, model.createAlt(), 1);
+		testContainer(model, model.createAlt(), model.createAlt());
 
-		resourceTest(model, model.createSeq(), 1);
-		containerTest(model, model.createSeq(), model.createSeq());
+		testResource(model, model.createSeq(), 1);
+		testContainer(model, model.createSeq(), model.createSeq());
 		// testSeq( model, model.createSeq(), model.createSeq(),
 		// model.createSeq(),
 		// model.createSeq(), model.createSeq(), model.createSeq(),
 		// model.createSeq() );
 	}
 
-	private void resourceTest( final Model model, final Resource r,
+	private void testResource( final Model model, final Resource r,
 			final int numProps )
 	{
 		final Literal tvLiteral = model.createLiteral("test 12 string 2");

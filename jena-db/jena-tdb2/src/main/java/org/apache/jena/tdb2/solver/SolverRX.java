@@ -38,6 +38,7 @@ import org.apache.jena.sparql.engine.ExecutionContext;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingFactory;
 import org.apache.jena.sparql.engine.main.solver.SolverRX4;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.tdb2.lib.TupleLib;
 import org.apache.jena.tdb2.store.NodeId;
 import org.apache.jena.tdb2.store.nodetable.NodeTable;
@@ -124,6 +125,7 @@ public class SolverRX {
             iterMatches = Iter.distinctAdjacent(iterMatches);
         }
         // -- DRY/StageMatchTuple
+        //Iterator<Quad> qIter = TupleLib.convertToQuads(nodeTable, iterMatches) ;
         Iterator<Quad> qIter = Iter.map(iterMatches, asQuad);
         return qIter;
     }

@@ -18,6 +18,7 @@
 
 package org.apache.jena.rdflink;
 
+import java.util.List;
 import static org.apache.jena.riot.other.G.clear;
 import static org.apache.jena.riot.other.G.copyGraphSrcToDst;
 
@@ -37,9 +38,14 @@ import org.apache.jena.sparql.ARQException;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.apache.jena.sparql.core.DatasetGraphReadOnly;
-import org.apache.jena.sparql.exec.*;
+import org.apache.jena.sparql.exec.QueryExec;
+import org.apache.jena.sparql.exec.QueryExecApp;
+import org.apache.jena.sparql.exec.QueryExecBuilder;
+import org.apache.jena.sparql.exec.UpdateExecDatasetBuilder;
 import org.apache.jena.sparql.graph.GraphFactory;
 import org.apache.jena.sparql.graph.GraphReadOnly;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.system.Txn;
 import org.apache.jena.update.UpdateRequest;
 
@@ -61,9 +67,10 @@ import org.apache.jena.update.UpdateRequest;
 public class RDFLinkDataset implements RDFLink {
     private ThreadLocal<Boolean> transactionActive = ThreadLocal.withInitial(()->false);
 
-    private DatasetGraph dataset;
+    private DatasetGraph    dataset;
     private final Isolation isolation;
-
+    private final Context         ctx = new Context();
+    
     private RDFLinkDataset(DatasetGraph dataset) {
         this(dataset, Isolation.NONE);
     }
@@ -89,22 +96,37 @@ public class RDFLinkDataset implements RDFLink {
         return QueryExec.dataset(dataset);
     }
 
-    /**
-     * Return a {@link UpdateExecBuilder} that is initially configured for this link
-     * setup and type. The update built will be set to go to the same dataset/remote
-     * endpoint as the other RDFLink operations.
-     *
-     * @return UpdateExecBuilder
-     */
     @Override
-    public UpdateExecBuilder newUpdate() {
-        return UpdateExec.dataset(dataset);
+    public Context getContext() {
+        return ctx;
     }
 
+    private class RunnableUpdater implements Runnable{
+        private final UpdateRequest         update;
+        private final DatasetGraph          dataset;
+        private List<UpdateResult>          result;
+        public List<UpdateResult> getResult() {
+            return result;
+        }
+        public RunnableUpdater(UpdateRequest u, DatasetGraph d) {
+            update = u;
+            dataset = d;
+        }
+
+        @Override
+        public void run() {
+            final  UpdateExecDatasetBuilder  uedsb =  UpdateExecDatasetBuilder.create().update(update);
+            final List<UpdateResult> r = uedsb.execute(dataset);
+            result = r;
+        }
+    }
     @Override
-    public void update(UpdateRequest update) {
+    public List<UpdateResult> update(UpdateRequest update) {
         checkOpen();
-        Txn.executeWrite(dataset, ()->UpdateExecDatasetBuilder.create().update(update).execute(dataset));
+        final RunnableUpdater   ru = new RunnableUpdater(update, dataset);
+        Txn.executeWrite(dataset, ru);
+        
+        return ru.getResult();
     }
 
     @Override

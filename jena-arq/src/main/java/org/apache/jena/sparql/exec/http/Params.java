@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.NameValuePair;
 import org.apache.jena.http.HttpLib;
 
 /** A collection of parameters for HTTP protocol use. */
@@ -114,9 +115,7 @@ public class Params
 
     /** URL query string, without leading "?" */
     public String httpString() {
-        if ( paramList.isEmpty() )
-            return "";
-        return formatEncodeHTTP(new StringBuilder(), paramList).toString();
+        return format(new StringBuilder(), paramList).toString();
     }
 
 //    /** URL query string, without leading "?" */
@@ -133,7 +132,7 @@ public class Params
     /**
      * Return a string that is suitable for HTTP use.
      */
-    private static StringBuilder formatEncodeHTTP(StringBuilder result, List <Param> parameters) {
+    private static StringBuilder format(StringBuilder result, List <Param> parameters) {
         parameters.forEach(param->{
             String encodedName = encode(param.getName());
             String encodedValue = encode(param.getValue());
@@ -170,9 +169,9 @@ public class Params
     }
 
     // Pair, with more appropriate method names.
-    public static class Param extends org.apache.jena.atlas.lib.Pair<String, String> {
+    public static class Param extends org.apache.jena.atlas.lib.Pair<String, String> implements NameValuePair {
         public Param(String name, String value) { super(name, value); }
-        public String getName()  { return getLeft();  }
-        public String getValue() { return getRight(); }
+        @Override public String getName()  { return getLeft();  }
+        @Override public String getValue() { return getRight(); }
     }
 }

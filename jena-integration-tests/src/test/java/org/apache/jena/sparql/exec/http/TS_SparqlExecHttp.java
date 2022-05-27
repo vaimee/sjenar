@@ -24,15 +24,12 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses( {
       TestGSP.class
-    , TestDSP.class
-    , TestModelStore.class
     , TestQueryExecHTTP.class
     , TestQueryExecCleanServer.class
     , TestUpdateExecHTTP.class
     , TestServiceFunctions.class
     , TestService.class
     , TestServiceAuth.class
-    , TestSetupHTTP.class
 })
 
 public class TS_SparqlExecHttp { }

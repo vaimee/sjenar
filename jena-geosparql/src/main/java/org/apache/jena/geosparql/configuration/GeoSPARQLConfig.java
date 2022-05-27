@@ -20,7 +20,13 @@ package org.apache.jena.geosparql.configuration;
 import java.io.File;
 import org.apache.jena.geosparql.geof.topological.RelateFF;
 import org.apache.jena.geosparql.implementation.datatype.GeometryDatatype;
-import org.apache.jena.geosparql.implementation.function_registration.*;
+import org.apache.jena.geosparql.implementation.function_registration.Egenhofer;
+import org.apache.jena.geosparql.implementation.function_registration.GeometryProperty;
+import org.apache.jena.geosparql.implementation.function_registration.NonTopological;
+import org.apache.jena.geosparql.implementation.function_registration.RCC8;
+import org.apache.jena.geosparql.implementation.function_registration.Relate;
+import org.apache.jena.geosparql.implementation.function_registration.SimpleFeatures;
+import org.apache.jena.geosparql.implementation.function_registration.Spatial;
 import org.apache.jena.geosparql.implementation.index.IndexConfiguration;
 import org.apache.jena.geosparql.implementation.index.IndexConfiguration.IndexOption;
 import org.apache.jena.geosparql.implementation.index.QueryRewriteIndex;
@@ -55,11 +61,6 @@ public class GeoSPARQLConfig {
      * JTS geometry calculations, e.g. buffer.
      */
     public static int PRECISION_MODEL_SCALE_FACTOR = 1000000;
-
-    /**
-     * Option to dynamically transform GeometryLiteral SRS in calculations.
-     */
-    public static boolean ALLOW_GEOMETRY_SRS_TRANSFORMATION = true;
 
     /**
      * Initialise all GeoSPARQL property and filter functions with memory
@@ -185,23 +186,10 @@ public class GeoSPARQLConfig {
         //Set the configuration for indexing.
         IndexConfiguration.setConfig(indexOption);
 
-        loadFunctions();
-    }
-
-    public static final void loadFunctions() {
         //Only register functions once.
         if (!IS_FUNCTIONS_REGISTERED) {
-            // loading is actually idempotent.
-            IS_FUNCTIONS_REGISTERED = true;
 
-            /*
-             * If jul-to-slf4j SLF4JBridgeHandler has not been setup,
-             * then this can generate a warning via java.util.logging.
-             *
-             *   Dec 28, 2021 10:56:27 AM org.apache.sis.referencing.factory.sql.EPSGFactory <init>
-             *   WARNING: The “SIS_DATA” environment variable is not set.
-             */
-            //Setup Default Coordinate Reference Systems
+            //Setup Default Cordinate Reference Systems
             SRSRegistry.setupDefaultSRS();
 
             //Register GeometryDatatypes with the TypeMapper.
@@ -223,6 +211,7 @@ public class GeoSPARQLConfig {
             GeometryProperty.loadFilterFunctions(functionRegistry);
             Spatial.loadPropertyFunctions(propertyRegistry);
             Spatial.loadFilterFunctions(functionRegistry);
+            IS_FUNCTIONS_REGISTERED = true;
         }
     }
 
@@ -275,19 +264,6 @@ public class GeoSPARQLConfig {
     }
 
     /**
-     * Setup the precomputed Spatial Index using Dataset Dataset.<br>
-     * We assume that the spatial index was computed before and written to the given file.
-     *
-     * @param dataset the dataset
-     * @param spatialIndexFile the file containing the serialized spatial index
-     * @throws SpatialIndexException
-     */
-    public static final void setupPrecomputedSpatialIndex(Dataset dataset, File spatialIndexFile) throws SpatialIndexException {
-        SpatialIndex si = SpatialIndex.load(spatialIndexFile);
-        SpatialIndex.setSpatialIndex(dataset, si);
-    }
-
-    /**
      * Setup Spatial Index using Dataset and most frequent SRS URI in
      * Dataset.<br>
      * Spatial Index written to file once created.
@@ -332,15 +308,6 @@ public class GeoSPARQLConfig {
      */
     public static final void setPrecisionModelScaleFactor(int scaleFactor) {
         PRECISION_MODEL_SCALE_FACTOR = scaleFactor;
-    }
-
-    /**
-     * Sets whether transformation for mismatching Geometry SRS is allowed.
-     *
-     * @param allowTransformation
-     */
-    public static final void allowGeometrySRSTransformation(boolean allowTransformation) {
-        ALLOW_GEOMETRY_SRS_TRANSFORMATION = allowTransformation;
     }
 
 }

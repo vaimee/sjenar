@@ -18,6 +18,7 @@
 
 package org.apache.jena.riot.system;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -42,7 +43,7 @@ public abstract class PrefixMapBase implements PrefixMap {
 
     @Override
     public Map<String, String> getMappingCopy() {
-        return Map.copyOf(this.getMapping());
+        return new HashMap<>(this.getMapping());
     }
 
     @Override

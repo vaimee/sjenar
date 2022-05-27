@@ -28,7 +28,7 @@ import org.apache.jena.shex.sys.ShexLib;
 import org.apache.jena.shex.sys.ValidationContext;
 import org.apache.jena.sparql.expr.nodevalue.NodeFunctions;
 
-public class StrLengthConstraint extends NodeConstraintComponent {
+public class StrLengthConstraint extends NodeConstraint {
 
     private final StrLengthKind lengthType;
     private final int length;
@@ -81,7 +81,7 @@ public class StrLengthConstraint extends NodeConstraintComponent {
     }
 
     @Override
-    public void visit(NodeConstraintVisitor visitor) {
+    public void visit(ShapeExprVisitor visitor) {
         visitor.visit(this);
     }
 

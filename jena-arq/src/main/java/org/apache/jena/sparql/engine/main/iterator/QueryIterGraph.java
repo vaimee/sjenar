@@ -20,6 +20,7 @@ package org.apache.jena.sparql.engine.main.iterator;
 
 import java.util.Iterator ;
 import java.util.NoSuchElementException ;
+import org.apache.jena.acl.DatasetACL;
 
 import org.apache.jena.atlas.iterator.Iter ;
 import org.apache.jena.atlas.iterator.SingletonIterator ;
@@ -41,6 +42,8 @@ import org.apache.jena.sparql.engine.iterator.QueryIterRepeatApply ;
 import org.apache.jena.sparql.engine.iterator.QueryIterSingleton ;
 import org.apache.jena.sparql.engine.iterator.QueryIterSub ;
 import org.apache.jena.sparql.engine.main.QC ;
+import org.apache.jena.sparql.util.Context;
+import org.apache.jena.sparql.util.Symbol;
 
 public class QueryIterGraph extends QueryIterRepeatApply
 {
@@ -53,6 +56,7 @@ public class QueryIterGraph extends QueryIterRepeatApply
      * is a specialised form of join.
      */
     protected OpGraph opGraph ;
+    
     
     public QueryIterGraph(QueryIterator input, OpGraph opGraph, ExecutionContext context)
     {
@@ -96,6 +100,9 @@ public class QueryIterGraph extends QueryIterRepeatApply
 
     protected static class QueryIterGraphInner extends QueryIterSub
     {
+        private static final Symbol SYM_ACL = Symbol.create(DatasetACL.ACL_HANDLER_NAME);
+        private static final Symbol SYM_USR = Symbol.create(DatasetACL.ACL_USER_NAME);
+        
         protected final Binding parentBinding ;
         protected final Iterator<Node> graphNames ;
         protected final OpGraph opGraph ;
@@ -164,9 +171,9 @@ public class QueryIterGraph extends QueryIterRepeatApply
             }
             return qIter ;
         }
-        
         // Create the iterator for a cycle of one node - or return null if there can't be any results.
         protected static QueryIterator buildIterator(Binding binding, Node graphNode, Op opExec, ExecutionContext outerCxt) {
+            
             if ( !graphNode.isURI() && !graphNode.isBlank() )
                 // e.g. variable bound to a literal or blank node.
                 throw new ARQInternalErrorException("QueryIterGraphInner.buildIterator: Not a URI or blank node: "+graphNode) ;

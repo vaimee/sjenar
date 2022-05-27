@@ -21,19 +21,19 @@ package org.apache.jena.shex.expressions;
 import org.apache.jena.atlas.io.IndentedWriter;
 import org.apache.jena.atlas.lib.NotImplemented;
 import org.apache.jena.riot.out.NodeFormatter;
+import org.apache.jena.riot.out.NodeFormatterTTL;
+import org.apache.jena.riot.system.PrefixMapFactory;
+import org.apache.jena.sparql.sse.SSE;
 
-/** Printable */
 public interface ShexPrintable {
 
     public default void print() {
-        ShexPrintOps.print(this);
+        IndentedWriter iOut = IndentedWriter.clone(IndentedWriter.stdout);
+        NodeFormatter nFmt = new NodeFormatterTTL(null, PrefixMapFactory.create(SSE.getPrefixMapRead()));
+        print(iOut, nFmt);
     }
 
     public default void print(IndentedWriter iOut, NodeFormatter nFmt) {
         throw new NotImplemented(this.getClass().getSimpleName().toString()+".print");
-    }
-
-    public default String asString() {
-        return ShexPrintOps.asString(this);
     }
 }

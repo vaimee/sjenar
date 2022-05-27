@@ -70,8 +70,6 @@ public class DatasetOperations {
         //Convert Geo predicates to Geometry Literals.
         if (argsConfig.isConvertGeoPredicates()) //Apply validation of Geometry Literal.
         {
-            // ?? This returns a modified dataset which is discarded.
-            // So this is a No-Op??
             GeoSPARQLOperations.convertGeoPredicates(dataset, argsConfig.isRemoveGeoPredicates());
         }
 
@@ -94,8 +92,6 @@ public class DatasetOperations {
             GeoSPARQLConfig.setupNoIndex(argsConfig.isQueryRewrite());
         }
 
-        GeoSPARQLConfig.allowGeometrySRSTransformation(argsConfig.isTransformGeometry());
-
         //Setup Spatial Extension
         prepareSpatialExtension(dataset, argsConfig);
 
@@ -108,9 +104,9 @@ public class DatasetOperations {
         File tdbFolder = argsConfig.getTdbFile();
         if (tdbFolder != null) {
             LOGGER.info("TDB Dataset: {}, TDB2: {}", tdbFolder, argsConfig.isTDB2());
-            if (argsConfig.isTDB2()) {
+            if(argsConfig.isTDB2()){
                 dataset = TDB2Factory.connectDataset(tdbFolder.getAbsolutePath());
-            } else {
+            }else{
                 dataset = TDBFactory.createDataset(tdbFolder.getAbsolutePath());
             }
         } else {

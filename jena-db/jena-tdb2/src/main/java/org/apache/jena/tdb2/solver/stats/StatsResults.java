@@ -25,25 +25,29 @@ import org.apache.jena.graph.Node;
 /** Statistics collector */
 public class StatsResults
 {
-    private final Map<Node, Long> predicates;
-    private final Map<Node, Long> types;
+    private final Map<Node, Integer> predicates;
+    private final Map<Node, Integer> types;
     private final long count;
 
-    StatsResults(Map<Node, Long> predicates, Map<Node, Long> types, long count) {
+    StatsResults(Map<Node, Integer> predicates, Map<Node, Integer> types, long count)
+    {
         this.count = count;
         this.predicates = predicates;
         this.types = types;
     }
 
-    public Map<Node, Long> getPredicates() {
+    public Map<Node, Integer> getPredicates()
+    {
         return predicates;
     }
 
-    public Map<Node, Long> getTypes() {
+    public Map<Node, Integer> getTypes()
+    {
         return types;
     }
 
-    public long getCount() {
+    public long getCount()
+    {
         return count;
     }
 }

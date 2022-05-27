@@ -53,7 +53,7 @@ import org.apache.jena.fuseki.servlets.ActionLib;
 import org.apache.jena.fuseki.servlets.HttpAction;
 import org.apache.jena.fuseki.servlets.ServletOps;
 import org.apache.jena.fuseki.system.FusekiNetLib;
-import org.apache.jena.fuseki.system.DataUploader;
+import org.apache.jena.fuseki.system.Upload;
 import org.apache.jena.fuseki.webapp.FusekiWebapp;
 import org.apache.jena.fuseki.webapp.SystemState;
 import org.apache.jena.graph.Node;
@@ -479,7 +479,7 @@ public class ActionDatasets extends ActionContainerItem {
     }
 
     private static void assemblerFromUpload(HttpAction action, StreamRDF dest) {
-        DataUploader.incomingData(action, dest);
+        Upload.fileUploadWorker(action, dest);
     }
 
     // Persistent state change.

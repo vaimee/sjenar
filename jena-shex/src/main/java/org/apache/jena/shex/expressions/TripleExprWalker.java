@@ -24,9 +24,8 @@ public class TripleExprWalker implements TripleExprVisitor {
     private final TripleExprVisitor afterVisitor;
     private final ShapeExprVisitor shapeVisitor;
 
-    public TripleExprWalker(TripleExprVisitor beforeVisitor,
-                            TripleExprVisitor afterVisitor,
-                            ShapeExprVisitor shapeVisitor) {
+    public TripleExprWalker(TripleExprVisitor beforeVisitor, TripleExprVisitor afterVisitor,
+                                  ShapeExprVisitor shapeVisitor) {
         this.beforeVisitor = beforeVisitor;
         this.afterVisitor = afterVisitor;
         this.shapeVisitor = shapeVisitor;

@@ -91,17 +91,14 @@ public class rdftests extends CmdGeneral
     protected boolean  cmdStrictMode    = false;
 
     protected ArgDecl earlDecl          = new ArgDecl(ArgDecl.NoValue, "earl");
-    protected boolean createEarlReport  = false;
 
-    protected ArgDecl  baseDecl         = new ArgDecl(ArgDecl.HasValue, "base");
-    protected String baseURI            = null;
+    protected boolean createEarlReport  = false;
 
     private static final PrintStream earlOut = System.out;
 
     protected rdftests(String[] argv) {
         super(argv);
         super.add(strictDecl, "--strict", "Operate in strict mode (no extensions of any kind)");
-        super.add(baseDecl, "--base=URI", "Set the base URI");
         super.modVersion.addClass(ARQ.class);
         getUsage().startCategory("Tests (execute test manifest)");
         getUsage().addUsage("<manifest>", "run the tests specified in the given manifest");
@@ -133,9 +130,6 @@ public class rdftests extends CmdGeneral
             ARQ.setStrictMode();
             SysRIOT.setStrictMode(true);
             SparqlTests.defaultSyntaxForTests = Syntax.syntaxSPARQL_11;
-        }
-        if ( contains(baseDecl) ) {
-            baseURI = super.getValue(baseDecl);
         }
 
         NodeValue.VerboseWarnings = false;
@@ -205,7 +199,7 @@ public class rdftests extends CmdGeneral
 
     private static String name =  "Apache Jena";
     private static String releaseVersion =  ARQ.VERSION;
-    private static String homepageStr = "https://jena.apache.org/";
+    private static String homepageStr = "http://jena.apache.org/";
     private static String systemURI = "http://jena.apache.org/#jena";  // Null for bNode.
 
     // Generate metadata into a separate model. Does not update the report.

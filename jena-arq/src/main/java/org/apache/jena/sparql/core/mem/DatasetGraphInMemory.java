@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicLong ;
 import java.util.concurrent.locks.ReentrantLock ;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.apache.jena.atlas.lib.InternalErrorException ;
@@ -139,6 +140,11 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
     public boolean supportsTransactions()       { return true; }
     @Override
     public boolean supportsTransactionAbort()   { return true; }
+
+    @Override
+    public void begin(final ReadWrite readWrite) {
+        begin(TxnType.convert(readWrite));
+    }
 
     @Override
     public void begin(TxnType txnType) {
@@ -328,6 +334,7 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
         mutate(graph -> {
             defaultGraph().clear();
             graph.find().forEachRemaining(defaultGraph()::add);
+            return true;
         }, g);
     }
 
@@ -346,11 +353,17 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
         return GraphView.createUnionGraph(this);
     }
 
-    private Consumer<Graph> addGraph(final Node name) {
-        return g -> g.find().mapWith(t -> new Quad(name, t)).forEachRemaining(this::add);
+    private Predicate<Graph> addGraph(final Node name) {
+        return g -> { 
+            g.find().mapWith(t -> new Quad(name, t)).forEachRemaining(this::add);
+            return true;
+        };
     }
 
-    private final Consumer<Graph> removeGraph = g -> g.find().forEachRemaining(g::delete);
+    private final Predicate<Graph> removeGraph = g -> { 
+        g.find().forEachRemaining(g::delete);
+        return true;
+    };
 
     @Override
     public void addGraph(final Node graphName, final Graph graph) {
@@ -359,7 +372,7 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
 
     @Override
     public void removeGraph(final Node graphName) {
-        mutate(removeGraph, getGraph(graphName));
+         mutate(removeGraph, getGraph(graphName));
     }
 
     /**
@@ -368,7 +381,8 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
      * @param mutator
      * @param payload
      */
-    private <T> void mutate(final Consumer<T> mutator, final T payload) {
+    private <T> boolean mutate(final Predicate<T> mutator, final T payload) {
+        boolean f = true;
         if (isInTransaction()) {
             if (!transactionMode().equals(WRITE)) {
                 TxnType mode = transactionType.get();
@@ -384,8 +398,14 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
                     break;
                 }
             }
-            mutator.accept(payload);
-        } else Txn.executeWrite(this, () -> mutator.accept(payload));
+            f = mutator.test(payload);
+        } else {
+            final lambdaBoolWrapper bw = new lambdaBoolWrapper();
+            Txn.executeWrite(this, () -> bw.result = mutator.test(payload));
+            f = bw.result;
+        }
+        
+        return f;
     }
 
     /**
@@ -406,27 +426,28 @@ public class DatasetGraphInMemory extends DatasetGraphTriplesQuads implements Tr
         mutate(x -> {
             defaultGraph().clear();
             quadsIndex().clear();
+            return true;
         } , null);
     }
 
     @Override
-    protected void addToDftGraph(final Node s, final Node p, final Node o) {
-        mutate(defaultGraph()::add, Triple.create(s, p, o));
+    protected boolean addToDftGraph(final Node s, final Node p, final Node o) {
+        return mutate(defaultGraph()::add, Triple.create(s, p, o));
     }
 
     @Override
-    protected void addToNamedGraph(final Node g, final Node s, final Node p, final Node o) {
-        mutate(quadsIndex()::add, Quad.create(g, s, p, o));
+    protected boolean addToNamedGraph(final Node g, final Node s, final Node p, final Node o) {
+       return  mutate(quadsIndex()::add, Quad.create(g, s, p, o));
     }
 
     @Override
-    protected void deleteFromDftGraph(final Node s, final Node p, final Node o) {
-        mutate(defaultGraph()::delete, Triple.create(s, p, o));
+    protected boolean deleteFromDftGraph(final Node s, final Node p, final Node o) {
+        return  mutate(defaultGraph()::delete, Triple.create(s, p, o));
     }
 
     @Override
-    protected void deleteFromNamedGraph(final Node g, final Node s, final Node p, final Node o) {
-        mutate(quadsIndex()::delete, Quad.create(g, s, p, o));
+    protected boolean deleteFromNamedGraph(final Node g, final Node s, final Node p, final Node o) {
+        return mutate(quadsIndex()::delete, Quad.create(g, s, p, o));
     }
 
     @Override

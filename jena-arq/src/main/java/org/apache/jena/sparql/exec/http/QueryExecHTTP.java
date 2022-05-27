@@ -75,11 +75,7 @@ public class QueryExecHTTP implements QueryExec {
         return QueryExecHTTP.newBuilder().endpoint(serviceURL);
     }
 
-    // Blazegraph has a bug : it impacts wikidata.
-    // Unless the charset is set, wikidata interprets a POST as ISO-8859-??? (c.f. POST as form).
-    // https://github.com/blazegraph/database/issues/224
-    // Only applies to SendMode.asPost of a SPARQL query.
-    public static final String QUERY_MIME_TYPE = WebContent.contentTypeSPARQLQuery+";charset="+WebContent.charsetUTF8;
+    //public static final String QUERY_MIME_TYPE = WebContent.contentTypeSPARQLQuery;
     private final Query query;
     private final String queryString;
     private final String service;
@@ -165,7 +161,7 @@ public class QueryExecHTTP implements QueryExec {
         // Use the explicitly given header or the default selectAcceptheader
         String thisAcceptHeader = dft(appProvidedAcceptHeader, selectAcceptheader);
 
-        HttpResponse<InputStream> response = performQuery(thisAcceptHeader);
+        HttpResponse<InputStream> response = query(thisAcceptHeader);
         InputStream in = HttpLib.getInputStream(response);
         // Don't assume the endpoint actually gives back the content type we asked for
         String actualContentType = responseHeader(response, HttpNames.hContentType);
@@ -205,7 +201,7 @@ public class QueryExecHTTP implements QueryExec {
         checkNotClosed();
         check(QueryType.ASK);
         String thisAcceptHeader = dft(appProvidedAcceptHeader, askAcceptHeader);
-        HttpResponse<InputStream> response = performQuery(thisAcceptHeader);
+        HttpResponse<InputStream> response = query(thisAcceptHeader);
         InputStream in = HttpLib.getInputStream(response);
 
         String actualContentType = responseHeader(response, HttpNames.hContentType);
@@ -340,7 +336,7 @@ public class QueryExecHTTP implements QueryExec {
     private Pair<InputStream, Lang> execRdfWorker(String contentType, String ifNoContentType) {
         checkNotClosed();
         String thisAcceptHeader = dft(appProvidedAcceptHeader, contentType);
-        HttpResponse<InputStream> response = performQuery(thisAcceptHeader);
+        HttpResponse<InputStream> response = query(thisAcceptHeader);
         InputStream in = HttpLib.getInputStream(response);
 
         // Don't assume the endpoint actually gives back the content type we asked for
@@ -366,7 +362,7 @@ public class QueryExecHTTP implements QueryExec {
         checkNotClosed();
         check(QueryType.CONSTRUCT_JSON);
         String thisAcceptHeader = dft(appProvidedAcceptHeader, WebContent.contentTypeJSON);
-        HttpResponse<InputStream> response = performQuery(thisAcceptHeader);
+        HttpResponse<InputStream> response = query(thisAcceptHeader);
         InputStream in = HttpLib.getInputStream(response);
         try {
             return JSON.parseAny(in).getAsArray();
@@ -429,8 +425,8 @@ public class QueryExecHTTP implements QueryExec {
     }
 
     /**
-     * Return the query string. If this was supplied as a string,
-     * there is no guarantee this is legal SPARQL syntax.
+     * Return the query string. If this was supplied in a constructor, there is no
+     * guarantee this is legal SPARQL syntax.
      */
     @Override
     public String getQueryString() {
@@ -447,7 +443,7 @@ public class QueryExecHTTP implements QueryExec {
      * query execution was successful and return 200.
      * Use {@link HttpLib#getInputStream} to access the body.
      */
-    private HttpResponse<InputStream> performQuery(String reqAcceptHeader) {
+    private HttpResponse<InputStream> query(String reqAcceptHeader) {
         if (closed)
             throw new ARQException("HTTP execution already closed");
 
@@ -464,14 +460,9 @@ public class QueryExecHTTP implements QueryExec {
                 thisParams.add( HttpParams.pNamedGraph, name );
         }
 
-        HttpLib.modifyByService(service, context, thisParams, httpHeaders);
+        // Same as UpdateExecutionHTTP
+        HttpLib.modifyByService(service, context, thisParams,  httpHeaders);
 
-        HttpRequest request = makeRequest(thisParams, reqAcceptHeader);
-
-        return executeQuery(request);
-    }
-
-    private HttpRequest makeRequest(Params thisParams, String reqAcceptHeader) {
         QuerySendMode actualSendMode = actualSendMode();
         HttpRequest.Builder requestBuilder;
         switch(actualSendMode) {
@@ -488,7 +479,8 @@ public class QueryExecHTTP implements QueryExec {
                 // Should not happen!
                 throw new InternalErrorException("Invalid value for 'actualSendMode' "+actualSendMode);
         }
-        return requestBuilder.build();
+        HttpRequest request = requestBuilder.build();
+        return executeQuery(request);
     }
 
     private HttpResponse<InputStream> executeQuery(HttpRequest request) {
@@ -516,25 +508,17 @@ public class QueryExecHTTP implements QueryExec {
 
         // Only QuerySendMode.asGetWithLimitBody and QuerySendMode.asGetWithLimitForm here.
         String requestURL = service;
-        // Other params (query= has not been added at this point)
-        int paramsLength = params.httpString().length();
-        int qEncodedLength = calcEncodeStringLength(queryString);
+        // Don't add yet
+        //thisParams.addParam(HttpParams.pQuery, queryString);
+        String qs = params.httpString();
+        // ?query=
 
         // URL Length, including service (for safety)
-        int length = service.length()
-                + /* ?query= */        1 + HttpParams.pQuery.length()
-                + /* encoded query */  qEncodedLength
-                + /* &other params*/   1 + paramsLength;
+        int length = service.length()+1+HttpParams.pQuery.length()+1+qs.length();
         if ( length <= thisLengthLimit )
             return QuerySendMode.asGetAlways;
-        return (sendMode==QuerySendMode.asGetWithLimitBody) ? QuerySendMode.asPost : QuerySendMode.asPostForm;
-    }
 
-    private static int calcEncodeStringLength(String str) {
-        // Could approximate by counting non-queryString character and adding that *2 to the length of the string.
-        String qs = HttpLib.urlEncodeQueryString(str);
-        int encodedLength = qs.length();
-        return encodedLength;
+        return (sendMode==QuerySendMode.asGetWithLimitBody) ? QuerySendMode.asPost : QuerySendMode.asPostForm;
     }
 
     private HttpRequest.Builder executeQueryGet(Params thisParams, String acceptHeader) {
@@ -562,7 +546,7 @@ public class QueryExecHTTP implements QueryExec {
         // Use thisParams (for default-graph-uri etc)
         String requestURL = requestURL(service, thisParams.httpString());
         HttpRequest.Builder builder = HttpLib.requestBuilder(requestURL, httpHeaders, readTimeout, readTimeoutUnit);
-        contentTypeHeader(builder, QUERY_MIME_TYPE);
+        contentTypeHeader(builder, WebContent.contentTypeSPARQLQuery);
         acceptHeader(builder, acceptHeader);
         return builder.POST(BodyPublishers.ofString(queryString));
     }

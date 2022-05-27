@@ -188,26 +188,23 @@ public class ResourceImpl extends EnhNode implements Resource {
     	{ return mustHaveModel().getRequiredProperty( this, p ); }
 
     @Override
-    public Statement getRequiredProperty( final Property p, final String lang ) {
+    public Statement getRequiredProperty( final Property p, final String lang )
+        {
         final StmtIterator it = listProperties(p, lang) ;
-        try {
-            if (!it.hasNext()) throw new PropertyNotFoundException( p );
-            return it.next();
-        } finally {it.close(); }
-    }
+        if (!it.hasNext()) throw new PropertyNotFoundException( p );
+        return it.next();
+        }
 
     @Override
     public Statement getProperty( Property p )
         { return mustHaveModel().getProperty( this, p ); }
 
     @Override
-    public Statement getProperty( final Property p, final String lang ) {
+    public Statement getProperty( final Property p, final String lang )
+        {
         final StmtIterator it = listProperties(p, lang) ;
-        try {
-            return it.hasNext() ? it.next() : null;
+        return it.hasNext() ? it.next() : null;
         }
-        finally {it.close(); }
-    }
 
     @Override
     public StmtIterator listProperties(Property p)

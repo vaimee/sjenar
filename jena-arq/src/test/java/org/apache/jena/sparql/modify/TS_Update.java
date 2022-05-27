@@ -25,10 +25,8 @@ import org.junit.runners.Suite.SuiteClasses ;
 @RunWith(Suite.class)
 @SuiteClasses( {
     TestUpdateGraphMem.class
-    , TestUpdateGraphMgtTxnMem.class
-    , TestUpdateGraphMgtGeneralMem.class
+    , TestUpdateGraphMgtMem.class
     , TestUpdateOperations.class
-    , TestUpdateSilent.class
     , TestUpdateCompare.class
     , TestUpdateWriter.class
     , TestUpdateBuild.class

@@ -106,10 +106,9 @@ public class RiotChars
         return isPNCharsBase(ch) || ( ch == '_' );
     }
 
-    // Convenience addition.
     public static boolean isPNChars_U_N(int ch) {
         // PN_CHARS_U | [0-9]
-        return isPNChars_U(ch) || isDigit(ch);
+        return isPNCharsBase(ch) || ( ch == '_' ) || isDigit(ch);
     }
 
     public static boolean isPNChars(int ch) {

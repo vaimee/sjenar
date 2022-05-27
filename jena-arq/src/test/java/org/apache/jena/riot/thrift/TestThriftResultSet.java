@@ -29,12 +29,11 @@ import org.apache.jena.atlas.io.IO ;
 import org.apache.jena.atlas.lib.StrUtils ;
 import org.apache.jena.query.ResultSet ;
 import org.apache.jena.query.ResultSetFactory ;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.query.ResultSetRewindable ;
-import org.apache.jena.riot.resultset.ResultSetLang;
-import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.resultset.ResultSetCompare ;
+import org.apache.jena.sparql.sse.Item ;
 import org.apache.jena.sparql.sse.SSE ;
+import org.apache.jena.sparql.sse.builders.BuilderResultSet ;
 import org.junit.Test ;
 
 public class TestThriftResultSet {
@@ -86,11 +85,11 @@ public class TestThriftResultSet {
     private static ResultSetRewindable test(ResultSetRewindable resultSet) {
         resultSet.reset();
         ByteArrayOutputStream out = new ByteArrayOutputStream() ;
-        ResultSetFormatter.output(out, resultSet, ResultSetLang.RS_Thrift);
+        ThriftRDF.writeResultSet(out, resultSet, true) ;
         resultSet.reset();
 
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray()) ;
-        RowSet rs$ = ThriftRDF.readRowSet(in) ;
+        ResultSet rs$ = ThriftRDF.readResultSet(in) ;
         ResultSetRewindable resultSet2 = ResultSetFactory.makeRewindable(rs$) ;
         // Includes bnode labels.
         ResultSetCompare.equalsExact(resultSet, resultSet2) ;
@@ -101,7 +100,9 @@ public class TestThriftResultSet {
 
     private static ResultSetRewindable make(String ... strings) {
         String s = StrUtils.strjoinNL(strings) ;
-        return ResultSetFactory.makeRewindable(SSE.parseRowSet(s));
+        Item item = SSE.parse(s) ;
+        ResultSetRewindable rs = ResultSetFactory.makeRewindable(BuilderResultSet.build(item)) ;
+        return rs ;
     }
 
     private static final String DIR = TS_RDFThrift.TestingDir ;

@@ -21,13 +21,9 @@ package org.apache.jena.sparql.core;
 import org.apache.jena.query.ReadWrite ;
 import org.apache.jena.query.TxnType;
 
-/**
- * Mixin interface for the "un-Transactional" interface. This mixin-style only works
- * (unlike {@link TransactionalNull}) because it does not track the transaction state
- * and therefore is stateless.
- *
+/** Mixin interface for the "un-Transactional" interface.
  * @see TransactionalNotSupported
- */
+ */ 
 public interface TransactionalNotSupportedMixin extends Transactional
 {
     @Override
@@ -44,7 +40,7 @@ public interface TransactionalNotSupportedMixin extends Transactional
 
     @Override public default boolean promote(Promote txnType)
     { throw new UnsupportedOperationException("Transactional.promote") ; }
-
+    
     @Override
     public default void commit()
     { throw new UnsupportedOperationException("Transactional.commit()") ; }
@@ -60,16 +56,16 @@ public interface TransactionalNotSupportedMixin extends Transactional
     @Override
     public default boolean isInTransaction()
     { return false ; }
-
+    
     @Override default public ReadWrite transactionMode()
     { throw new UnsupportedOperationException("Transactional.transactionMode()") ; }
-
+    
     @Override default public TxnType transactionType()
     { throw new UnsupportedOperationException("Transactional.transactionType()") ; }
-
+    
     public default boolean supportsTransactions()
     { return false ; }
-
+    
     public default boolean supportsTransactionAbort()
     { return false; }
 }

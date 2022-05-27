@@ -33,7 +33,7 @@ import org.apache.jena.sparql.expr.nodevalue.NodeFunctions;
  *
  * This applies to literals and URI through the use of SPARQL str().
  */
-public class StrRegexConstraint extends NodeConstraintComponent {
+public class StrRegexConstraint extends NodeConstraint {
     //See SHACL PatternConstraint.
 
     private final Pattern pattern;
@@ -75,7 +75,7 @@ public class StrRegexConstraint extends NodeConstraintComponent {
     }
 
     @Override
-    public void visit(NodeConstraintVisitor visitor) {
+    public void visit(ShapeExprVisitor visitor) {
         visitor.visit(this);
     }
 

@@ -73,10 +73,7 @@ public class LangParserBase {
 
     // ----
 
-    /**
-     * Standardize a prefix - prefixes do not include the ":".
-     */
-    protected String canonicalPrefix(String prefix, int line, int column) {
+    protected String fixupPrefix(String prefix, int line, int column) {
         if ( prefix.endsWith(":") )
             prefix = prefix.substring(0, prefix.length() - 1) ;
         return prefix ;
@@ -184,7 +181,7 @@ public class LangParserBase {
     }
 
     protected void setPrefix(String prefix, String iri, int line, int column) {
-        prefix = canonicalPrefix(prefix, line, column);
+        prefix = fixupPrefix(prefix, line, column);
         profile.getPrefixMap().add(prefix,iri);
         stream.prefix(prefix, iri);
     }

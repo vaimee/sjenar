@@ -30,16 +30,14 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.system.StreamRDF;
 import org.apache.jena.riot.system.StreamRDFLib;
 import org.apache.jena.sparql.core.DatasetGraph;
-import org.apache.jena.sparql.exec.http.DSP;
 import org.apache.jena.sparql.exec.http.GSP;
 import org.apache.jena.sparql.graph.GraphFactory;
 import org.apache.jena.web.FileSender;
-import org.apache.jena.web.HttpSC;
 import org.junit.Test;
 
 /**
  * Tests for multi-part file upload.
- * Fuseki supports multifile upload for GSP.
+ * Fuseki support multifile upload for GSP.
  */
 public class TestFileUpload  extends AbstractFusekiTest {
 
@@ -47,8 +45,7 @@ public class TestFileUpload  extends AbstractFusekiTest {
     public void upload_gsp_01() {
         FileSender x = new FileSender(databaseURL() + "?default");
         x.add("D.ttl", "<http://example/s> <http://example/p> <http://example/o> .", "text/turtle");
-        int sc = x.send("POST");
-        assertEquals(HttpSC.OK_200, sc);
+        x.send("POST");
 
         // Ways to get the content, from highest to lowest level APIs.
 
@@ -71,13 +68,12 @@ public class TestFileUpload  extends AbstractFusekiTest {
 
     @Test
     public void upload_gsp_02() {
-        FileSender x = new FileSender(databaseURL() + "?graph=http://example/g");
+        FileSender x = new FileSender(databaseURL() + "?default");
         x.add("D.ttl", "<http://example/s> <http://example/p> 123 .", "text/turtle");
         x.add("D.nt", "<http://example/s> <http://example/p> <http://example/o-456> .", "application/n-triples");
-        int sc = x.send("PUT");
-        assertEquals(HttpSC.CREATED_201, sc);
+        x.send("PUT");
 
-        Graph graph = GSP.service(databaseURL()).graphName("http://example/g").GET();
+        Graph graph = GSP.service(databaseURL()).defaultGraph().GET();
         assertEquals(2, graph.size());
     }
 
@@ -87,10 +83,9 @@ public class TestFileUpload  extends AbstractFusekiTest {
         FileSender x = new FileSender(databaseURL());
         x.add("D.ttl", "<http://example/s> <http://example/p> <http://example/o> .", "text/turtle");
         x.add("D.trig", "<http://example/g> { <http://example/s> <http://example/p> 123,456 }", "text/trig");
-        int sc = x.send("POST");
-        assertEquals(HttpSC.OK_200, sc);
+        x.send("POST");
 
-        DatasetGraph dsg = DSP.service(databaseURL()).GET();
+        DatasetGraph dsg = GSP.service(databaseURL()).getDataset();
         long c = Iter.count(dsg.find());
         assertEquals(3, c);
     }
@@ -100,10 +95,9 @@ public class TestFileUpload  extends AbstractFusekiTest {
         FileSender x = new FileSender(databaseURL());
         x.add("D.ttl", "<http://example/s> <http://example/p> <http://example/o> .", "text/plain");
         x.add("D.trig", "<http://example/g> { <http://example/s> <http://example/p> 123,456 }", "text/plain");
-        int sc = x.send("POST");
-        assertEquals(HttpSC.OK_200, sc);
+        x.send("POST");
 
-        DatasetGraph dsg = DSP.service(databaseURL()).GET();
+        DatasetGraph dsg = GSP.service(databaseURL()).getDataset();
         assertEquals(1, dsg.getDefaultGraph().size());
         assertEquals(2, dsg.getUnionGraph().size());
     }

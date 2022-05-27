@@ -74,7 +74,7 @@ public abstract class ExecUpdateHTTPBuilder<X, Y> {
         return thisBuilder();
     }
 
-    public Y update(String updateRequestString) {
+    public Y update(String updateRequestString,Context ctx) {
         ensureUpdateRequest();
         UpdateRequest more = UpdateFactory.create(updateRequestString);
         more.getOperations().forEach(this::update);
@@ -202,7 +202,7 @@ public abstract class ExecUpdateHTTPBuilder<X, Y> {
 
     private void ensureUpdateRequest() {
         if ( updateOperations == null )
-            updateOperations = new UpdateRequest();
+            updateOperations = new UpdateRequest(null);
     }
 
     public X build() {

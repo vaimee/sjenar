@@ -18,7 +18,9 @@
 
 package org.apache.jena.sparql.exec;
 
+import org.apache.jena.sparql.modify.UpdateResult;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -29,6 +31,7 @@ import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.modify.UpdateEngineFactory;
 import org.apache.jena.sparql.modify.UpdateEngineRegistry;
+import org.apache.jena.sparql.modify.UpdateResult;
 import org.apache.jena.sparql.syntax.syntaxtransform.UpdateTransformOps;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
@@ -49,15 +52,18 @@ public class UpdateExecDatasetBuilder implements UpdateExecBuilder {
 
     private Binding      initialBinding     = null;
     private UpdateRequest update            = null;
-    private UpdateRequest updateRequest     = new UpdateRequest();
+    private UpdateRequest updateRequest;
 
-    private UpdateExecDatasetBuilder() {}
+    private UpdateExecDatasetBuilder() {
+        updateRequest     = new UpdateRequest(context);
+    }
 
     /** Append the updates in an {@link UpdateRequest} to the {@link UpdateRequest} being built. */
     @Override
     public UpdateExecDatasetBuilder update(UpdateRequest updateRequest) {
         Objects.requireNonNull(updateRequest);
         add(updateRequest);
+        this.context(updateRequest.getConnectionContext());
         return this;
     }
 
@@ -66,14 +72,16 @@ public class UpdateExecDatasetBuilder implements UpdateExecBuilder {
     public UpdateExecDatasetBuilder update(Update update) {
         Objects.requireNonNull(update);
         add(update);
+        this.context(update.getConnectionContext());
         return this;
     }
 
     /** Parse and update operations to the {@link UpdateRequest} being built. */
     @Override
-    public UpdateExecDatasetBuilder update(String updateRequestString) {
+    public UpdateExecDatasetBuilder update(String updateRequestString,Context ctx) {
         UpdateRequest more = UpdateFactory.create(updateRequestString);
         add(more);
+        this.context(ctx);
         return this;
     }
 
@@ -160,13 +168,13 @@ public class UpdateExecDatasetBuilder implements UpdateExecBuilder {
     // Abbreviated forms
 
     @Override
-    public void execute() {
-        build().execute();
+    public List<UpdateResult> execute() {
+        return build().execute();
     }
 
-    public void execute(DatasetGraph dsg) {
+    public List<UpdateResult> execute(DatasetGraph dsg) {
         dataset(dsg);
-        execute();
+        return execute();
     }
 
     private void add(UpdateRequest request) {

@@ -18,19 +18,15 @@
 
 package org.apache.jena.shex.expressions;
 
-import java.util.Locale;
-
 import org.apache.jena.shex.ShexException;
 
 public enum NodeKind {
     IRI("IRI"), BNODE("BNode"), NONLITERAL("NonLiteral"), LITERAL("Literal"), TRIPLE("Triple");
 
     private final String label;
-    private final String ucLabel;
 
     NodeKind(String string) {
         this.label = string;
-        this.ucLabel = string.toUpperCase(Locale.ROOT);
     }
 
     public static NodeKind create(String nodeKind) {
@@ -43,11 +39,6 @@ public enum NodeKind {
             default:
                 throw new ShexException("NodeKind not recognized: '"+nodeKind+"'");
         }
-    }
-
-    public String label() {
-        // Print label.
-        return ucLabel;
     }
 
     @Override

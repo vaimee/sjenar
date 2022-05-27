@@ -18,9 +18,12 @@
 
 package org.apache.jena.rdfconnection;
 
+import java.util.List;
+import org.apache.jena.sparql.modify.UpdateResult;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.update.UpdateExecutionBuilder;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.update.UpdateRequest;
 
 /** Wrapper for an {@link RDFConnection}. */
@@ -55,13 +58,8 @@ public class RDFConnectionWrapper implements RDFConnection {
     }
 
     @Override
-    public UpdateExecutionBuilder newUpdate() {
-        return get().newUpdate();
-    }
-
-    @Override
-    public void update(UpdateRequest update) {
-        get().update(update);
+    public List<UpdateResult> update(UpdateRequest update) {
+        return get().update(update);
     }
 
     @Override
@@ -187,5 +185,10 @@ public class RDFConnectionWrapper implements RDFConnection {
     @Override
     public boolean isInTransaction() {
         return get().isInTransaction();
+    }
+
+    @Override
+    public Context getContext() {
+        return get().getContext();
     }
 }

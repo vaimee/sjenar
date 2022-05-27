@@ -42,20 +42,20 @@ public class JoinClassifier
         // Modifiers that we don't touch
         //   OpSlice, OpTopN, OpOrder (which gets lost - could remove it!)
         // (These could be first and top - i.e. in call once position, and be safe)
-
+        
         Op left = effectiveOp(_left) ;
         Op right = effectiveOp(_right) ;
 
         if ( ! isSafeForLinear(left) || ! isSafeForLinear(right) )
             return false ;
-
+        
         // Modifiers.
         if ( right instanceof OpExtend )    return false ;
         if ( right instanceof OpAssign )    return false ;
         if ( right instanceof OpGroup )     return false ;
 //        if ( right instanceof OpDiff )      return false ;
 //        if ( right instanceof OpMinus )     return false ;
-
+        
         if ( right instanceof OpSlice )     return false ;
         if ( right instanceof OpTopN )      return false ;
         if ( right instanceof OpOrder )     return false ;
@@ -66,7 +66,7 @@ public class JoinClassifier
 
     // -- pre check for ops we can't handle in a linear fashion.
     // These are the negation patterns (minus and diff)
-    // FILTER NOT EXISTS is safe - it's defined by iteration like the linear execution algorithm.
+    // FILTER NOT EXISTS is safe - it's defined by iteration like the linear execution algorithm. 
     private static class UnsafeLineraOpException extends RuntimeException {}
     private static OpVisitor checkForUnsafeVisitor = new OpVisitorBase() {
         @Override public void visit(OpMinus opMinus) { throw new UnsafeLineraOpException(); }
@@ -77,11 +77,10 @@ public class JoinClassifier
         catch (UnsafeLineraOpException e) { return false; }
     }
     // --
-
+    
     // Check left can stream into right
     static private boolean check(Op leftOp, Op rightOp) {
         if ( print ) {
-            System.err.println("== JoinClassifier");
             System.err.println("Left::");
             System.err.println(leftOp) ;
             System.err.println("Right::");
@@ -102,7 +101,7 @@ public class JoinClassifier
             System.err.println("Right") ;
             vfRight.print(System.err) ;
         }
-
+        
         Set<Var> vRightFixed        = vfRight.getFixed() ;
         Set<Var> vRightOpt          = vfRight.getOpt() ;
         Set<Var> vRightFilter       = vfRight.getFilter() ;
@@ -127,7 +126,7 @@ public class JoinClassifier
 //                System.err.println("vRightFilterOnly.not isEmpty");
 //            return false;
         }
-
+        
         // Step 2 : remove any variable definitely fixed from the floating sets
         // because the nature of the "join" will deal with that.
         vLeftOpt = SetUtils.difference(vLeftOpt, vLeftFixed) ;
@@ -169,9 +168,7 @@ public class JoinClassifier
         boolean bad1 = r11 || r12 ;
 
         if ( print )
-            System.err.println("J: Case 1 (false=ok) = " + bad1) ;
-        if ( bad1 )
-            return false;
+            System.err.println("Case 1 = " + bad1) ;
 
         // Case 2 : a filter in the RHS is uses a variable from the LHS (whether
         // fixed or optional)
@@ -182,9 +179,7 @@ public class JoinClassifier
 
         boolean bad2 = SetUtils.intersectionP(vRightFilter, vLeftFixed) ;
         if ( print )
-            System.err.println("J: Case 2 (false=ok) = " + bad2) ;
-        if ( bad2 )
-            return false;
+            System.err.println("Case 2 = " + bad2) ;
 
         // Case 3 : an assign in the RHS uses a variable not introduced
         // Scoping means we must hide the LHS value from the RHS
@@ -194,15 +189,18 @@ public class JoinClassifier
         // the RHS
         // vRightAssign.removeAll(vRightFixed);
         // boolean bad3 = vRightAssign.size() > 0;
-
+        
         boolean bad3 = SetUtils.intersectionP(vRightAssign, vLeftFixed) ;
         if ( print )
-            System.err.println("J: Case 3 (false=ok) = " + bad3) ;
-        if ( bad3 )
-            return false;
-        if ( print )
-            System.err.println("J: Result: OK");
-        return true;
+            System.err.println("Case 3 = " + bad3) ;
+
+        // Linear if all conditions are false
+        boolean result = !bad1 && !bad2 && !bad3 ;
+        
+        if ( print ) {
+            System.err.println("Result: "+result) ;
+        }
+        return result ;
     }
 
     /** Find the "effective op" - i.e. the one that may be sensitive to linearization */

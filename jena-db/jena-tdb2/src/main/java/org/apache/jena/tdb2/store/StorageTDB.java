@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 import org.apache.jena.atlas.lib.tuple.Tuple;
 import org.apache.jena.dboe.storage.StorageRDF;
 import org.apache.jena.dboe.transaction.txn.Transaction;
-import org.apache.jena.dboe.transaction.txn.TransactionException;
 import org.apache.jena.dboe.transaction.txn.TransactionalSystem;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
@@ -69,35 +68,35 @@ public class StorageTDB implements StorageRDF {
     private final void notifyDelete(Node g, Node s, Node p, Node o) { }
 
     @Override
-    public void add(Node s, Node p, Node o) {
+    public boolean add(Node s, Node p, Node o) {
         checkActive();
         ensureWriteTxn();
         notifyAdd(null, s, p, o);
-        getTripleTable().add(s, p, o);
+        return getTripleTable().add(s, p, o);
     }
 
     @Override
-    public void add(Node g, Node s, Node p, Node o) {
+    public boolean add(Node g, Node s, Node p, Node o) {
         checkActive();
         ensureWriteTxn();
         notifyAdd(g, s, p, o);
-        getQuadTable().add(g, s, p, o);
+        return getQuadTable().add(g, s, p, o);
     }
 
     @Override
-    public void delete(Node s, Node p, Node o) {
+    public boolean delete(Node s, Node p, Node o) {
         checkActive();
         ensureWriteTxn();
         notifyDelete(null, s, p, o);
-        getTripleTable().delete(s, p, o);
+        return getTripleTable().delete(s, p, o);
     }
 
     @Override
-    public void delete(Node g, Node s, Node p, Node o) {
+    public boolean delete(Node g, Node s, Node p, Node o) {
         checkActive();
         ensureWriteTxn();
         notifyDelete(g, s, p, o);
-        getQuadTable().delete(g, s, p, o);
+        return getQuadTable().delete(g, s, p, o);
     }
 
     @Override
@@ -198,8 +197,6 @@ public class StorageTDB implements StorageRDF {
 
     private void ensureWriteTxn() {
         Transaction txn = txnSystem.getThreadTransaction();
-        if ( txn == null )
-            throw new TransactionException("Not on a write transaction");
         txn.ensureWriteTxn();
     }
 }

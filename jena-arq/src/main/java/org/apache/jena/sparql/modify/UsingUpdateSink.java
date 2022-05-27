@@ -28,7 +28,7 @@ import org.apache.jena.update.UpdateException ;
  * Adds using clauses from the UsingList to UpdateWithUsing operations; will throw an
  * UpdateException if the modify operation already contains a using clause.
  */
-public class UsingUpdateSink implements UpdateSink {
+public class UsingUpdateSink implements UpdateSinkWithReturn {
     private final UpdateSink sink;
     private final UsingList usingList;
 
@@ -38,7 +38,7 @@ public class UsingUpdateSink implements UpdateSink {
     }
 
     @Override
-    public void send(Update update) {
+    public boolean send(Update update) {
         // ---- check USING/USING NAMED/WITH not used.
         // ---- update request to have USING/USING NAMED
         if ( null != usingList && usingList.usingIsPresent() ) {
@@ -52,7 +52,7 @@ public class UsingUpdateSink implements UpdateSink {
                     upu.addUsingNamed(node);
             }
         }
-        sink.send(update);
+        return sink.send(update);
     }
 
     @Override
@@ -73,5 +73,30 @@ public class UsingUpdateSink implements UpdateSink {
     @Override
     public void close() {
         sink.close();
+    }
+
+    @Override
+    public UpdateResult sendWithReturn(Update update) {
+        if ( null != usingList && usingList.usingIsPresent() ) {
+            if ( update instanceof UpdateWithUsing ) {
+                UpdateWithUsing upu = (UpdateWithUsing)update;
+                if ( upu.getUsing().size() != 0 || upu.getUsingNamed().size() != 0 || upu.getWithIRI() != null )
+                    throw new UpdateException("SPARQL Update: Protocol using-graph-uri or using-named-graph-uri present where update request has USING, USING NAMED or WITH");
+                for ( Node node : usingList.getUsing() )
+                    upu.addUsing(node);
+                for ( Node node : usingList.getUsingNamed() )
+                    upu.addUsingNamed(node);
+            }
+        }
+        
+        UpdateResult ret = null;
+        
+        if (sink instanceof UpdateSinkWithReturn) {
+            ret = ((UpdateSinkWithReturn) sink).sendWithReturn(update);
+        } else
+            sink.send(update);
+        
+        return ret;
+
     }
 }

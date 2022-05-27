@@ -30,7 +30,7 @@ import org.apache.jena.dboe.base.file.BufferChannel;
 public class StateMgrData extends StateMgrBase {
     private final long[] data;
 
-    protected StateMgrData(BufferChannel storage, long... initialData) {
+    public StateMgrData(BufferChannel storage, long... initialData) {
         super(storage, numBytes(initialData));
         data = copy(initialData);
         super.init();
@@ -54,9 +54,7 @@ public class StateMgrData extends StateMgrBase {
     protected void setData(long... newData) {
         if ( newData.length != data.length )
             throw new IllegalArgumentException();
-        for ( int i = 0 ; i < data.length ; i++ )
-            data[i] = newData[i];
-        setDirtyFlag();
+        System.arraycopy(newData, 0, data, 0, data.length);
     }
 
     protected long get(int i) {
@@ -79,7 +77,6 @@ public class StateMgrData extends StateMgrBase {
     protected void deserialize(ByteBuffer bytes) {
         for ( int i = 0; i < data.length ; i++ )
             data[i] = bytes.getLong();
-        super.clearDirtyFlag();
     }
 
     @Override

@@ -19,6 +19,7 @@
 package org.apache.jena.rdflink;
 
 import java.net.http.HttpClient;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -34,11 +35,15 @@ import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Transactional;
 import org.apache.jena.sparql.core.TransactionalLock;
 import org.apache.jena.sparql.engine.binding.Binding;
-import org.apache.jena.sparql.exec.*;
-import org.apache.jena.sparql.exec.http.DSP;
+import org.apache.jena.sparql.exec.QueryExec;
+import org.apache.jena.sparql.exec.QueryExecApp;
+import org.apache.jena.sparql.exec.QueryExecBuilder;
+import org.apache.jena.sparql.exec.RowSet;
 import org.apache.jena.sparql.exec.http.GSP;
 import org.apache.jena.sparql.exec.http.QueryExecHTTPBuilder;
-import org.apache.jena.sparql.exec.http.UpdateExecHTTPBuilder;
+import org.apache.jena.sparql.exec.http.UpdateExecHTTP;
+import org.apache.jena.sparql.modify.UpdateResult;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.system.Txn;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateRequest;
@@ -77,6 +82,7 @@ public class RDFLinkHTTP implements RDFLink {
     // Whether to check SPARQL updates given as strings by parsing them.
     protected final boolean parseCheckUpdates;
 
+    private final Context       ctx = new Context();
     /** Create a {@link RDFLinkHTTPBuilder}. */
     public static RDFLinkHTTPBuilder newBuilder() {
         return new RDFLinkHTTPBuilder();
@@ -97,11 +103,11 @@ public class RDFLinkHTTP implements RDFLink {
 
     // Used by the builder.
     protected RDFLinkHTTP(Transactional txnLifecycle, HttpClient httpClient, String destination,
-                          String queryURL, String updateURL, String gspURL, RDFFormat outputQuads, RDFFormat outputTriples,
-                          String acceptDataset, String acceptGraph,
-                          String acceptSparqlResults,
-                          String acceptSelectResult, String acceptAskResult,
-                          boolean parseCheckQueries, boolean parseCheckUpdates) {
+                            String queryURL, String updateURL, String gspURL, RDFFormat outputQuads, RDFFormat outputTriples,
+                            String acceptDataset, String acceptGraph,
+                            String acceptSparqlResults,
+                            String acceptSelectResult, String acceptAskResult,
+                            boolean parseCheckQueries, boolean parseCheckUpdates) {
         // Any defaults.
         HttpClient hc =  httpClient!=null ? httpClient : HttpEnv.getDftHttpClient();
         if ( txnLifecycle == null )
@@ -244,8 +250,6 @@ public class RDFLinkHTTP implements RDFLink {
         return createQExecBuilder();
     }
 
-    // Create the QExec
-
     private QueryExec queryExec(Query query, String queryString, QueryType queryType) {
         checkQuery();
         if ( query == null && queryString == null )
@@ -265,11 +269,16 @@ public class RDFLinkHTTP implements RDFLink {
 
     /** Create a builder, configured with the link setup. */
     private QueryExecHTTPBuilder createQExecBuilder() {
-        return QueryExecHTTPBuilder.create().endpoint(svcQuery).httpClient(httpClient);
+        return QueryExecHTTPBuilder.create()
+                    .endpoint(svcQuery)
+                    .httpClient(httpClient);
     }
 
     private QueryExec createQExec(Query query, String queryStringToSend, QueryType queryType) {
+        // [QExec] NO QUERY - delya parse?
         QueryExecHTTPBuilder builder = createQExecBuilder().queryString(queryStringToSend);
+
+        // [QExec] Can this go in QueryExecHTTP at he point the query type is known?
         QueryType qt = queryType;
         if ( query != null && qt == null )
             qt = query.queryType();
@@ -322,51 +331,38 @@ public class RDFLinkHTTP implements RDFLink {
         sBuff.append(acceptString);
     }
 
-
-    /**
-     * Return a {@link UpdateExecBuilder} that is initially configured for this link
-     * setup and type. The update built will be set to go to the same dataset/remote
-     * endpoint as the other RDFLink operations.
-     *
-     * @return UpdateExecBuilder
-     */
     @Override
-    public UpdateExecBuilder newUpdate() {
-        return createUExecBuilder();
-    }
-
-    /** Create a builder, configured with the link setup. */
-    private UpdateExecHTTPBuilder createUExecBuilder() {
-        return UpdateExecHTTPBuilder.create().endpoint(svcUpdate).httpClient(httpClient);
-    }
-
-    @Override
-    public void update(String updateString) {
+    public List<UpdateResult> update(String updateString) {
         Objects.requireNonNull(updateString);
-        updateExec(null, updateString);
+        return updateExec(null, updateString);
     }
 
     @Override
-    public void update(UpdateRequest update) {
+    public List<UpdateResult> update(UpdateRequest update) {
         Objects.requireNonNull(update);
-        updateExec(update, null);
+        return updateExec(update, null);
     }
 
-    private void updateExec(UpdateRequest update, String updateString ) {
+    private List<UpdateResult> updateExec(UpdateRequest update, String updateString ) {
         checkUpdate();
         if ( update == null && updateString == null )
             throw new InternalErrorException("Both update request and update string are null");
         UpdateRequest actual = null;
         if ( update == null ) {
             if ( parseCheckUpdates )
-                actual = UpdateFactory.create(updateString);
+                actual = UpdateFactory.create(updateString,this.getContext());
         }
         // Use the update string as provided if possible, otherwise serialize the update.
         String updateStringToSend = ( updateString != null ) ? updateString  : update.toString();
-        createUExecBuilder()
+        UpdateExecHTTP.newBuilder()
+            .endpoint(svcUpdate)
+            .httpClient(httpClient)
             .updateString(updateStringToSend)
             .build()
             .execute();
+        
+        //TBD !!!!
+        return null;
     }
 
 //    /** Convert HTTP status codes to exceptions */
@@ -468,25 +464,7 @@ public class RDFLinkHTTP implements RDFLink {
     }
 
     private GSP gspRequest() {
-        GSP gsp = GSP.service(svcGraphStore);
-        if ( httpClient != null )
-            gsp.httpClient(httpClient);
-        if ( outputTriples != null )
-            gsp.contentType(outputTriples);
-        if ( acceptGraph != null )
-            gsp.acceptHeader(acceptGraph);
-        return gsp;
-    }
-
-    private DSP dspRequest() {
-        DSP dsp = DSP.service(svcGraphStore);
-        if ( httpClient != null )
-            dsp.httpClient(httpClient);
-        if ( outputQuads != null )
-            dsp.contentType(outputQuads);
-        if ( acceptDataset != null )
-            dsp.acceptHeader(acceptDataset);
-        return dsp;
+        return GSP.service(svcGraphStore).httpClient(httpClient);
     }
 
     @Override
@@ -504,31 +482,31 @@ public class RDFLinkHTTP implements RDFLink {
     @Override
     public DatasetGraph getDataset() {
         checkDataset();
-        return dspRequest().acceptHeader(acceptDataset).GET();
+        return gspRequest().dataset().acceptHeader(acceptDataset).getDataset();
     }
 
     @Override
     public void loadDataset(String file) {
         checkDataset();
-        dspRequest().POST(file);
+        gspRequest().dataset().postDataset(file);
     }
 
     @Override
     public void loadDataset(DatasetGraph dataset) {
         checkDataset();
-        dspRequest().POST(dataset);
+        gspRequest().dataset().postDataset(dataset);
     }
 
     @Override
     public void putDataset(String file) {
         checkDataset();
-        dspRequest().PUT(file);
+        gspRequest().dataset().putDataset(file);
     }
 
     @Override
     public void putDataset(DatasetGraph dataset) {
         checkDataset();
-        dspRequest().PUT(dataset);
+        gspRequest().dataset().putDataset(dataset);
     }
 
     // -- Internal.
@@ -588,4 +566,9 @@ public class RDFLinkHTTP implements RDFLink {
     @Override public void end()                         { txnLifecycle.end(); }
     @Override public ReadWrite transactionMode()        { return txnLifecycle.transactionMode(); }
     @Override public TxnType transactionType()          { return txnLifecycle.transactionType(); }
+
+    @Override
+    public Context getContext() {
+        return ctx;
+    }
 }

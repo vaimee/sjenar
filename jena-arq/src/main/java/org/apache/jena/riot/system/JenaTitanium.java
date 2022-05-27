@@ -74,12 +74,9 @@ public class JenaTitanium {
 
     /** Translate a Titanium JSON-LD dataset to a {@link StreamRDF} */
     public static void convert(RdfDataset dataset, StreamRDF output) {
-        convert(dataset, RiotLib.factoryRDF(), output);
-    }
-
-    /** Translate a Titanium JSON-LD dataset to a {@link StreamRDF} */
-    public static void convert(RdfDataset dataset, FactoryRDF factory, StreamRDF output) {
         RdfProvider provider = RdfProvider.provider();
+        FactoryRDF factory = new FactoryRDFStd();
+
         for ( RdfNQuad rdfQuad : dataset.toList() ) {
             Optional<RdfResource> gn = rdfQuad.getGraphName();
             RdfResource subj = rdfQuad.getSubject();

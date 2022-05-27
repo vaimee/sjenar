@@ -109,7 +109,6 @@ TOKEN :
 | < LBRACKET:  "[" >
 | < RBRACKET:  "]" >
 
-// RDF-start quoted triple. written with <<>>.,not (qtriple...)
 | < LT2 : "<<" >
 | < GT2 : ">>" >
 }

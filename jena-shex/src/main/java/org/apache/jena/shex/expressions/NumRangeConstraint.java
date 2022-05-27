@@ -29,7 +29,7 @@ import org.apache.jena.shex.sys.ReportItem;
 import org.apache.jena.shex.sys.ValidationContext;
 import org.apache.jena.sparql.expr.NodeValue;
 
-public class NumRangeConstraint extends NodeConstraintComponent {
+public class NumRangeConstraint extends NodeConstraint {
 
     private final NumRangeKind rangeKind;
     private final Node value;
@@ -43,18 +43,6 @@ public class NumRangeConstraint extends NodeConstraintComponent {
         if ( ! nv.isNumber() )
             throw new ShexException("Not a number: "+value);
         this.numericValue = nv;
-    }
-
-    public NumRangeKind getRangeKind() {
-        return rangeKind;
-    }
-
-    public Node getValue() {
-        return value;
-    }
-
-    public NodeValue getNumericValue() {
-        return numericValue;
     }
 
     @Override
@@ -80,12 +68,12 @@ public class NumRangeConstraint extends NodeConstraintComponent {
             default :
                 break;
         }
-        String msg = format("Expected %s %s : got = %s", rangeKind.label(), NodeFmtLib.strTTL(nv.getNode()), NodeFmtLib.strTTL(n));
+        String msg = format("Expected %s %s : got = %s", rangeKind.label(), NodeFmtLib.str(nv.getNode()), NodeFmtLib.str(n));
         return new ReportItem(msg, n);
     }
 
     @Override
-    public void visit(NodeConstraintVisitor visitor) {
+    public void visit(ShapeExprVisitor visitor) {
         visitor.visit(this);
     }
 

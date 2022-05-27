@@ -42,7 +42,7 @@ import org.apache.jena.query.ARQ;
 import org.apache.jena.sparql.engine.main.QC;
 import org.apache.jena.sparql.engine.optimizer.reorder.ReorderLib;
 import org.apache.jena.sparql.engine.optimizer.reorder.ReorderTransformation;
-import org.apache.jena.sparql.sse.SSE_ParseException;
+import org.apache.jena.sparql.sse.SSEParseException;
 import org.apache.jena.tdb2.TDBException;
 import org.apache.jena.tdb2.params.StoreParams;
 import org.apache.jena.tdb2.params.StoreParamsCodec;
@@ -204,7 +204,7 @@ public class TDB2StorageBuilder {
 //    private Collection<TransactionalComponent> getComponents() { return components; }
 
     private StorageTDB buildStorage() {
-        NodeTable nodeTable = buildNodeTable(params.getNodeTableBaseName(), true);
+        NodeTable nodeTable = buildNodeTable(params.getNodeTableBaseName());
         TripleTable tripleTable = buildTripleTable(nodeTable);
         QuadTable quadTable = buildQuadTable(nodeTable);
         StorageTDB dsg = new StorageTDB(txnSystem, tripleTable, quadTable);
@@ -212,7 +212,7 @@ public class TDB2StorageBuilder {
     }
 
     private StoragePrefixes buildPrefixes() {
-        NodeTable nodeTablePrefixes = buildNodeTable(params.getPrefixTableBaseName(), false);
+        NodeTable nodeTablePrefixes = buildNodeTable(params.getPrefixTableBaseName());
         StoragePrefixesTDB prefixes = buildPrefixTable(nodeTablePrefixes);
         return prefixes;
     }
@@ -299,10 +299,10 @@ public class TDB2StorageBuilder {
         return bpt;
     }
 
-    private NodeTable buildNodeTable(String name, boolean isData) {
+    private NodeTable buildNodeTable(String name) {
         NodeTable nodeTable = buildBaseNodeTable(name);
 
-        nodeTable = addNodeTableCache(nodeTable, params, isData);
+        nodeTable = NodeTableCache.create(nodeTable, params);
 
         if ( nodeTable instanceof NodeTableCache ) {
             NodeTableCache nodeTableCache = (NodeTableCache)nodeTable;
@@ -310,14 +310,6 @@ public class TDB2StorageBuilder {
         }
 
         nodeTable = NodeTableInline.create(nodeTable);
-        return nodeTable;
-    }
-
-    private static NodeTable addNodeTableCache(NodeTable nodeTable, StoreParams params, boolean isData) {
-        int nodeToIdCacheSize   = isData ? params.getNode2NodeIdCacheSize() : params.getPrefixNode2NodeIdCacheSize();
-        int idToNodeCacheSize   = isData ? params.getNodeId2NodeCacheSize() : params.getPrefixNodeId2NodeCacheSize();
-        int missCacheSize       = isData ? params.getNodeMissCacheSize()    : params.getPrefixNodeMissCacheSize();
-        nodeTable = NodeTableCache.create(nodeTable, nodeToIdCacheSize, idToNodeCacheSize, missCacheSize);
         return nodeTable;
     }
 
@@ -352,7 +344,7 @@ public class TDB2StorageBuilder {
                 reorder = ReorderLib.weighted(location.getPath(Names.optStats)) ;
                 log.debug("Statistics-based BGP optimizer") ;
             }
-            catch (SSE_ParseException ex) {
+            catch (SSEParseException ex) {
                 log.warn("Error in stats file: " + ex.getMessage()) ;
                 reorder = null ;
             }

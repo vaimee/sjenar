@@ -30,10 +30,5 @@ public class Counter
     public void inc()   { counter.incrementAndGet(); }
     public void dec()   { counter.decrementAndGet(); }
     public long value() { return counter.get(); }
-
-    @Override
-    public String toString() {
-        return counter.toString();
-    }
 }
 

@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-fuseki</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.3.2</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -34,13 +34,13 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-fuseki-core</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-fuseki-core</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -48,13 +48,13 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-cmds</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
    
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-text</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
     
     <dependency>
@@ -70,13 +70,6 @@
     <dependency>
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-web</artifactId>
-    </dependency>
-
-    <!-- frontend assets (HTML, JS, CSS, images, etc.) -->
-    <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki-ui</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <!-- Logging  -->  
@@ -95,7 +88,7 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-arq</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -103,7 +96,7 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-base</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -136,22 +129,6 @@
         <directory>src/main/resources</directory>
         <includes>
           <include>org/apache/jena/fuseki/fuseki-properties.xml</include>
-        </includes>
-      </resource>
-      <resource>
-        <filtering>false</filtering>
-        <directory>src/main/webapp/</directory>
-        <targetPath>${project.build.directory}/webapp/</targetPath>
-        <excludes>
-          <exclude>index.html</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <filtering>false</filtering>
-        <directory>../jena-fuseki-ui/target/dist/</directory>
-        <targetPath>${project.build.directory}/webapp/</targetPath>
-        <includes>
-          <include>**/*.*</include>
         </includes>
       </resource>
     </resources>
@@ -206,4 +183,5 @@
     </plugins>
 
   </build>
+
 </project>

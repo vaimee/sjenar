@@ -62,11 +62,12 @@ public class ShaclCompactParser extends LangParserBase {
     private Map<String, String> prefixesSeen    = new HashMap<>();
     private List<String> imports                = new ArrayList<>();
 
-    protected ShaclCompactParser() { }
+    protected ShaclCompactParser() {
+    }
 
-    private void setBaseURI(String baseURI) {
+    private void setBaseURI(String baseURI) { 
         super.setBase(baseURI, -1, -1);
-        this.baseURI = baseURI;
+        this.baseURI = baseURI; 
     }
 
     public void start() {
@@ -88,7 +89,7 @@ public class ShaclCompactParser extends LangParserBase {
                 base = "urn:x-base:default";
                 //throw new ShaclException("No BASE");
             }
-
+    
             Node s = iri(base);
             triple(stream, s, nRDFtype, OWL.Ontology.asNode());
             imports.forEach(iri -> triple(stream, s, OWL.imports.asNode(), iri(iri)));
@@ -97,7 +98,7 @@ public class ShaclCompactParser extends LangParserBase {
             Node s = NodeFactory.createBlankNode();
             imports.forEach(iri -> triple(stream, s, OWL.imports.asNode(), iri(iri)));
         }
-
+    
         if ( !currentNodeShape.isEmpty() )
             throw new InternalErrorException("Internal error: Node shape stack is not empty at end of parsing");
         if ( !currentPropertyShape.isEmpty() )
@@ -249,7 +250,7 @@ public class ShaclCompactParser extends LangParserBase {
             throw new InternalErrorException("No elements in nodeOr");
         if ( elts.size() == 1 ) {
             // Pull up one level.
-            rewriteSubj(currentTripleAcc(), elts.get(0), currentNodeShape());
+            rewrite(currentTripleAcc(), elts.get(0), currentNodeShape());
             return;
         }
         Node list = listToTriples(elts);
@@ -357,7 +358,7 @@ public class ShaclCompactParser extends LangParserBase {
             throw new InternalErrorException("No elements in propertyOr");
         if ( elts.size() == 1 ) {
             // Pull up one level.
-            rewriteSubj(currentTripleAcc(), elts.get(0), currentPropertyShape());
+            rewrite(currentTripleAcc(), elts.get(0), currentPropertyShape());
             return;
         }
         Node list = listToTriples(elts);
@@ -523,12 +524,7 @@ public class ShaclCompactParser extends LangParserBase {
         return NodeFactory.createBlankNode();
     }
 
-    /**
-     * Rewrite subjects : replace S=node1 with S=node2.
-     * Used in nodePr, propertyOr for single that
-     * don't need a list in the RDF.
-     */
-    private void rewriteSubj(List<Triple> accumulator, Node node1, Node node2) {
+    private void rewrite(List<Triple> accumulator, Node node1, Node node2) {
         for ( int i = 0 ; i < accumulator.size() ; i++ ) {
             Triple t = accumulator.get(i);
             if ( t.getSubject().equals(node1) ) {

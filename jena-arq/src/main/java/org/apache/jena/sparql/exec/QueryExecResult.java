@@ -19,7 +19,6 @@
 package org.apache.jena.sparql.exec;
 
 import java.util.Iterator;
-import java.util.Objects;
 
 import org.apache.jena.atlas.json.JsonObject;
 import org.apache.jena.graph.Graph;
@@ -41,21 +40,7 @@ public class QueryExecResult {
     private DatasetGraph  dataset          = null;
     private Iterator<JsonObject> jsonItems = null;
 
-    public static QueryExecResult adapt(SPARQLResult result) {
-        Objects.requireNonNull(result);
-        if ( result.isResultSet())
-            return new QueryExecResult(RowSet.adapt(result.getResultSet()));
-        if ( result.isBoolean())
-            return new QueryExecResult(result.getBooleanResult());
-        if ( result.isGraph())
-            return new QueryExecResult(result.getModel().getGraph());
-        if ( result.isDataset())
-            return new QueryExecResult(result.getDataset().asDatasetGraph());
-        if ( result.isJson())
-            return new QueryExecResult(result.getJsonItems());
-        throw new IllegalArgumentException("Can not convert to a QueryExecResult object");
-    }
-
+    // Delayed choice of result type.
     protected QueryExecResult() {}
 
     public QueryExecResult(Graph model) {
@@ -188,5 +173,7 @@ public class QueryExecResult {
         this.jsonItems = jsonItems;
         hasBeenSet = true;
     }
+
+
 }
 

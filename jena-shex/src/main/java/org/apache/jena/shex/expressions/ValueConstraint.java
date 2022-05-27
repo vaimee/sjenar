@@ -20,7 +20,6 @@ package org.apache.jena.shex.expressions;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import org.apache.jena.atlas.io.IndentedWriter;
 import org.apache.jena.graph.Node;
@@ -29,16 +28,12 @@ import org.apache.jena.shex.sys.ReportItem;
 import org.apache.jena.shex.sys.ShexLib;
 import org.apache.jena.shex.sys.ValidationContext;
 
-public class ValueConstraint extends NodeConstraintComponent {
+public class ValueConstraint extends NodeConstraint {
 
     private final List<ValueSetRange> valueSetRanges;
 
     public ValueConstraint(List<ValueSetRange> valueSetRanges) {
         this.valueSetRanges = valueSetRanges;
-    }
-
-    public void forEach(Consumer<ValueSetRange> action) {
-        valueSetRanges.forEach(action);
     }
 
     @Override
@@ -82,7 +77,7 @@ public class ValueConstraint extends NodeConstraintComponent {
     }
 
     @Override
-    public void visit(NodeConstraintVisitor visitor) {
+    public void visit(ShapeExprVisitor visitor) {
         visitor.visit(this);
     }
 

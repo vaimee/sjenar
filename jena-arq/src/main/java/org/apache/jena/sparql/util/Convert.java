@@ -22,20 +22,22 @@ import java.io.UnsupportedEncodingException ;
 import java.net.URLDecoder ;
 import java.net.URLEncoder ;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.jena.atlas.lib.IRILib;
 
 /**
  * Encode for a www-forms.
  * @see IRILib
+ * @see URLEncodedUtils#format
  * @see URLEncoder#encode
  */
 public class Convert
 {
     // UTF-8 is required in Java implementations
-
+ 
     // Choose the characters to escape.
 
-    // Chars from RDF 2396 to escape:
+    // Chars from RDF 2396 to escape: 
     // 2.2. Reserved Characters
     // 2.4.3 Excluded US-ASCII Characters
     //
@@ -52,18 +54,18 @@ public class Convert
     //
     // unreserved  = alphanum | mark
     // mark        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
-
+   
     // URLEncoder is savage:
-
+    
     // + The alphanumeric characters "a" through "z",
     //   "A" through "Z" and "0" through "9" remain the same.
-    // + The special characters ".", "-", "*", and "_" remain the same.
+    // + The special characters ".", "-", "*", and "_" remain the same. 
     // + The space character " " is converted into a plus sign "+".
     // + All other characters are unsafe and are first converted into
-    //   one or more bytes using some encoding scheme.
-
+    //   one or more bytes using some encoding scheme. 
+    
     public static String encWWWForm(String s)
-    {
+    { 
         try {
             return URLEncoder.encode(s, "UTF-8") ;
             // Can't fail - UTF-8 is required
@@ -74,8 +76,8 @@ public class Convert
     {
         return encWWWForm(sbuff.toString()) ;
     }
-
-
+    
+    
     public static String decWWWForm(String s)
     {
         try {
@@ -88,5 +90,5 @@ public class Convert
     {
         return decWWWForm(sbuff.toString()) ;
     }
-
+    
 }

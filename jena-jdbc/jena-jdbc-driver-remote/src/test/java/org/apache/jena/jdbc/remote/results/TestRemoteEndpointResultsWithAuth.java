@@ -19,22 +19,28 @@
 package org.apache.jena.jdbc.remote.results;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.jena.http.auth.AuthLib;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.jena.jdbc.JdbcCompatibility;
 import org.apache.jena.jdbc.connections.JenaConnection;
 import org.apache.jena.jdbc.remote.FusekiTestAuth;
 import org.apache.jena.jdbc.remote.connections.RemoteEndpointConnection;
-import org.apache.jena.jdbc.remote.utils.TestJdbcRemoteUtils;
+import org.apache.jena.jdbc.utils.TestJdbcUtils;
 import org.apache.jena.query.Dataset ;
+import org.apache.jena.riot.web.HttpOp1;
+import org.apache.jena.sparql.modify.UpdateProcessRemote;
 import org.apache.jena.sparql.modify.request.Target ;
 import org.apache.jena.sparql.modify.request.UpdateDrop ;
 import org.apache.jena.update.Update ;
-import org.apache.jena.update.UpdateExecution;
+import org.apache.jena.update.UpdateProcessor ;
+import org.apache.jena.update.UpdateRequest;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,7 +49,9 @@ import org.junit.Ignore;
 
 /**
  * Tests result sets from a remote endpoint
+ *
  */
+@SuppressWarnings("deprecation")
 @Ignore
 public class TestRemoteEndpointResultsWithAuth extends AbstractRemoteEndpointResultSetTests {
 
@@ -63,7 +71,10 @@ public class TestRemoteEndpointResultsWithAuth extends AbstractRemoteEndpointRes
     public static void setup() throws SQLException, IOException {
         SecurityHandler sh = FusekiTestAuth.makeSimpleSecurityHandler("/*", USER, PASSWORD);
         FusekiTestAuth.setupServer(true, sh);
-        client = HttpClient.newBuilder().authenticator(AuthLib.authenticator(USER, PASSWORD)).build();
+
+        BasicCredentialsProvider credsProv = new BasicCredentialsProvider();
+        credsProv.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(USER, PASSWORD));
+        client = HttpClients.custom().setDefaultCredentialsProvider(credsProv).build();
 
         connection = new RemoteEndpointConnection(FusekiTestAuth.serviceQuery(), FusekiTestAuth.serviceUpdate(), null, null, null, null,
                 client, JenaConnection.DEFAULT_HOLDABILITY, JdbcCompatibility.DEFAULT, null, null);
@@ -76,10 +87,8 @@ public class TestRemoteEndpointResultsWithAuth extends AbstractRemoteEndpointRes
     @After
     public void cleanupTest() {
         Update clearRequest = new UpdateDrop(Target.ALL) ;
-        UpdateExecution.service(FusekiTestAuth.serviceUpdate())
-            .update(clearRequest)
-            .httpClient(client)
-            .execute();
+        UpdateProcessor proc = new UpdateProcessRemote(new UpdateRequest(clearRequest,null), FusekiTestAuth.serviceUpdate(), null, client, null) ;
+        proc.execute() ;
     }
 
     /**
@@ -89,6 +98,7 @@ public class TestRemoteEndpointResultsWithAuth extends AbstractRemoteEndpointRes
      */
     @AfterClass
     public static void cleanup() throws SQLException {
+        HttpOp1.setDefaultHttpClient(HttpOp1.createPoolingHttpClient());
         connection.close();
         FusekiTestAuth.teardownServer();
     }
@@ -100,7 +110,7 @@ public class TestRemoteEndpointResultsWithAuth extends AbstractRemoteEndpointRes
 
     @Override
     protected ResultSet createResults(Dataset ds, String query, int resultSetType) throws SQLException {
-        TestJdbcRemoteUtils.copyToRemoteDataset(ds, FusekiTestAuth.serviceGSP(), client);
+        TestJdbcUtils.copyToRemoteDataset(ds, FusekiTestAuth.serviceGSP(), client);
         Statement stmt = connection.createStatement(resultSetType, ResultSet.CONCUR_READ_ONLY);
         return stmt.executeQuery(query);
     }

@@ -17,14 +17,18 @@
  */
 package org.apache.jena.geosparql.spatial;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-
-import org.apache.jena.atlas.RuntimeIOException;
-import org.apache.jena.atlas.io.IOX;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.jena.geosparql.configuration.GeoSPARQLOperations;
 import org.apache.jena.geosparql.implementation.GeometryWrapper;
 import org.apache.jena.geosparql.implementation.SRSInfo;
@@ -35,7 +39,14 @@ import org.apache.jena.geosparql.implementation.vocabulary.SpatialExtension;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.ReadWrite;
-import org.apache.jena.rdf.model.*;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.sparql.engine.ExecutionContext;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
@@ -447,7 +458,7 @@ public class SpatialIndex {
 
             Literal lat = feature.getRequiredProperty(SpatialExtension.GEO_LAT_PROP).getLiteral();
             Literal lon = feature.getProperty(SpatialExtension.GEO_LON_PROP).getLiteral();
-            if (lon == null) {
+            if ( lon == null ) {
                 LOGGER.warn("Geo predicates: latitude found but not longitude. " + feature);
                 continue;
             }
@@ -522,25 +533,13 @@ public class SpatialIndex {
         if (spatialIndexFile != null) {
             LOGGER.info("Saving Spatial Index - Started: {}", spatialIndexFile.getAbsolutePath());
             SpatialIndexStorage storage = new SpatialIndexStorage(spatialIndexItems, srsURI);
-            String filename = spatialIndexFile.getAbsolutePath();
-            Path file = Path.of(filename);
-            Path tmpFile = IOX.uniqueDerivedPath(file, null);
-            try {
-                Files.deleteIfExists(file);
-            } catch (IOException ex) {
-                throw new SpatialIndexException("Failed to delete file: " + ex.getMessage());
-            }
-            try {
-                IOX.safeWriteOrCopy(file, tmpFile,
-                                    out->{
-                                        ObjectOutputStream oos = new ObjectOutputStream(out);
-                                        oos.writeObject(storage);
-                                    });
-            } catch (RuntimeIOException ex) {
-                throw new SpatialIndexException("Save Exception: " + ex.getMessage());
-            } finally {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(spatialIndexFile))) {
+                out.writeObject(storage);
                 LOGGER.info("Saving Spatial Index - Completed: {}", spatialIndexFile.getAbsolutePath());
+            } catch (Exception ex) {
+                throw new SpatialIndexException("Save Exception: " + ex.getMessage());
             }
         }
     }
+
 }

@@ -18,6 +18,7 @@
 
 package org.apache.jena.sparql.syntax.syntaxtransform ;
 
+import org.apache.jena.sparql.modify.UpdateResult;
 import java.util.ArrayList ;
 import java.util.List ;
 import java.util.Map ;
@@ -30,6 +31,7 @@ import org.apache.jena.sparql.core.Quad ;
 import org.apache.jena.sparql.core.Var ;
 import org.apache.jena.sparql.expr.ExprTransform ;
 import org.apache.jena.sparql.graph.NodeTransform ;
+import org.apache.jena.sparql.modify.UpdateResult;
 import org.apache.jena.sparql.modify.request.* ;
 import org.apache.jena.sparql.syntax.Element ;
 import org.apache.jena.update.Update ;
@@ -80,7 +82,7 @@ public class UpdateTransformOps {
     }
 
     public static UpdateRequest transform(UpdateRequest update, ElementTransform transform, ExprTransform exprTransform) {
-        UpdateRequest req = new UpdateRequest() ;
+        UpdateRequest req = new UpdateRequest(update.getConnectionContext()) ;
         req.getPrefixMapping().setNsPrefixes(update.getPrefixMapping()) ;
         
         for (Update up : update.getOperations()) {
@@ -137,17 +139,19 @@ public class UpdateTransformOps {
         }
 
         @Override
-        public void visit(UpdateDataInsert update) {
+        public UpdateResult visit(UpdateDataInsert update) {
             result = update ;
+            return null;
         }
 
         @Override
-        public void visit(UpdateDataDelete update) {
+        public UpdateResult visit(UpdateDataDelete update) {
             result = update ;
+            return null;
         }
 
         @Override
-        public void visit(UpdateDeleteWhere update) {
+        public UpdateResult visit(UpdateDeleteWhere update) {
             List<Quad> quads = update.getQuads() ;
             List<Quad> quads2 = transform(quads) ;
             if ( quads == quads2 )
@@ -155,12 +159,14 @@ public class UpdateTransformOps {
             else {
                 QuadAcc acc = new QuadAcc() ;
                 addAll(acc, quads2) ;
-                result = new UpdateDeleteWhere(acc) ;
+                result = new UpdateDeleteWhere(acc,update.getConnectionContext()) ;
             }
+            
+            return null;
         }
 
         @Override
-        public void visit(UpdateModify update) {
+        public UpdateResult visit(UpdateModify update) {
             Element el = update.getWherePattern() ;
             Element el2 = ElementTransformer.transform(el, elTransform, exprTransform) ;
 
@@ -169,12 +175,13 @@ public class UpdateTransformOps {
             List<Quad> ins = update.getInsertQuads() ;
             List<Quad> ins1 = transform(ins) ;
 
-            UpdateModify mod = new UpdateModify() ;
+            UpdateModify mod = new UpdateModify(update.getConnectionContext()) ;
 
             addAll(mod.getDeleteAcc(), del1) ;
             addAll(mod.getInsertAcc(), ins1) ;
             mod.setElement(el2); 
             result = mod ;
+            return null;
         }
 
         private void addAll(QuadAcc acc, List<Quad> quads) {

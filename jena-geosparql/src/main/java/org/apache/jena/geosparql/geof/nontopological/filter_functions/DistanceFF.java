@@ -19,7 +19,6 @@ package org.apache.jena.geosparql.geof.nontopological.filter_functions;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.geosparql.implementation.GeometryWrapper;
-import org.apache.jena.geosparql.implementation.UnitsConversionException;
 import org.apache.jena.geosparql.implementation.index.GeometryLiteralIndex.GeometryIndex;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
@@ -53,7 +52,7 @@ public class DistanceFF extends FunctionBase3 {
             return NodeValue.makeDouble(distance);
         } catch (DatatypeFormatException ex) {
             throw new ExprEvalException(ex.getMessage(), ex);
-        } catch (FactoryException | MismatchedDimensionException | TransformException | UnitsConversionException ex) {
+        } catch (FactoryException | MismatchedDimensionException | TransformException ex) {
             throw new ExprEvalException(ex.getMessage() + ": " + FmtUtils.stringForNode(v1.asNode()) + ", " + FmtUtils.stringForNode(v2.asNode()) + ", " + FmtUtils.stringForNode(v3.asNode()), ex);
         }
 

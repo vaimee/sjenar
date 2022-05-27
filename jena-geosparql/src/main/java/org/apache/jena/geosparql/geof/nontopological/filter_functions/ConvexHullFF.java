@@ -19,7 +19,6 @@ package org.apache.jena.geosparql.geof.nontopological.filter_functions;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
 import org.apache.jena.geosparql.implementation.GeometryWrapper;
-import org.apache.jena.geosparql.implementation.UnitsConversionException;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
 import org.apache.jena.sparql.function.FunctionBase1;
@@ -39,7 +38,7 @@ public class ConvexHullFF extends FunctionBase1 {
 
             GeometryWrapper convexHull = geometry.convexHull();
             return convexHull.asNodeValue();
-        } catch (DatatypeFormatException | UnitsConversionException ex) {
+        } catch (DatatypeFormatException ex) {
             throw new ExprEvalException(ex.getMessage(), ex);
         }
     }

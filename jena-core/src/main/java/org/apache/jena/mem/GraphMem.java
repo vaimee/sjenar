@@ -22,11 +22,6 @@ import org.apache.jena.graph.* ;
 import org.apache.jena.graph.impl.TripleStore ;
 import org.apache.jena.util.iterator.ExtendedIterator ;
 
-/** @deprecated This implementation of GraphMem will be replaced by a new implementation at Jena 4.6.0.
- *   Application should be using {@link Factory#createDefaultGraph()} for a general purpose graph or {@link Factory#createGraphMem()}
- *   to specific this style of implementation.
-*/
-@Deprecated
 public class GraphMem extends GraphMemBase
 {
     public GraphMem()
@@ -38,11 +33,11 @@ public class GraphMem extends GraphMemBase
     @Override protected void destroy()
     { store.close(); }
 
-    @Override public void performAdd( Triple t )
-    { store.add( t ); }
+    @Override public boolean performAdd( Triple t )
+    { return store.add( t ); }
 
-    @Override public void performDelete( Triple t )
-    { store.delete( t ); }
+    @Override public boolean performDelete( Triple t )
+    { return store.delete( t ); }
 
     @Override public int graphBaseSize()
     { return store.size(); }

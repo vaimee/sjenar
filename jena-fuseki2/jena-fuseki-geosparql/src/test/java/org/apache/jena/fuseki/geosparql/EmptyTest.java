@@ -76,8 +76,12 @@ public class EmptyTest {
                 + "}";
 
         UpdateRequest updateRequest = UpdateFactory.create(update);
-        UpdateExecution updateProcessor = UpdateExecution.service(SERVER.getLocalServiceURL()).update(updateRequest).build();
+        UpdateProcessor updateProcessor = UpdateExecution.service(SERVER.getLocalServiceURL()).update(updateRequest).build();
+
+        //UpdateProcessor updateProcessor = UpdateExecutionFactory.createRemote(updateRequest, SERVER.getLocalServiceURL());
         updateProcessor.execute();
+
+        System.out.println("Server: " + SERVER.getLocalServiceURL());
     }
 
     @AfterClass

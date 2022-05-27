@@ -18,28 +18,11 @@
 
 package org.apache.jena.tdb2.xloader;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Objects;
-
-import org.apache.jena.tdb2.TDBException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BulkLoaderX {
     public static int DataTick = 1_000_000;
     public static int DataSuperTick = 10;
-
-    /**
-     * Marker at end of each step with the log message about the statistics.
-     * Grep for this in the logs.
-     */
-    public static final String StepMarker = "==-==-==";
-
-    /**
-     * Marker at the start of a stage within a step.
-     */
-    public static final String StageMarker = "==";
 
     /**
      * Whether to compress the triple.tmp and quads.tmp files.
@@ -57,26 +40,6 @@ public class BulkLoaderX {
      * Whether to compress intermediate sort files for the indexes.
      */
     public static boolean CompressSortIndexFiles = true;
-
-    // Ubuntu: it now (21.04) is at /usr/bin/gzip.
-    //   /bin has become a symbolic link to /usr/bin.
-    //   New installs of 20.04 have it at /usr/bin, upgrades have it at /bin.
-    /*package*/ static String gzipProgram() {
-        if ( programInstalledAt("/usr/bin/gzip") )
-            return "/usr/bin/gzip";
-        if ( programInstalledAt("/bin/gzip") )
-            return "/bin/gzip";
-        throw new TDBException("Can't find gzip program");
-    }
-
-    private static boolean programInstalledAt(String pathname) {
-        Path path = Path.of(pathname);
-        if ( ! Files.exists(path) )
-            return false;
-        if ( ! Files.isExecutable(path) )
-            throw new TDBException(pathname+" is not executable by this process");
-        return true;
-    }
 
     public static Thread async(Runnable action, String threadName) {
         Objects.requireNonNull(action);
@@ -111,11 +74,4 @@ public class BulkLoaderX {
         //long check = 3600 * h + 60 * m + s;
         return String.format("%dh %02dm %02ds", h, m, s);
     }
-
-    // Loggers
-
-    public static Logger LOG_Data  = LoggerFactory.getLogger("Data");
-    public static Logger LOG_Nodes = LoggerFactory.getLogger("Nodes");
-    public static Logger LOG_Terms = LoggerFactory.getLogger("Terms");
-    public static Logger LOG_Index = LoggerFactory.getLogger("Index");
 }

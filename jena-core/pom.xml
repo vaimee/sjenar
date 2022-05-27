@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -41,13 +41,13 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-base</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-base</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-iri</artifactId>
-      <version>4.6.0-SNAPSHOT</version>
+      <version>4.3.2</version>
     </dependency>
 
      <dependency>
@@ -63,31 +63,15 @@
        <groupId>commons-cli</groupId>
      </dependency>
 
-     <dependency>
-       <groupId>junit</groupId>
-       <artifactId>junit</artifactId>
-       <scope>test</scope>
-    </dependency>
-    
     <dependency>
-      <groupId>org.xenei</groupId>
-      <artifactId>junit-contracts</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-cli</artifactId>
-          <groupId>commons-cli</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
+      <groupId>org.xenei</groupId>
+      <artifactId>junit-contracts</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -188,6 +172,7 @@
           <windowtitle>Apache Jena</windowtitle>
           <doctitle>Apache Jena Core ${project.version}</doctitle>
           <bottom>Licenced under the Apache License, Version 2.0</bottom>
+<!--           <excludePackageNames>org.apache.jena.shared.*:*.impl:org.apache.jena.assembler.assemblers:*.exceptions:*.regexptrees:org.apache.jena.mem:org.apache.jena.mem.*:org.apache.jena.n3:org.apache.jena.n3.*:org.apache.jena.rdf.arp.*:org.apache.jena.util.*:jena.cmdline:jena.util</excludePackageNames> -->
           <excludePackageNames>org.apache.jena.n3:org.apache.jena.n3.*</excludePackageNames>
           <groups>
             <group>
@@ -224,14 +209,7 @@
           <execution>
             <goals>
               <goal>test-jar</goal>
-            </goals> 
-            <configuration>
-              <archive>
-                <manifestEntries>
-                  <Automatic-Module-Name>${automatic.module.name}.test</Automatic-Module-Name>
-                </manifestEntries>
-              </archive>
-            </configuration>
+            </goals>
           </execution>
         </executions>
       </plugin>

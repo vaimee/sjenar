@@ -27,7 +27,6 @@ import org.apache.jena.graph.Node ;
 import org.apache.jena.graph.Triple ;
 import org.apache.jena.query.* ;
 import org.apache.jena.rdf.model.* ;
-import org.apache.jena.shared.PropertyNotFoundException;
 import org.apache.jena.sparql.util.NotUniqueException ;
 import org.apache.jena.sparql.util.PropertyRequiredException ;
 import org.apache.jena.sparql.util.QueryExecUtils;
@@ -133,42 +132,24 @@ public class GraphUtils {
         return true ;
     }
 
-    public static boolean getBooleanValue(Resource r, Property p) {
-        if ( !GraphUtils.atmostOneProperty(r, p) )
-            throw new NotUniqueException(r, p) ;
-        Statement s = r.getProperty(p) ;
-        if ( s == null )
-            throw new PropertyNotFoundException(p);
-        return s.getBoolean();
-    }
-
-    /** Get a string literal. */
     public static String getStringValue(Resource r, Property p) {
-        RDFNode obj = getAsRDFNode(r, p);
-        if ( obj == null )
-            return null;
-        return obj.asLiteral().getString();
-    }
-
-    /** Get a string literal or a URI as a string. */
-    public static String getAsStringValue(Resource r, Property p) {
-        RDFNode obj = getAsRDFNode(r, p);
-        if ( obj == null )
-            return null;
-        if ( obj.isResource() )
-            return obj.asResource().getURI() ;
-        if ( obj.isLiteral() )
-            return obj.asLiteral().getString();
-        throw new UnsupportedOperationException("Not a URI or a string");
-    }
-
-    public static RDFNode getAsRDFNode(Resource r, Property p) {
         if ( !atmostOneProperty(r, p) )
             throw new NotUniqueException(r, p) ;
         Statement s = r.getProperty(p) ;
         if ( s == null )
             return null ;
-        return s.getObject();
+        return s.getString() ;
+    }
+
+    public static String getAsStringValue(Resource r, Property p) {
+        if ( !atmostOneProperty(r, p) )
+            throw new NotUniqueException(r, p) ;
+        Statement s = r.getProperty(p) ;
+        if ( s == null )
+            return null ;
+        if ( s.getObject().isResource() )
+            return s.getResource().getURI() ;
+        return s.getString() ;
     }
 
     public static Resource getResourceValue(Resource r, Property p) {

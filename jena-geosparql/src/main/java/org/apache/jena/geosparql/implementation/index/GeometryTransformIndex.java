@@ -57,18 +57,22 @@ public class GeometryTransformIndex {
         String key = sourceGeometryWrapper.getLexicalForm() + "@" + srsURI;
 
         if (INDEX_ACTIVE && storeSRSTransform) {
-            
-            transformedGeometryWrapper = GEOMETRY_TRANSFORM_INDEX.get(key);
-            if (transformedGeometryWrapper == null) {
-                transformedGeometryWrapper = transform(sourceGeometryWrapper, srsURI);
-                GEOMETRY_TRANSFORM_INDEX.put(key, transformedGeometryWrapper);
+            try {
+                if (GEOMETRY_TRANSFORM_INDEX.containsKey(key)) {
+
+                    transformedGeometryWrapper = GEOMETRY_TRANSFORM_INDEX.get(key);
+
+                } else {
+                    transformedGeometryWrapper = transform(sourceGeometryWrapper, srsURI);
+                    GEOMETRY_TRANSFORM_INDEX.put(key, transformedGeometryWrapper);
+                }
+                return transformedGeometryWrapper;
+            } catch (NullPointerException ex) {
+                //Catch NullPointerException and fall through to default action.
             }
-                        
-        } else {
-            transformedGeometryWrapper = transform(sourceGeometryWrapper, srsURI);
         }
-        
-        return transformedGeometryWrapper;
+        return transform(sourceGeometryWrapper, srsURI);
+
     }
 
     private static GeometryWrapper transform(GeometryWrapper sourceGeometryWrapper, String srsURI) throws MismatchedDimensionException, FactoryException, TransformException {

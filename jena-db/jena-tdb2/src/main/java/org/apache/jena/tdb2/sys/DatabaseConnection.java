@@ -20,6 +20,7 @@ package org.apache.jena.tdb2.sys;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -72,7 +73,7 @@ public class DatabaseConnection {
         DatabaseConnection dbConn = cache.computeIfAbsent(location, (loc)->build(loc, params));
         return dbConn;
     }
-
+    
     /**
      * Create a fresh {@link DatabaseConnection}. This new object is independent of
      * any other {@link DatabaseConnection} for the same location. This function must
@@ -91,7 +92,7 @@ public class DatabaseConnection {
         }
         ProcessFileLock lock = null;
         if (SystemTDB.DiskLocationMultiJvmUsagePrevention && ! location.isMem() ) {
-            // Take the lock for the switchable.
+            // Take the lock for the swithable.
             // StoreConnection will take a lock for the storage.
             lock = lockForLocation(location);
             // Take the lock.  This is atomic and non-reentrant.
@@ -99,7 +100,7 @@ public class DatabaseConnection {
         }
         // c.f. StoreConnection.make
         DatasetGraph dsg = DatabaseOps.create(location, params);
-
+        
         return new DatabaseConnection(dsg, location, lock);
     }
 
@@ -160,7 +161,7 @@ public class DatabaseConnection {
      */
     public static synchronized void internalReset() {
         // Copy to avoid potential CME.
-        Set<Location> x = Set.copyOf(cache.keySet());
+        Set<Location> x = new HashSet<>(cache.keySet());
         for (Location loc : x)
             internalExpel(loc, true);
         if ( ! cache.isEmpty() )
@@ -179,7 +180,7 @@ public class DatabaseConnection {
     private DatabaseConnection(DatasetGraph dsg, Location location, ProcessFileLock fileLock)
     {
         this.datasetGraph = dsg;
-        this.datasetGraphSwitchable = ( dsg instanceof DatasetGraphSwitchable ) ? (DatasetGraphSwitchable )dsg : null;
+        this.datasetGraphSwitchable =  ( dsg instanceof DatasetGraphSwitchable ) ? (DatasetGraphSwitchable )dsg : null;
         this.location = location;
         this.lock = fileLock;
     }

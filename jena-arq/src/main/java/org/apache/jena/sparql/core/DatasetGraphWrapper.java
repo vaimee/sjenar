@@ -96,9 +96,9 @@ public class DatasetGraphWrapper implements DatasetGraph, Sync
      *  delegated call.  Changes to the wrapped object can be
      *  made based on that contract.
      */
-    protected DatasetGraph get()  { return dsg; }
+    protected DatasetGraph get() { return dsg; }
 
-    protected Context getCxt()    { return context; }
+    protected Context getCxt()   { return context; }
 
     /** For operations that only read the DatasetGraph. */
     protected DatasetGraph getR() { return get(); }
@@ -152,7 +152,6 @@ public class DatasetGraphWrapper implements DatasetGraph, Sync
     public void removeGraph(Node graphName)
     { getW().removeGraph(graphName); }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void setDefaultGraph(Graph g)
     { getW().setDefaultGraph(g); }
@@ -166,20 +165,20 @@ public class DatasetGraphWrapper implements DatasetGraph, Sync
     { return getR().listGraphNodes(); }
 
     @Override
-    public void add(Quad quad)
-    { getW().add(quad); }
+    public boolean  add(Quad quad)
+    { return getW().add(quad); }
 
     @Override
-    public void delete(Quad quad)
-    { getW().delete(quad); }
+    public boolean delete(Quad quad)
+    { return getW().delete(quad); }
 
     @Override
-    public void add(Node g, Node s, Node p, Node o)
-    { getW().add(g, s, p, o); }
+    public boolean add(Node g, Node s, Node p, Node o)
+    { return getW().add(g, s, p, o); }
 
     @Override
-    public void delete(Node g, Node s, Node p, Node o)
-    { getW().delete(g, s, p, o); }
+    public boolean delete(Node g, Node s, Node p, Node o)
+    { return getW().delete(g, s, p, o); }
 
     @Override
     public void deleteAny(Node g, Node s, Node p, Node o)

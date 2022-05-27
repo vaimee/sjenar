@@ -65,7 +65,7 @@ public abstract class TableBase implements Table {
 
     @Override
     public RowSet toRowSet() {
-        return RowSetStream.create(getVars(), rows());
+        return new RowSetStream(getVars(), rows());
     }
 
     @Override

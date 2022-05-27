@@ -36,8 +36,6 @@ import org.apache.jena.graph.Triple;
 import org.apache.jena.query.ReadWrite;
 import org.apache.jena.query.TxnType;
 import org.apache.jena.riot.system.PrefixMap;
-import org.apache.jena.shared.AddDeniedException;
-import org.apache.jena.shared.DeleteDeniedException;
 import org.apache.jena.sparql.core.DatasetGraphBaseFind;
 import org.apache.jena.sparql.core.DatasetGraphTriplesQuads;
 import org.apache.jena.sparql.core.Quad;
@@ -45,17 +43,18 @@ import org.apache.jena.sparql.core.Transactional;
 
 /** Alternative: DatasetGraph over RDFStorage, using DatasetGraphBaseFind
  *  Collapses DatasetGraphTriplesQuads into this adapter class.
- *  <pre>
- *   DatasetGraph
- *     DatasetGraphBase
- *       DatasetGraphBaseFind
- *         DatasetGraphStorage
- *    </pre>
- *
+<pre>
+DatasetGraph
+  DatasetGraphBase
+    DatasetGraphBaseFind
+      DatasetGraphStorageDirect
+</pre>
+/**
  * A DatasetGraph base class for triples+quads storage. The machinery is really
  * the splitting between default and named graphs. This happens in two classes,
  * {@link DatasetGraphBaseFind} (for find splitting) and
- * {@link DatasetGraphTriplesQuads} add/delete splitting (it inherits {@link DatasetGraphBaseFind}).
+ * {@link DatasetGraphTriplesQuads} add/delete splitting (it inherits
+ * {@link DatasetGraphBaseFind}).
  * <p>
  * Because storage is usually decomposing quads and triples, the default
  * behaviour is to work in s/p/o and g/s/p/o.
@@ -159,39 +158,35 @@ public class DatasetGraphStorage extends DatasetGraphBaseFind implements Databas
     }
 
     @Override
-    public void add(Quad quad) {
+    public boolean  add(Quad quad) {
         if ( Quad.isDefaultGraph(quad.getGraph()) )
-            storage.add(quad.getSubject(), quad.getPredicate(), quad.getObject());
+            return storage.add(quad.getSubject(), quad.getPredicate(), quad.getObject());
         else
-            storage.add(quad);
+            return  storage.add(quad);
     }
 
     @Override
-    public void delete(Quad quad) {
+    public boolean delete(Quad quad) {
         if ( Quad.isDefaultGraph(quad.getGraph()) )
-            storage.delete(quad.getSubject(), quad.getPredicate(), quad.getObject());
+            return storage.delete(quad.getSubject(), quad.getPredicate(), quad.getObject());
         else
-            storage.delete(quad);
+            return storage.delete(quad);
     }
 
     @Override
-    public void add(Node g, Node s, Node p, Node o) {
-        if ( Quad.isUnionGraph(g))
-            throw new AddDeniedException("Can't add to the union graph");
+    public boolean  add(Node g, Node s, Node p, Node o) {
         if ( g == null || Quad.isDefaultGraph(g) )
-            storage.add(s,p,o);
+            return storage.add(s,p,o);
         else
-            storage.add(g,s,p,o);
+            return storage.add(g,s,p,o);
     }
 
     @Override
-    public void delete(Node g, Node s, Node p, Node o) {
-        if ( Quad.isUnionGraph(g))
-            throw new DeleteDeniedException("Can't remove from the union graph");
+    public boolean delete(Node g, Node s, Node p, Node o) {
         if ( g == null || Quad.isDefaultGraph(g) )
-            storage.delete(s,p,o);
+            return storage.delete(s,p,o);
         else
-            storage.delete(g,s,p,o);
+            return storage.delete(g,s,p,o);
     }
 
     @Override

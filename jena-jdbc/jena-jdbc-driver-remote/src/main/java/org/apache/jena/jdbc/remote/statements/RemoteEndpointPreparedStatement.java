@@ -18,20 +18,19 @@
 
 package org.apache.jena.jdbc.remote.statements;
 
-import java.net.http.HttpClient;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 
+import org.apache.http.client.HttpClient;
 import org.apache.jena.jdbc.remote.connections.RemoteEndpointConnection;
 import org.apache.jena.jdbc.statements.JenaPreparedStatement;
 import org.apache.jena.query.Query ;
 import org.apache.jena.query.QueryExecution ;
 import org.apache.jena.query.ReadWrite ;
-import org.apache.jena.sparql.exec.http.QueryExecutionHTTP;
-import org.apache.jena.sparql.exec.http.QueryExecutionHTTPBuilder;
-import org.apache.jena.sparql.exec.http.UpdateExecutionHTTP;
-import org.apache.jena.sparql.exec.http.UpdateExecutionHTTPBuilder;
+import org.apache.jena.sparql.engine.http.QueryEngineHTTP ;
+import org.apache.jena.sparql.modify.UpdateProcessRemote;
+import org.apache.jena.sparql.modify.UpdateProcessRemoteBase ;
 import org.apache.jena.update.UpdateProcessor ;
 import org.apache.jena.update.UpdateRequest ;
 
@@ -39,6 +38,7 @@ import org.apache.jena.update.UpdateRequest ;
  * A Jena JDBC statement against a remote endpoint
  *
  */
+@SuppressWarnings("deprecation")
 public class RemoteEndpointPreparedStatement extends JenaPreparedStatement {
 
     private RemoteEndpointConnection remoteConn;
@@ -92,51 +92,52 @@ public class RemoteEndpointPreparedStatement extends JenaPreparedStatement {
             throw new SQLException("This statement is backed by a write-only connection, read operations are not supported");
 
         // Create basic execution
-        QueryExecutionHTTPBuilder exec = QueryExecutionHTTP.service(this.remoteConn.getQueryEndpoint()).query(q);
+        QueryEngineHTTP exec = new QueryEngineHTTP(this.remoteConn.getQueryEndpoint(), q);
+
 
         // Apply HTTP settings
         if (this.client != null) {
-            exec.httpClient(client);
+            exec.setClient(this.client);
         }
 
         // Apply default and named graphs if appropriate
         if (this.remoteConn.getDefaultGraphURIs() != null) {
-            this.remoteConn.getDefaultGraphURIs().forEach(exec::addDefaultGraphURI);
+            exec.setDefaultGraphURIs(this.remoteConn.getDefaultGraphURIs());
         }
         if (this.remoteConn.getNamedGraphURIs() != null) {
-            this.remoteConn.getNamedGraphURIs().forEach(exec::addNamedGraphURI);
+            exec.setNamedGraphURIs(this.remoteConn.getNamedGraphURIs());
         }
 
         // Set result types
         if (this.remoteConn.getSelectResultsType() != null) {
-            exec.acceptHeader(this.remoteConn.getSelectResultsType());
+            exec.setSelectContentType(this.remoteConn.getSelectResultsType());
         }
         if (this.remoteConn.getModelResultsType() != null) {
-            exec.acceptHeader(this.remoteConn.getModelResultsType());
+            exec.setModelContentType(this.remoteConn.getModelResultsType());
         }
 
         // Return execution
-        return exec.build();
+        return exec;
     }
 
     @Override
     protected UpdateProcessor createUpdateProcessor(UpdateRequest u) {
-        UpdateExecutionHTTPBuilder proc = UpdateExecutionHTTP.service(this.remoteConn.getUpdateEndpoint()).update(u);
+        UpdateProcessRemoteBase proc = new UpdateProcessRemote(u, this.remoteConn.getUpdateEndpoint(),null);
 
         // Apply HTTP settings
         if (this.client != null) {
-            proc.httpClient(this.client);
+            proc.setClient(this.client);
         }
 
         // Apply default and named graphs if appropriate
         if (this.remoteConn.getUsingGraphURIs() != null) {
-            this.remoteConn.getUsingGraphURIs().forEach(proc::addUsingGraphURI);
+            proc.setDefaultGraphs(this.remoteConn.getUsingGraphURIs());
         }
         if (this.remoteConn.getNamedGraphURIs() != null) {
-            this.remoteConn.getNamedGraphURIs().forEach(proc::addUsingNamedGraphURI);
+            proc.setNamedGraphs(this.remoteConn.getUsingNamedGraphURIs());
         }
 
-        return proc.build();
+        return proc;
     }
 
     @Override

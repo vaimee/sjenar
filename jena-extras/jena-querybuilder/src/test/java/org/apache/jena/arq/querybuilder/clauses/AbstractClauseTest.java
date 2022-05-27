@@ -24,10 +24,11 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.jena.arq.AbstractRegexpBasedTest;
 import org.apache.jena.arq.querybuilder.AbstractQueryBuilder;
 import org.apache.jena.query.Query;
 
-public abstract class AbstractClauseTest { 
+public abstract class AbstractClauseTest extends AbstractRegexpBasedTest {
 
     protected final static String[] byLine(AbstractQueryBuilder<?> builder) {
         return builder.buildString().split("\n");

@@ -66,7 +66,7 @@ public abstract class AbstractTestDataset
 
     @Test public void dataset_03() {
         Dataset ds = createDataset();
-        ds.getDefaultModel().removeAll().add(model2);
+        ds.setDefaultModel(model2);
         assertTrue(model2.isIsomorphicWith(ds.getDefaultModel()));
     }
 

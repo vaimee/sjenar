@@ -54,7 +54,8 @@ public class ParseHandlerResolver extends ParseHandlerForm {
     private PrefixMapping topMap = null;
     private String topBase = null;
     private ItemList declList = null;
-    private Deque<State> state = new ArrayDeque<>(); // Previous state (not the current one)
+    private Deque<State> state = new ArrayDeque<>(); // Previous state (not the
+                                                     // current one)
 
     public ParseHandlerResolver(String baseStr, PrefixMapping prefixMapping) {
         this.prefixes = prefixMapping;

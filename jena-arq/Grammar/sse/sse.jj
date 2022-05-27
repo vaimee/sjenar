@@ -71,11 +71,10 @@ void parse() : { }
     { parseFinish() ; }
 }
 
-// Parse one atom  - non-compound RDF term.
-void atom() : { }
+void term() : { }
 {
     { parseStart() ; }
-    TermAtom()
+    Term()
     <EOF>
     { parseFinish() ; }
 }
@@ -84,7 +83,7 @@ void atom() : { }
 
 void TermOrList() : { }
 {
-  ( TermAtom() (<WS>)* | List() )
+  ( Term() (<WS>)* |  List() )
 }
 
 void List() : { Token t ; }
@@ -115,14 +114,12 @@ void BareList() : { }
   )*
 }
 
-void TermAtom() : { }
+void Term() : { }
 {
-  Symbol() | RDFTermAtom()
+  Symbol() | RDFTerm()
 }
 
-// Atomic RDF terms URI, literal, bnode, variable.
-// Not quoted triple. unless <<>> support is active.
-void RDFTermAtom() : { }
+void RDFTerm() : { }
 {
     IRIref()
   |
@@ -200,11 +197,11 @@ void TripleTerm() :     { Token t1 = null ; Token t2 = null ; }
     t1 = <LT2>
     (<WS>)*
     { tripleTermStart(t1.beginLine, t1.beginColumn); }
-    RDFTermAtom()
+    RDFTerm()
     (<WS>)*
-    RDFTermAtom()
+    RDFTerm()
     (<WS>)*
-    RDFTermAtom()
+    RDFTerm()
     (<WS>)*
     t2 = <GT2>
     { tripleTermFinish(t2.beginLine, t2.beginColumn); }

@@ -29,7 +29,7 @@ public class StatsCollector extends StatsCollectorBase<Node>
     public StatsCollector() { super(NodeConst.nodeRDFType) ; }
 
     @Override
-    protected Map<Node, Long> convert(Map<Node, Long> map)
+    protected Map<Node, Integer> convert(Map<Node, Integer> map)
     {
         return map ;
     }

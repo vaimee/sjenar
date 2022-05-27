@@ -18,7 +18,6 @@
 package org.apache.jena.geosparql.spatial.filter_functions;
 
 import org.apache.jena.datatypes.DatatypeFormatException;
-import org.apache.jena.geosparql.implementation.UnitsConversionException;
 import org.apache.jena.geosparql.implementation.UnitsOfMeasure;
 import org.apache.jena.geosparql.implementation.great_circle.GreatCircleDistance;
 import org.apache.jena.geosparql.implementation.registry.UnitsRegistry;
@@ -72,14 +71,11 @@ public class GreatCircleFF extends FunctionBase5 {
             double distanceMetres = GreatCircleDistance.haversineFormula(lat1, lon1, lat2, lon2);
 
             //Convert the Great Circle distance from metres into the requested units.
-            if (!UnitsRegistry.isLinearUnits(unitsURI)) {
-                throw new ExprEvalException("Great Circle distance units are metres and only linear conversion supported.");
-            }
-
-            double distance = UnitsOfMeasure.conversion(distanceMetres, Unit_URI.METRE_URL, unitsURI);
+            Boolean isUnitsLinear = UnitsRegistry.isLinearUnits(unitsURI);
+            double distance = UnitsOfMeasure.convertBetween(distanceMetres, Unit_URI.METRE_URL, unitsURI, isUnitsLinear, lat1);
 
             return NodeValue.makeDouble(distance);
-        } catch (DatatypeFormatException | UnitsConversionException ex) {
+        } catch (DatatypeFormatException ex) {
             throw new ExprEvalException(ex.getMessage(), ex);
         }
     }

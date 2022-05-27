@@ -34,8 +34,7 @@ import org.apache.jena.riot.system.Prefixes;
 import org.apache.jena.sparql.graph.GraphOps;
 import org.apache.jena.sparql.graph.GraphZero;
 
-/**
- * DatasetGraph of a single graph as default graph.
+/** DatasetGraph of a single graph as default graph.
  * <p>
  *  Fixed as one graph (the default) - named graphs can not be added nor the default graph changed, only the contents modified.
  *  <p>
@@ -94,16 +93,15 @@ public class DatasetGraphOne extends DatasetGraphBaseFind {
         this.supportsAbort = supportsAbort;
     }
 
-    private final Transactional txn()                   { return txn; }
-    @Override public void begin(TxnType txnType)        { txn().begin(txnType); }
-    @Override public void begin(ReadWrite mode)         { txn().begin(mode); }
-    @Override public void commit()                      { txn().commit(); }
-    @Override public boolean promote(Promote txnType)   { return txn().promote(txnType); }
-    @Override public void abort()                       { txn().abort(); }
-    @Override public boolean isInTransaction()          { return txn().isInTransaction(); }
-    @Override public void end()                         { txn().end(); }
-    @Override public ReadWrite transactionMode()        { return txn().transactionMode(); }
-    @Override public TxnType transactionType()          { return txn().transactionType(); }
+    @Override public void begin(TxnType txnType)        { txn.begin(txnType); }
+    @Override public void begin(ReadWrite mode)         { txn.begin(mode); }
+    @Override public void commit()                      { txn.commit(); }
+    @Override public boolean promote(Promote txnType)   { return txn.promote(txnType); }
+    @Override public void abort()                       { txn.abort(); }
+    @Override public boolean isInTransaction()          { return txn.isInTransaction(); }
+    @Override public void end()                         { txn.end(); }
+    @Override public ReadWrite transactionMode()        { return txn.transactionMode(); }
+    @Override public TxnType transactionType()          { return txn.transactionType(); }
     @Override public boolean supportsTransactions()     { return true; }
     @Override public boolean supportsTransactionAbort() { return supportsAbort; }
 
@@ -149,35 +147,43 @@ public class DatasetGraphOne extends DatasetGraphBaseFind {
     }
 
     @Override
-    public void add(Node g, Node s, Node p, Node o) {
+    public boolean add(Node g, Node s, Node p, Node o) {
         if ( Quad.isDefaultGraph(g) )
-            graph.add(new Triple(s, p, o));
-        else
+            return graph.add(new Triple(s, p, o));
+        else {
             unsupportedMethod(this, "add(named graph)");
+            return false;
+        }
     }
 
     @Override
-    public void add(Quad quad) {
+    public boolean add(Quad quad) {
         if ( isDefaultGraph(quad) )
-            graph.add(quad.asTriple());
-        else
+            return graph.add(quad.asTriple());
+        else {
             unsupportedMethod(this, "add(named graph)");
+            return false;
+        }
     }
 
     @Override
-    public void delete(Node g, Node s, Node p, Node o) {
+    public boolean delete(Node g, Node s, Node p, Node o) {
         if ( Quad.isDefaultGraph(g) )
-            graph.delete(new Triple(s, p, o));
-        else
+            return graph.delete(new Triple(s, p, o));
+        else {
             unsupportedMethod(this, "delete(named graph)");
+            return false;
+        }
     }
 
     @Override
-    public void delete(Quad quad) {
+    public boolean  delete(Quad quad) {
         if ( isDefaultGraph(quad) )
-            graph.delete(quad.asTriple());
-        else
+            return graph.delete(quad.asTriple());
+        else {
             unsupportedMethod(this, "delete(named graph)");
+            return false;
+        }
     }
 
     @Override

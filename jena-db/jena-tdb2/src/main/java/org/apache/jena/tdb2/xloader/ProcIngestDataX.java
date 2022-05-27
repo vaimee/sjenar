@@ -43,7 +43,6 @@ import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.system.progress.ProgressMonitor;
 import org.apache.jena.system.progress.ProgressMonitorOutput;
 import org.apache.jena.tdb2.DatabaseMgr;
-import org.apache.jena.tdb2.params.StoreParams;
 import org.apache.jena.tdb2.solver.stats.Stats;
 import org.apache.jena.tdb2.solver.stats.StatsCollectorNodeId;
 import org.apache.jena.tdb2.store.DatasetGraphTDB;
@@ -51,40 +50,32 @@ import org.apache.jena.tdb2.store.NodeId;
 import org.apache.jena.tdb2.store.nodetable.NodeTable;
 import org.apache.jena.tdb2.store.nodetupletable.NodeTupleTable;
 import org.apache.jena.tdb2.store.value.DoubleNode62;
-import org.apache.jena.tdb2.sys.DatabaseConnection;
 import org.apache.jena.tdb2.sys.TDBInternal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Load the triples and quads to temporary files.
- * <p>
- * If the node table has been created ({@link ProcBuildNodeTableX}), this step uses
- * it to map Nodes to NodeIds (lookup).
- * <p>
- * If the node table was not created, this step creates the node table and sets the
- * mapping Nodes to NodeIds.
- */
+/** Create the Node table and write the triples/quads temporary files */
 public class ProcIngestDataX {
+    // See also TDB1 ProcNodeTableBuilder
+
+    private static Logger LOG = LoggerFactory.getLogger("Data");
 
     // Node Table.
     public static void exec(String location,
                             XLoaderFiles loaderFiles,
                             List<String> datafiles, boolean collectStats) {
-        FmtLog.info(BulkLoaderX.LOG_Data, "Ingest data");
         // Possible parser speed up. This has no effect if parsing in parallel
         // because the parser isn't the slowest step when loading at scale.
         IRIProvider provider = SystemIRIx.getProvider();
         //SystemIRIx.setProvider(new IRIProviderAny());
 
-        // Defaults.
-        // DatasetGraph dsg = DatabaseMgr.connectDatasetGraph(location);
+        // But we're not really interested in it all.
+        DatasetGraph dsg = DatabaseMgr.connectDatasetGraph(location);
 
-        DatasetGraph dsg = getDatasetGraph(location);
-
-        ProgressMonitor monitor = ProgressMonitorOutput.create(BulkLoaderX.LOG_Data, "Data", BulkLoaderX.DataTick, BulkLoaderX.DataSuperTick);
+        ProgressMonitor monitor = ProgressMonitorOutput.create(LOG, "Data", BulkLoaderX.DataTick, BulkLoaderX.DataSuperTick);
         // WriteRows does it's own buffering and has direct write-to-buffer.
         // Do not buffer here.
-        // Adds gzip processing if required.
-        // But we'll need the disk space eventually so we aren't space constrained to use gzip here.
+        // Adds gzip processing.
         OutputStream outputTriples = IO.openOutputFile(loaderFiles.triplesFile);
         OutputStream outputQuads = IO.openOutputFile(loaderFiles.quadsFile);
 
@@ -95,7 +86,7 @@ public class ProcIngestDataX {
             String str = DateTimeUtils.nowAsXSDDateTimeString();
             long cTriple = p.getLeft();
             long cQuad = p.getRight();
-            FmtLog.info(BulkLoaderX.LOG_Data, "Triples = %,d ; Quads = %,d", cTriple, cQuad);
+            FmtLog.info(LOG, "Triples = %,d ; Quads = %,d", cTriple, cQuad);
             JsonObject obj = JSON.buildObject(b->{
                 b.pair("ingested", str);
                 b.key("data").startArray();
@@ -112,26 +103,6 @@ public class ProcIngestDataX {
         SystemIRIx.setProvider(provider);
     }
 
-    private static DatasetGraph getDatasetGraph(String location) {
-        Location loc = Location.create(location);
-        // Ensure reset
-        DatasetGraph dsg0 = DatabaseMgr.connectDatasetGraph(location);
-        StoreParams storeParams = TDBInternal.getDatasetGraphTDB(dsg0).getStoreParams();
-        TDBInternal.expel(dsg0);
-
-        if ( true ) {
-            storeParams = StoreParams.builder(storeParams)
-                    .node2NodeIdCacheSize(10_000_000)
-                    .build();
-        }
-
-        DatasetGraph dsg = DatabaseConnection.connectCreate(loc, storeParams).getDatasetGraph();
-        StoreParams storeParamsActual = TDBInternal.getDatasetGraphTDB(dsg).getStoreParams();
-//        FmtLog.info(LOG, "Node to NodeId cache size: %,d", storeParamsActual.getNode2NodeIdCacheSize());
-//        FmtLog.info(LOG, "NodeId to Node cache size: %,d", storeParamsActual.getNodeId2NodeCacheSize());
-        return dsg;
-    }
-
     private static Pair<Long, Long> build(DatasetGraph dsg, ProgressMonitor monitor,
                               OutputStream outputTriples, OutputStream outputQuads,
                               List<String> datafiles) {
@@ -141,7 +112,7 @@ public class ProcIngestDataX {
         IngestData sink = new IngestData(dsgtdb, monitor, outputTriples, outputQuads, false);
         Timer timer = new Timer();
         timer.startTimer();
-        // [BULK] XXX Better :: Start monitor on first item from parser.
+        // [BULK] XXX Start monitor on first item from parser.
         monitor.start();
         sink.startBulk();
         AsyncParser.asyncParse(datafiles, sink);
@@ -172,11 +143,9 @@ public class ProcIngestDataX {
         long total = monitor.getTicks();
         float elapsedSecs = time/1000F;
         float rate = (elapsedSecs!=0) ? total/elapsedSecs : 0;
-        // [BULK] End stage.
-        String str =  String.format("%s Total: %,d tuples : %,.2f seconds : %,.2f tuples/sec [%s]",
-                                    BulkLoaderX.StepMarker,
+        String str =  String.format("Total: %,d tuples : %,.2f seconds : %,.2f tuples/sec [%s]",
                                     total, elapsedSecs, rate, DateTimeUtils.nowAsString());
-        BulkLoaderX.LOG_Data.info(str);
+        LOG.info(str);
         return Pair.create(cTriple, cQuad);
     }
 

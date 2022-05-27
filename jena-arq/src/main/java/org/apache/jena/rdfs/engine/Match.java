@@ -21,8 +21,7 @@ package org.apache.jena.rdfs.engine;
 import java.util.stream.Stream;
 
 /**
- * Match by S/P/O where {@code X} is the RDF term representation (Node, NodeId) and
- * {@code T} is the tuple (triple, quad, tuple) representation.
+ * Match by S/P/O.
  */
 public interface Match<X, T> {
     public Stream<T> match(X s, X p, X o);

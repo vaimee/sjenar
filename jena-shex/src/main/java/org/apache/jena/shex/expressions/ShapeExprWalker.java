@@ -23,24 +23,16 @@ public class ShapeExprWalker implements ShapeExprVisitor {
     private final ShapeExprVisitor beforeVisitor;
     private final ShapeExprVisitor afterVisitor;
     private final TripleExprVisitor tripleExprWalker;
-    private NodeConstraintVisitor nodeConstraintVisitor;
 
 //    public ShapeExpressionWalker(ShapeExpressionVisitor beforeVisitor, ShapeExpressionVisitor afterVisitor) {
 //        this(beforeVisitor, afterVisitor, null, null);
 //    }
 
     public ShapeExprWalker(ShapeExprVisitor beforeVisitor, ShapeExprVisitor afterVisitor,
-                           TripleExprVisitor beforeTripleExprVisitor, TripleExprVisitor afterTripleExprVisitor,
-                           NodeConstraintVisitor nodeConstraintVisitor
-                           // NodeConstraintVisitor beforeNodeConstraintVisitor,
-                           //, NodeConstraintVisitor afterNodeConstraintVisitor
-                           ) {
+                                 TripleExprVisitor beforeTripleExprVisitor, TripleExprVisitor afterTripleExprVisitor) {
         this.beforeVisitor = beforeVisitor;
         this.afterVisitor = afterVisitor;
-        // Walker because TripleExpr can contain a ShapeExpression
         this.tripleExprWalker = new TripleExprWalker(beforeTripleExprVisitor, afterTripleExprVisitor, this);
-        // XXX [NodeConstraint] - no recursion.
-        this.nodeConstraintVisitor = nodeConstraintVisitor;
     }
 
 
@@ -105,16 +97,50 @@ public class ShapeExprWalker implements ShapeExprVisitor {
     @Override
     public void visit(ShapeExprTripleExpr shape) {
         before(shape);
-        if ( tripleExprWalker != null && shape.getTripleExpr() != null )
+        if ( shape.getTripleExpr() != null )
             shape.getTripleExpr().visit(tripleExprWalker);
         after(shape);
     }
 
     @Override
-    public void visit(ShapeNodeConstraint shape) {
-        before(shape);
-        if ( nodeConstraintVisitor != null && shape.getNodeConstraint() != null )
-            shape.getNodeConstraint().components().forEach(ncc->ncc.visit(nodeConstraintVisitor));
-        after(shape);
+    public void visit(StrRegexConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(StrLengthConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(DatatypeConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(NodeKindConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(NumLengthConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(NumRangeConstraint constraint) {
+        before(constraint);
+        after(constraint);
+    }
+
+    @Override
+    public void visit(ValueConstraint constraint) {
+        before(constraint);
+        after(constraint);
     }
 }

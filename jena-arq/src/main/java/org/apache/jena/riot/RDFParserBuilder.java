@@ -98,7 +98,6 @@ public class RDFParserBuilder {
     private boolean strict = SysRIOT.isStrictMode();
     private boolean resolveURIs = true;
     private IRIxResolver resolver = null;
-    private PrefixMap prefixMap = null;
     // ----
 
     // Construction for the StreamRDF
@@ -307,21 +306,6 @@ public class RDFParserBuilder {
      * RDF syntax to be parsed.
      */
     public RDFParserBuilder resolver(IRIxResolver resolver) { this.resolver = resolver ; return this; }
-
-    /**
-     * Set an initial prefix map for parsing.
-     * <p>
-     * Using this, and {@link #base}, mean that Turtle and TriG fragments can be parsed.
-     * <p>
-     * The caller is responsible for setting any prefixes that are undeclared in the fragment.
-     * <p>
-     * Changes made to the prefix map argument after this call will not be seen by the parser.
-     * Passing null clears any previous setting.
-     */
-    public RDFParserBuilder prefixes(PrefixMap prefixMap) {
-        this.prefixMap = prefixMap == null ? null : PrefixMapFactory.create(prefixMap);
-        return this;
-    }
 
     /**
      * Convert the lexical form of literals to a canonical form.
@@ -614,38 +598,6 @@ public class RDFParserBuilder {
         build().parse(dataset);
     }
 
-    /**
-     * Parse the source in to a fresh {@link Graph} and return the graph.
-     * <p>
-     * The source must be for triples; any quads are discarded.
-     */
-    public Graph toGraph() {
-        return build().toGraph();
-    }
-
-    /**
-     * Parse the source in to a fresh {@link Model} and return the model.
-     * <p>
-     * The source must be for triples; any quads are discarded.
-     */
-    public Model toModel() {
-        return build().toModel();
-    }
-
-    /**
-     * Parse the source in to a fresh {@link Dataset} and return the dataset.
-     */
-    public Dataset toDataset() {
-        return build().toDataset();
-    }
-
-    /**
-     * Parse the source in to a fresh {@link DatasetGraph} and return the DatasetGraph.
-     */
-    public DatasetGraph toDatasetGraph() {
-        return build().toDatasetGraph();
-    }
-
     /** Build an {@link RDFParser}. The parser takes it's configuration from this builder and can not then be changed.
      * The source must be set.
      * When a parser is used, it is takes the source and sends output to an {@link StreamRDF}.
@@ -698,8 +650,7 @@ public class RDFParserBuilder {
                              hintLang, forceLang,
                              parserBaseURI, strict, checking,
                              canonicalValues, langTagForm,
-                             resolveURIs, resolver, prefixMap,
-                             factory$, errorHandler$, context);
+                             resolveURIs, resolver, factory$, errorHandler$, context);
     }
 
     private FactoryRDF buildFactoryRDF() {
@@ -725,7 +676,7 @@ public class RDFParserBuilder {
         builder.stringToParse =     this.stringToParse;
         builder.inputStream =       this.inputStream;
         builder.javaReader =        this.javaReader;
-        builder.httpHeaders =       Map.copyOf(this.httpHeaders);
+        builder.httpHeaders =       new HashMap<>(this.httpHeaders);
         builder.httpClient =        this.httpClient;
         builder.hintLang =          this.hintLang;
         builder.forceLang =         this.forceLang;

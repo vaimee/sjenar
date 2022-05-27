@@ -78,10 +78,10 @@ final /*public*/ class LiteralLabelImpl implements LiteralLabel {
 	private boolean wellformed = true;
 	
 	/**
-	 * keeps the DatatypeFormatException if parsing failed for delayed
-	 * exception thrown in getValue()
+	 * keeps the message provided by the DatatypeFormatException
+	 * if parsing failed for delayed exception thrown in getValue()
 	 */
-	private Throwable exception = null;
+	private String exceptionMsg = null; // Suggested by Andreas Langegger
 	
 	//=======================================================================
 	// Constructors
@@ -223,7 +223,7 @@ final /*public*/ class LiteralLabelImpl implements LiteralLabel {
 				throw e;
 			} else {
 				wellformed = false;
-				exception  = e;
+				exceptionMsg  = e.getMessage();
 			}
 		}
 	}
@@ -383,7 +383,7 @@ final /*public*/ class LiteralLabelImpl implements LiteralLabel {
 			throw new DatatypeFormatException(
 				lexicalForm,
 				dtype,
-				exception);
+				exceptionMsg);
 		}
 	}
 

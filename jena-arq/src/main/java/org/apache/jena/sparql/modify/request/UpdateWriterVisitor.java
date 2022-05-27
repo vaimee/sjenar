@@ -18,6 +18,7 @@
 
 package org.apache.jena.sparql.modify.request;
 
+import org.apache.jena.sparql.modify.UpdateResult;
 import java.util.List;
 
 import org.apache.jena.atlas.io.IndentedWriter;
@@ -25,6 +26,7 @@ import org.apache.jena.atlas.iterator.Iter;
 import org.apache.jena.graph.Node ;
 import org.apache.jena.sparql.ARQException ;
 import org.apache.jena.sparql.core.Quad ;
+import org.apache.jena.sparql.modify.UpdateResult;
 import org.apache.jena.sparql.modify.request.UpdateDataWriter.UpdateMode ;
 import org.apache.jena.sparql.serializer.FormatterElement ;
 import org.apache.jena.sparql.serializer.SerializationContext ;
@@ -95,7 +97,7 @@ public class UpdateWriterVisitor implements UpdateVisitor {
         out.ensureStartOfLine();
         out.print("LOAD");
         out.print(" ");
-        if ( update.isSilent() )
+        if ( update.getSilent() )
             out.print("SILENT ");
 
         outputStringAsURI(update.getSource());
@@ -126,7 +128,7 @@ public class UpdateWriterVisitor implements UpdateVisitor {
 
     protected void printUpdate2(UpdateBinaryOp update, String name) {
         out.print(name);
-        if ( update.isSilent() )
+        if ( update.getSilent() )
             out.print(" SILENT");
         out.print(" ");
         printTargetUpdate2(update.getSrc());
@@ -147,7 +149,7 @@ public class UpdateWriterVisitor implements UpdateVisitor {
     { printUpdate2(update, "MOVE") ; }
 
     @Override
-    public void visit(UpdateDataInsert update) {
+    public UpdateResult visit(UpdateDataInsert update) {
         UpdateDataWriter udw = new UpdateDataWriter(UpdateMode.INSERT, out, sCxt);
         udw.open();
         try {
@@ -156,10 +158,12 @@ public class UpdateWriterVisitor implements UpdateVisitor {
         finally {
             udw.close();
         }
+        
+        return null;
     }
 
     @Override
-    public void visit(UpdateDataDelete update) {
+    public UpdateResult visit(UpdateDataDelete update) {
         UpdateDataWriter udw = new UpdateDataWriter(UpdateMode.DELETE, out, sCxt);
         udw.open();
         try {
@@ -168,6 +172,8 @@ public class UpdateWriterVisitor implements UpdateVisitor {
         finally {
             udw.close();
         }
+        
+        return null;
     }
 
     protected void outputQuadsBraced(List<Quad> quads) {
@@ -187,14 +193,15 @@ public class UpdateWriterVisitor implements UpdateVisitor {
     }
 
     @Override
-    public void visit(UpdateDeleteWhere update) {
+    public UpdateResult visit(UpdateDeleteWhere update) {
         out.ensureStartOfLine();
         out.println("DELETE WHERE ");
         outputQuadsBraced(update.getQuads());
+        return null;
     }
 
     @Override
-    public void visit(UpdateModify update) {
+    public UpdateResult visit(UpdateModify update) {
         out.ensureStartOfLine();
         if ( update.getWithIRI() != null ) {
             // out.ensureStartOfLine() ;
@@ -246,6 +253,8 @@ public class UpdateWriterVisitor implements UpdateVisitor {
         } else
             out.print("{}");
         out.decIndent(BLOCK_INDENT);
+        
+        return null;
     }
 
     protected FormatterElement prepareElementFormatter() {

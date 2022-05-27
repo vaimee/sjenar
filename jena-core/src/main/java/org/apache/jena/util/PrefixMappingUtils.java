@@ -42,16 +42,16 @@ public class PrefixMappingUtils {
      * Later changes to the prefix mapping of the original graph are not reflected in the returned graph.
      * Modifications to the triples contained in the underlying graph are reflected.
      */
-    public static Graph graphInUsePrefixMapping(Graph graph) {
+    public static Graph graphxInUsePrefixMapping(Graph graph) {
         final PrefixMapping prefixMapping = calcInUsePrefixMapping(graph) ;
         prefixMapping.lock() ;
         Graph graph2 = new WrappedGraph(graph) {
             @Override
-            public void performAdd(Triple triple)
+            public boolean performAdd(Triple triple)
             { throw new UnsupportedOperationException() ; }
 
             @Override
-            public void performDelete(Triple triple)
+            public boolean performDelete(Triple triple)
             { throw new UnsupportedOperationException() ; }
 
             @Override
