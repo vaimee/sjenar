@@ -19,12 +19,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Apache Jena - Fuseki WAR File</name>
-  <artifactId>jena-fuseki-war</artifactId>
+  <name>Vaimee SJenar - Fuseki WAR File</name>
+  <artifactId>sjenar-fuseki-war</artifactId>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena-fuseki</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar-fuseki</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent> 
@@ -34,8 +34,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki-webapp</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-fuseki-webapp</artifactId>
       <version>${project.version}</version>
     </dependency>
 

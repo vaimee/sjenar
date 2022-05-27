@@ -19,18 +19,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>jena-commonsrdf</artifactId>
+  <artifactId>sjenar-commonsrdf</artifactId>
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>../..</relativePath>
   </parent>
 
-  <name>Apache Jena - CommonsRDF for Jena</name>
-  <description>Apache CommonsRDF Java library for Apache Jena</description>
+  <name>Vaimee SJenar - CommonsRDF for Jena</name>
+  <description>Apache CommonsRDF Java library for Vaimee SJenar</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,8 +41,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
     </dependency>
 

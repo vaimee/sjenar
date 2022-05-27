@@ -18,19 +18,19 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   
-  <artifactId>jena-examples</artifactId>
+  <artifactId>sjenar-examples</artifactId>
   <packaging>jar</packaging>
 
-  <name>Apache Jena - Code Examples</name>
-  <description>A collection of example code illustrating uses of Apache Jena</description>
+  <name>Vaimee SJenar - Code Examples</name>
+  <description>A collection of example code illustrating uses of Vaimee SJenar</description>
   <url>https://jena.apache.org/</url>
 
   <properties>
@@ -44,14 +44,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.jena</groupId>
+      <groupId>it.vaimee.sjenar</groupId>
       <artifactId>apache-jena-libs</artifactId>
       <type>pom</type>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki-main</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-fuseki-main</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -70,8 +70,8 @@
       <artifactId>commons-cli</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-querybuilder</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-querybuilder</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

@@ -18,18 +18,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>jena-extras</artifactId>
+  <artifactId>sjenar-extras</artifactId>
   <version>4.3.2</version>
   <packaging>pom</packaging>
-  <name>Apache Jena - Extras</name>
+  <name>Vaimee SJenar - Extras</name>
   <description>Extra packages for Jena development.
   This is the parent module for the Jena Extra modules.  
-  These modules provide utiliities and larger packages that make Apache Jena development or usage 
+  These modules provide utiliities and larger packages that make Vaimee SJenar development or usage 
   easier but that do not fall within the standard Jena framework.</description>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
@@ -48,7 +48,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.apache.jena</groupId>
+        <groupId>it.vaimee.sjenar</groupId>
         <artifactId>apache-jena-libs</artifactId>
         <version>4.3.2</version>
         <type>pom</type>

@@ -20,12 +20,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.apache.jena</groupId>
-		<artifactId>jena-jdbc</artifactId>
+		<groupId>it.vaimee.sjenar</groupId>
+		<artifactId>sjenar-jdbc</artifactId>
 		<version>4.3.2</version>
 	</parent>
-	<artifactId>jena-jdbc-driver-mem</artifactId>
-	<name>Apache Jena - JDBC In-Memory Driver</name>
+	<artifactId>sjenar-jdbc-driver-mem</artifactId>
+	<name>Vaimee SJenar - JDBC In-Memory Driver</name>
 	<description>A Jena JDBC driver that uses an ARQ in-memory endpoint, intended primarily for testing purposes.</description>
 
 	<properties>
@@ -35,15 +35,15 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.jena</groupId>
-			<artifactId>jena-jdbc-core</artifactId>
+			<groupId>it.vaimee.sjenar</groupId>
+			<artifactId>sjenar-jdbc-core</artifactId>
 			<version>4.3.2</version>
 		</dependency>
 
 		<!-- Test Dependencies -->
 		<dependency>
-			<groupId>org.apache.jena</groupId>
-			<artifactId>jena-jdbc-core</artifactId>
+			<groupId>it.vaimee.sjenar</groupId>
+			<artifactId>sjenar-jdbc-core</artifactId>
 			<version>4.3.2</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>

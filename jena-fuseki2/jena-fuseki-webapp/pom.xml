@@ -19,41 +19,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena-fuseki</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar-fuseki</artifactId>
     <version>4.3.2</version>
     <relativePath>../</relativePath>
   </parent>
 
-  <name>Apache Jena - Fuseki Webapp</name>
-  <artifactId>jena-fuseki-webapp</artifactId>
+  <name>Vaimee SJenar - Fuseki Webapp</name>
+  <artifactId>sjenar-fuseki-webapp</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki-core</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-fuseki-core</artifactId>
       <version>4.3.2</version>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-fuseki-core</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-fuseki-core</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
     
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-cmds</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-cmds</artifactId>
       <version>4.3.2</version>
     </dependency>
    
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-text</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-text</artifactId>
       <version>4.3.2</version>
     </dependency>
     
@@ -86,16 +86,16 @@
 
     <!-- Testing -->
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-base</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-base</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>

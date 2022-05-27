@@ -21,14 +21,14 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>jena-rdfconnection</artifactId>
+  <artifactId>sjenar-rdfconnection</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - RDF Connection</name>
+  <name>Vaimee SJenar - RDF Connection</name>
   <description>RDF Connection</description>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
@@ -46,30 +46,30 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-base</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-base</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
     
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-core</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-core</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
@@ -156,8 +156,8 @@
           <version>true</version>
           <show>public</show>
           <encoding>UTF-8</encoding>
-          <windowtitle>Apache Jena RDF Connection</windowtitle>
-          <doctitle>Apache Jena RDF Connection ${project.version}</doctitle>
+          <windowtitle>Vaimee SJenar RDF Connection</windowtitle>
+          <doctitle>Vaimee SJenar RDF Connection ${project.version}</doctitle>
           <bottom>Licenced under the Apache License, Version 2.0</bottom>
         </configuration>
       </plugin>

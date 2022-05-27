@@ -18,13 +18,13 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>jena-tdb</artifactId>
+  <artifactId>sjenar-tdb</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - TDB1 (Native Triple Store)</name>
+  <name>Vaimee SJenar - TDB1 (Native Triple Store)</name>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent> 
@@ -39,30 +39,30 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-core</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-core</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-base</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-base</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
@@ -164,8 +164,8 @@
           <version>true</version>
           <show>public</show>
           <encoding>UTF-8</encoding>
-          <windowtitle>Apache Jena TDB</windowtitle>
-          <doctitle>Apache Jena TDB ${project.version}</doctitle>
+          <windowtitle>Vaimee SJenar TDB</windowtitle>
+          <doctitle>Vaimee SJenar TDB ${project.version}</doctitle>
           <excludePackageNames>org.apache.jena.tdb.*</excludePackageNames>
           <bottom>Licenced under the Apache License, Version 2.0</bottom>
         </configuration>

@@ -18,17 +18,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>sjenar-arq</artifactId>
+  <artifactId>jena-arq</artifactId>
   <packaging>jar</packaging>
-  <name>Vaimee SJenar - ARQ (SPARQL 1.1 Query Engine)</name>
+  <name>Apache Jena - ARQ (SPARQL 1.1 Query Engine)</name>
   <parent>
-    <groupId>it.vaimee.sjenar</groupId>
-    <artifactId>sjenar</artifactId>
+    <groupId>org.apache.jena</groupId>
+    <artifactId>jena</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
 
-  <description>ARQ is a SPARQL 1.1 query engine for Vaimee SJenar</description>
+  <description>ARQ is a SPARQL 1.1 query engine for Apache Jena</description>
 
   <properties>
     <build.time.xsd>${maven.build.timestamp}</build.time.xsd>
@@ -38,22 +38,22 @@
   <dependencies>
 
     <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-core</artifactId>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-core</artifactId>
       <version>4.3.2</version>
     </dependency>
 
     <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-core</artifactId>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-core</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-base</artifactId>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-base</artifactId>
       <classifier>tests</classifier>
       <version>4.3.2</version>
       <scope>test</scope>
@@ -258,8 +258,8 @@
           <show>public</show>
           <quiet>true</quiet>
           <encoding>UTF-8</encoding>
-          <windowtitle>Vaimee SJenar ARQ</windowtitle>
-          <doctitle>Vaimee SJenar ARQ ${project.version}</doctitle>
+          <windowtitle>Apache Jena ARQ</windowtitle>
+          <doctitle>Apache Jena ARQ ${project.version}</doctitle>
           <excludePackageNames>arq:arq.*:riotcmd:riotcmd.*</excludePackageNames>
           <groups>
             <group>

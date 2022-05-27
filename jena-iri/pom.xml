@@ -20,12 +20,12 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>jena-iri</artifactId>
+  <artifactId>sjenar-iri</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - IRI</name>
+  <name>Vaimee SJenar - IRI</name>
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent> 
@@ -115,8 +115,8 @@
           <show>public</show>
           <quiet>true</quiet>
           <encoding>UTF-8</encoding>
-          <windowtitle>Apache Jena IRI </windowtitle>
-          <doctitle>Apache Jena IRI ${project.version}</doctitle>
+          <windowtitle>Vaimee SJenar IRI </windowtitle>
+          <doctitle>Vaimee SJenar IRI ${project.version}</doctitle>
           <bottom>Licenced under the Apache License, Version 2.0</bottom>
         </configuration>
       </plugin>

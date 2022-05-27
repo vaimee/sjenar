@@ -16,18 +16,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>jena-geosparql</artifactId>
+  <artifactId>sjenar-geosparql</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - GeoSPARQL Engine</name>
+  <name>Vaimee SJenar - GeoSPARQL Engine</name>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent>
 
-  <description>GeoSPARQL implementation for Apache Jena</description>
+  <description>GeoSPARQL implementation for Vaimee SJenar</description>
 
   <properties>
      <build.time.xsd>${maven.build.timestamp}</build.time.xsd>
@@ -51,8 +51,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
     </dependency>
 
@@ -177,8 +177,8 @@
           <show>public</show>
           <quiet>true</quiet>
           <encoding>UTF-8</encoding>
-          <windowtitle>Apache Jena GeoSPARQL</windowtitle>
-          <doctitle>Apache Jena GeoSPARQL ${project.version}</doctitle>
+          <windowtitle>Vaimee SJenar GeoSPARQL</windowtitle>
+          <doctitle>Vaimee SJenar GeoSPARQL ${project.version}</doctitle>
           <bottom>Licenced under the Apache License, Version 2.0</bottom>
         </configuration>
       </plugin>

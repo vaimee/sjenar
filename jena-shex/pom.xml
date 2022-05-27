@@ -20,13 +20,13 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>jena-shex</artifactId>
+  <artifactId>sjenar-shex</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Jena - ShEx</name>
+  <name>Vaimee SJenar - ShEx</name>
 
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
   </parent>
 
@@ -39,14 +39,14 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>it.vaimee.sjenar</groupId>
+      <artifactId>sjenar-arq</artifactId>
       <version>4.3.2</version>
       <classifier>tests</classifier>
       <scope>test</scope>

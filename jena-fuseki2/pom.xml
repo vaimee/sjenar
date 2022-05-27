@@ -19,14 +19,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.jena</groupId>
-    <artifactId>jena</artifactId>
+    <groupId>it.vaimee.sjenar</groupId>
+    <artifactId>sjenar</artifactId>
     <version>4.3.2</version>
     <relativePath>..</relativePath>
   </parent> 
 
-  <name>Apache Jena - Fuseki - A SPARQL 1.1 Server</name>
-  <artifactId>jena-fuseki</artifactId>
+  <name>Vaimee SJenar - Fuseki - A SPARQL 1.1 Server</name>
+  <artifactId>sjenar-fuseki</artifactId>
   <version>4.3.2</version>
 
   <description>Fuseki is a SPARQL 1.1 Server which provides the SPARQL query, 
@@ -38,7 +38,7 @@
   <url>https://jena.apache.org/</url>
 
   <organization>
-    <name>Apache Jena</name>
+    <name>Vaimee SJenar</name>
     <url>https://jena.apache.org/</url>
   </organization>
 
