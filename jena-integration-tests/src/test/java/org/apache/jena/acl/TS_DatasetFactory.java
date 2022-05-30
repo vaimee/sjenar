@@ -17,6 +17,7 @@
  */
 package org.apache.jena.acl;
 
+import java.io.File;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.ReadWrite;
@@ -38,6 +39,9 @@ public class TS_DatasetFactory {
                 ret = DatasetFactory.createTxnMem(acl);
                 break;
             case dfiTDB1: {
+                final File f = new File("./run/" + name);
+                f.mkdirs();
+                
                 final org.apache.jena.tdb.base.file.Location loc = org.apache.jena.tdb.base.file.Location.create("./run/" + name);
                 ret = org.apache.jena.tdb.TDBFactory.createDataset(loc,acl);
                 if (ret.asDatasetGraph() != null) {
@@ -48,6 +52,9 @@ public class TS_DatasetFactory {
                 break;
             }
             case dfiTDB2: {
+                final File f = new File("./run/" + name);
+                f.mkdirs();
+                
                 final org.apache.jena.dboe.base.file.Location loc = org.apache.jena.dboe.base.file.Location.create("./run/" + name );
                 ret = org.apache.jena.tdb2.TDB2Factory.connectDataset(loc,acl);  
                 if (ret.asDatasetGraph() != null) {
