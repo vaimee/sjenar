@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Vaimee SJenar - Fuseki Binary Distribution</name>
-  <artifactId>apache-jena-fuseki</artifactId>
+  <artifactId>vaimee-sjenar-fuseki</artifactId>
   <version>4.3.2</version>
   <packaging>pom</packaging>
 

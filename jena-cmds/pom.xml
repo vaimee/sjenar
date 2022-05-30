@@ -54,7 +54,7 @@
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>apache-jena-libs</artifactId>
+      <artifactId>vaimee-sjenar-libs</artifactId>
       <version>4.3.2</version>
       <type>pom</type>
     </dependency>

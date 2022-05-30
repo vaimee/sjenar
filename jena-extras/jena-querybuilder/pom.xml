@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>apache-jena-libs</artifactId>
+      <artifactId>vaimee-sjenar-libs</artifactId>
       <type>pom</type>
     </dependency>
     <dependency>
