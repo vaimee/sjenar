@@ -28,7 +28,7 @@
   <parent>
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar-db</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
   </parent> 
 
   <properties>
@@ -41,13 +41,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-dboe-storage</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-core</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -63,7 +63,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-base</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

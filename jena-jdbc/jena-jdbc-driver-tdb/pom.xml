@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>it.vaimee.sjenar</groupId>
 		<artifactId>sjenar-jdbc</artifactId>
-		<version>4.3.2</version>
+		<version>4.3.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>sjenar-jdbc-driver-tdb</artifactId>
 	<name>Vaimee SJenar - JDBC TDB Driver</name>
@@ -37,12 +37,12 @@
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-core</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-tdb</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Test Dependencies -->
@@ -54,14 +54,14 @@
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-core</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-mem</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>

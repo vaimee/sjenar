@@ -27,7 +27,7 @@
   <parent>
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar-db</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
   </parent> 
 
   <description>Triplestore database storage</description>
@@ -41,14 +41,14 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-dboe-trans-data</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <!-- testing -->
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-base</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -56,7 +56,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

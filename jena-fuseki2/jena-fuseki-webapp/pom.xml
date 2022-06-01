@@ -21,7 +21,7 @@
   <parent>
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar-fuseki</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -34,13 +34,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-fuseki-core</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-fuseki-core</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -48,13 +48,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
    
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-text</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
     
     <dependency>
@@ -88,7 +88,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -96,7 +96,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-base</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

@@ -26,7 +26,7 @@
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar-extras</artifactId>
     <relativePath>..</relativePath>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
   </parent>
 
   <properties>

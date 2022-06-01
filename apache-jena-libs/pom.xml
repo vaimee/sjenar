@@ -23,12 +23,12 @@
   <artifactId>vaimee-sjenar-libs</artifactId>
   <packaging>pom</packaging>
   <name>Vaimee SJenar - Libraries POM</name>
-  <version>4.3.2</version>
+  <version>4.3.2-SNAPSHOT</version>
 
   <parent>
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -41,31 +41,31 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shacl</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shex</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-tdb</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-tdb2</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-rdfconnection</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

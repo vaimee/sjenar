@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>it.vaimee.sjenar</groupId>
 		<artifactId>sjenar-jdbc</artifactId>
-		<version>4.3.2</version>
+		<version>4.3.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>sjenar-jdbc-driver-bundle</artifactId>
 	<name>Vaimee SJenar - JDBC Driver Bundle</name>
@@ -46,17 +46,17 @@
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-mem</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-remote</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-tdb</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Test Dependencies -->
@@ -68,35 +68,35 @@
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-mem</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-remote</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-driver-tdb</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-jdbc-core</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-fuseki-main</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

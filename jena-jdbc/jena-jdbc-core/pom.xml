@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>it.vaimee.sjenar</groupId>
 		<artifactId>sjenar-jdbc</artifactId>
-		<version>4.3.2</version>
+		<version>4.3.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>sjenar-jdbc-core</artifactId>
 	<name>Vaimee SJenar - JDBC Core API</name>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>it.vaimee.sjenar</groupId>
 			<artifactId>sjenar-arq</artifactId>
-			<version>4.3.2</version>
+			<version>4.3.2-SNAPSHOT</version>
 		</dependency>
     
 		<dependency>

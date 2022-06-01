@@ -35,7 +35,7 @@
   <parent>
     <groupId>it.vaimee.sjenar</groupId>
     <artifactId>sjenar</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.2-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -58,13 +58,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -72,13 +72,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-core</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-core</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -86,13 +86,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-tdb</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-tdb</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -100,13 +100,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-rdfconnection</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-rdfconnection</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -114,13 +114,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shacl</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shacl</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -128,13 +128,13 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shex</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-shex</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>
@@ -142,7 +142,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
     </dependency>
 
     <!-- Require a logging implementation for command line tools --> 
@@ -155,7 +155,7 @@
     <dependency>
       <groupId>it.vaimee.sjenar</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>4.3.2</version>
+      <version>4.3.2-SNAPSHOT</version>
       <classifier>sources</classifier>
       <optional>true</optional>
     </dependency>

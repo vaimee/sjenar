@@ -23,7 +23,7 @@
   <artifactId>sjenar</artifactId>
   <packaging>pom</packaging>
   <url>https://jena.apache.org/</url>
-  <version>4.3.2</version>
+  <version>4.3.2-SNAPSHOT</version>
 
   <parent>
     <groupId>org.apache</groupId>
