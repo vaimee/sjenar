@@ -32,6 +32,7 @@ import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.ExecutionContext;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingBuilder;
+import org.apache.jena.sparql.graph.GraphReadOnly;
 import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.Symbol;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -54,8 +55,21 @@ public class StageMatchTriple {
     }
 
     private static Iterator<Binding> accessTriple(Binding binding, Graph graph, Triple pattern, Predicate<Triple> filter, ExecutionContext execCxt) {
+        GraphView gv = null;
+        
         if (graph instanceof GraphView) {
-            final GraphView gv = (GraphView) graph;
+            gv = (GraphView) graph;
+        }
+        if (graph instanceof GraphReadOnly) {
+            final GraphReadOnly gr  = (GraphReadOnly) graph;
+            final Graph g = gr.getWrapped();
+            
+            if (g instanceof GraphView)
+                gv = (GraphView) g;
+        }
+        
+        //
+        if (gv != null) {
             final Node n = gv.getGraphName();
             final String graphName = (n != null ? n.toString() : DatasetACL.DEF_GRAPH_NAME);
             
