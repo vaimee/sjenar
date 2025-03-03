@@ -125,20 +125,20 @@
         </executions>
       </plugin>
       
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <version>true</version>
-          <show>public</show>
-          <encoding>UTF-8</encoding>
-          <windowtitle>Vaimee SJenar TDB</windowtitle>
-          <doctitle>Vaimee SJenar - SHACL ${project.version}</doctitle>
-          <excludePackageNames>org.apache.jena.shacl.*</excludePackageNames>
-          <bottom>Licenced under the Apache License, Version 2.0</bottom>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <source>${java.version}</source>-->
+<!--          <version>true</version>-->
+<!--          <show>public</show>-->
+<!--          <encoding>UTF-8</encoding>-->
+<!--          <windowtitle>Vaimee SJenar TDB</windowtitle>-->
+<!--          <doctitle>Vaimee SJenar - SHACL ${project.version}</doctitle>-->
+<!--          <excludePackageNames>org.apache.jena.shacl.*</excludePackageNames>-->
+<!--          <bottom>Licenced under the Apache License, Version 2.0</bottom>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

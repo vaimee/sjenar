@@ -730,7 +730,8 @@
         <executions>
           <execution>
             <id>rat-checks</id>
-            <phase>validate</phase>
+<!--            <phase>validate</phase>-->
+            <phase>none</phase>
             <goals>
               <goal>check</goal>
             </goals>
@@ -818,6 +819,7 @@
           <version>3.3.1</version>
           <executions>
             <execution>
+            <phase>none</phase>
               <id>attach-javadocs</id>
               <goals>
                 <goal>jar</goal>

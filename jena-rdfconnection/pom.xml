@@ -148,19 +148,19 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <version>true</version>
-          <show>public</show>
-          <encoding>UTF-8</encoding>
-          <windowtitle>Vaimee SJenar RDF Connection</windowtitle>
-          <doctitle>Vaimee SJenar RDF Connection ${project.version}</doctitle>
-          <bottom>Licenced under the Apache License, Version 2.0</bottom>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <source>${java.version}</source>-->
+<!--          <version>true</version>-->
+<!--          <show>public</show>-->
+<!--          <encoding>UTF-8</encoding>-->
+<!--          <windowtitle>Vaimee SJenar RDF Connection</windowtitle>-->
+<!--          <doctitle>Vaimee SJenar RDF Connection ${project.version}</doctitle>-->
+<!--          <bottom>Licenced under the Apache License, Version 2.0</bottom>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

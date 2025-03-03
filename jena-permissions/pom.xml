@@ -84,37 +84,37 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <excludePackageNames>org.apache.jena.security.example:org.apache.jena.security.example.*</excludePackageNames>
-          <tags>
-            <tag>
-              <name>sec.graph</name>
-              <!-- tag for all places -->
-              <placement>a</placement>
-              <head>Required graph permissions:</head>
-            </tag>
-            <tag>
-              <name>sec.triple</name>
-              <!-- tag for all places -->
-              <placement>a</placement>
-              <head>Required triple permissions:</head>
-            </tag>
-          </tags>
-          <overview>${basedir}/src/main/overview.html</overview>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <excludePackageNames>org.apache.jena.security.example:org.apache.jena.security.example.*</excludePackageNames>-->
+<!--          <tags>-->
+<!--            <tag>-->
+<!--              <name>sec.graph</name>-->
+<!--               tag for all places -->
+<!--              <placement>a</placement>-->
+<!--              <head>Required graph permissions:</head>-->
+<!--            </tag>-->
+<!--            <tag>-->
+<!--              <name>sec.triple</name>-->
+<!--               tag for all places -->
+<!--              <placement>a</placement>-->
+<!--              <head>Required triple permissions:</head>-->
+<!--            </tag>-->
+<!--          </tags>-->
+<!--          <overview>${basedir}/src/main/overview.html</overview>-->
            
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+<!--        </configuration>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>attach-javadocs</id>-->
+<!--            <goals>-->
+<!--              <goal>jar</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>

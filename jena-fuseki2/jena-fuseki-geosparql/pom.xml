@@ -180,21 +180,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <version>true</version>
-                    <show>public</show>
-                    <quiet>true</quiet>
-                    <encoding>UTF-8</encoding>
-                    <windowtitle>Vaimee SJenar GeoSPARQL</windowtitle>
-                    <doctitle>Vaimee SJenar GeoSPARQL ${project.version}</doctitle>
-                    <bottom>Licenced under the Apache License, Version 2.0</bottom>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
                     <shadedArtifactAttached>false</shadedArtifactAttached>

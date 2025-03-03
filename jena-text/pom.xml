@@ -173,19 +173,19 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <version>true</version>
-          <show>public</show>
-          <quiet>true</quiet>
-          <encoding>UTF-8</encoding>
-          <windowtitle>${project.name} ${project.version}</windowtitle>
-          <doctitle>${project.name} ${project.version}</doctitle>
-          <bottom>Licenced under the Apache License, Version 2.0</bottom>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <configuration>-->
+<!--          <version>true</version>-->
+<!--          <show>public</show>-->
+<!--          <quiet>true</quiet>-->
+<!--          <encoding>UTF-8</encoding>-->
+<!--          <windowtitle>${project.name} ${project.version}</windowtitle>-->
+<!--          <doctitle>${project.name} ${project.version}</doctitle>-->
+<!--          <bottom>Licenced under the Apache License, Version 2.0</bottom>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
