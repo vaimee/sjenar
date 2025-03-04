@@ -23,10 +23,10 @@
   <artifactId>sjenar-fuseki-fulljar</artifactId>
 
   <parent>
-    <groupId>it.vaimee.sjenar</groupId>
+    <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
-    <version>4.3.2-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <version>1.0.0-SNAPSHOT</version>
+<!--    <relativePath>../</relativePath>-->
   </parent> 
 
   <packaging>jar</packaging>
@@ -34,27 +34,27 @@
 
   <dependencies>
 
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-fuseki-webapp</artifactId>
-      <version>${project.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-web</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.vaimee</groupId>-->
+<!--      <artifactId>sjenar-fuseki-webapp</artifactId>-->
+<!--      <version>${project.version}</version>-->
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>org.apache.logging.log4j</groupId>-->
+<!--          <artifactId>log4j-web</artifactId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
+<!--    </dependency>-->
 
     <!-- Include jena-cmds in the server jar so 
          "java -cp server-jar jena.cmd ..." works
          as a convenience in deployments.
     -->
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-cmds</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.vaimee</groupId>-->
+<!--      <artifactId>sjenar-cmds</artifactId>-->
+<!--      <version>${project.version}</version>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

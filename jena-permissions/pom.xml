@@ -27,10 +27,10 @@
   <inceptionYear>2012</inceptionYear>
 
   <parent>
-    <groupId>it.vaimee.sjenar</groupId>
+    <groupId>com.vaimee</groupId>
     <artifactId>sjenar</artifactId>
-    <version>4.3.2-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <version>1.0.0-SNAPSHOT</version>
+<!--    <relativePath>..</relativePath>-->
   </parent>
   
   <organization>
@@ -205,18 +205,18 @@
       <artifactId>commons-collections4</artifactId>
     </dependency>
     <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>vaimee-sjenar-libs</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.vaimee</groupId>
+      <artifactId>sjenar-libs</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-core</artifactId>
-      <version>${project.version}</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.vaimee</groupId>-->
+<!--      <artifactId>sjenar-core</artifactId>-->
+<!--      <version>${project.version}</version>-->
+<!--      <classifier>tests</classifier>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>

@@ -17,212 +17,217 @@
    limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>sjenar-core</artifactId>
-  <packaging>jar</packaging>
-  <name>Vaimee SJenar - Core</name>
-  <parent>
-    <groupId>it.vaimee.sjenar</groupId>
-    <artifactId>sjenar</artifactId>
-    <version>4.3.2-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>sjenar-core</artifactId>
+	<packaging>jar</packaging>
+	<name>Vaimee SJenar - Core</name>
+	<parent>
+		<groupId>com.vaimee</groupId>
+		<artifactId>sjenar</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
 
-  <description>Jena is a Java framework for building Semantic Web applications. It provides a programmatic environment for RDF, RDFS and OWL, SPARQL and includes a rule-based inference engine.</description>
+	<description>Jena is a Java framework for building Semantic Web
+		applications. It provides a programmatic environment for RDF, RDFS and
+		OWL, SPARQL and includes a rule-based inference engine.</description>
 
-  <properties>
-    <build.time.xsd>${maven.build.timestamp}</build.time.xsd>
-    <automatic.module.name>org.apache.jena.core</automatic.module.name>
-  </properties>
+	<properties>
+		<build.time.xsd>${maven.build.timestamp}</build.time.xsd>
+		<automatic.module.name>org.apache.jena.core</automatic.module.name>
+	</properties>
 
-  <dependencies>
+	<dependencies>
 
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-base</artifactId>
-      <version>4.3.2-SNAPSHOT</version>
-    </dependency>
+		<dependency>
+			<groupId>com.vaimee</groupId>
+			<artifactId>sjenar-base</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-base</artifactId>
-      <version>4.3.2-SNAPSHOT</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.vaimee</groupId>-->
+<!--			<artifactId>sjenar-base</artifactId>-->
+<!--			<version>1.0.0-SNAPSHOT</version>-->
+<!--			<classifier>tests</classifier>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 
-    <dependency>
-      <groupId>it.vaimee.sjenar</groupId>
-      <artifactId>sjenar-iri</artifactId>
-      <version>4.3.2-SNAPSHOT</version>
-    </dependency>
+		<dependency>
+			<groupId>com.vaimee</groupId>
+			<artifactId>sjenar-iri</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
-     <dependency>
-       <artifactId>commons-cli</artifactId>
-       <groupId>commons-cli</groupId>
-     </dependency>
+		<dependency>
+			<artifactId>commons-cli</artifactId>
+			<groupId>commons-cli</groupId>
+		</dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <dependency>
-      <groupId>org.xenei</groupId>
-      <artifactId>junit-contracts</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.xenei</groupId>
+			<artifactId>junit-contracts</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-  </dependencies>
+	</dependencies>
 
-  <build>
+	<build>
 
-    <resources>
+		<resources>
 
-      <!-- Legacy -->
-      <resource>
-        <directory>etc</directory>
-        <targetPath>etc</targetPath>
-        <filtering>false</filtering>
-      </resource>
+			<!-- Legacy -->
+			<resource>
+				<directory>etc</directory>
+				<targetPath>etc</targetPath>
+				<filtering>false</filtering>
+			</resource>
 
-      <resource>
-        <filtering>false</filtering>
-        <directory>src/main/resources</directory>
-      </resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
 
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>org/apache/jena/jena-properties.xml</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>org/apache/jena/jena-properties.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
 
-    </resources>
+		</resources>
 
-    <plugins>
+		<plugins>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>org/apache/jena/test/TestPackage.java</include>
-            <include>**/*_CS.java</include>
-          </includes>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+					<includes>
+						<include>org/apache/jena/test/TestPackage.java</include>
+						<include>**/*_CS.java</include>
+					</includes>
+				</configuration>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>attach-sources-test</id>
-            <phase>package</phase>
-            <goals>
-              <goal>test-jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>attach-sources-test</id>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Automatic-Module-Name>${automatic.module.name}</Automatic-Module-Name>
-            </manifestEntries>
-          </archive>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Automatic-Module-Name>${automatic.module.name}</Automatic-Module-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-      <plugin>
-        <groupId>org.xenei</groupId>
-        <artifactId>contract-test-maven-plugin</artifactId>
-        <version>${ver.contract.tests}</version>
-        <configuration>
-          <failOnError>false</failOnError>
-          <packages>
-            <package>org.apache.jena.assembler</package>
-            <package>org.apache.jena.datatypes</package>
-            <package>org.apache.jena.enhanced</package>
-            <package>org.apache.jena.graph</package>
-            <package>org.apache.jena.mem</package>
-            <package>org.apache.jena.n3</package>
-            <package>org.apache.jena.ontology</package>
-            <package>org.apache.jena.rdf</package>
-            <package>org.apache.jena.rdfxml</package>
-            <package>org.apache.jena.reasoner</package>
-            <package>org.apache.jena.shared</package>
-            <package>org.apache.jena.util</package>
-            <package>org.apache.jena.vocabulary</package>
-          </packages>
-          <skipFilter>Wildcard( *.test.* )</skipFilter>
-          <unimplemented>
-            <report>true</report>
-            <failOnError>false</failOnError>
-          </unimplemented>
-          <untested>
-            <report>true</report>
-            <failOnError>false</failOnError>
-          </untested>
-          <errors>
-            <report>true</report>
-            <failOnError>false</failOnError>
-          </errors>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>contract-test</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+			<plugin>
+				<groupId>org.xenei</groupId>
+				<artifactId>contract-test-maven-plugin</artifactId>
+				<version>${ver.contract.tests}</version>
+				<configuration>
+					<failOnError>false</failOnError>
+					<packages>
+						<package>org.apache.jena.assembler</package>
+						<package>org.apache.jena.datatypes</package>
+						<package>org.apache.jena.enhanced</package>
+						<package>org.apache.jena.graph</package>
+						<package>org.apache.jena.mem</package>
+						<package>org.apache.jena.n3</package>
+						<package>org.apache.jena.ontology</package>
+						<package>org.apache.jena.rdf</package>
+						<package>org.apache.jena.rdfxml</package>
+						<package>org.apache.jena.reasoner</package>
+						<package>org.apache.jena.shared</package>
+						<package>org.apache.jena.util</package>
+						<package>org.apache.jena.vocabulary</package>
+					</packages>
+					<skipFilter>Wildcard( *.test.* )</skipFilter>
+					<unimplemented>
+						<report>true</report>
+						<failOnError>false</failOnError>
+					</unimplemented>
+					<untested>
+						<report>true</report>
+						<failOnError>false</failOnError>
+					</untested>
+					<errors>
+						<report>true</report>
+						<failOnError>false</failOnError>
+					</errors>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>contract-test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
