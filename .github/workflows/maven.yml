@@ -32,7 +32,24 @@ jobs:
     - name: Build with Maven
       run: mvn -DskipTest clean install -Pdev --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn -DskipTests deploy -s $GITHUB_WORKSPACE/settings.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+  publish:
+    runs-on: ubuntu-latest
+    #if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    needs: 
+      - build
+    permissions: 
+      contents: read
+      packages: write 
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      - name: Publish package
+        run: mvn clean deploy -Dmaven.test.skip=true -Drevision=${{github.ref_name}} -DrepositoryId=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
