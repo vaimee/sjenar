@@ -199,6 +199,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.10.1</version>
 						<configuration>
 							<skip>true</skip>
 						</configuration>
@@ -734,7 +735,7 @@
 			<plugin>
 				<groupId>org.apache.rat</groupId>
 				<artifactId>apache-rat-plugin</artifactId>
-				<version>0.13</version>
+				<version>0.16.1</version>
 				<!-- 
              Run only if maven is running from this POM,
              not when run in a sub-module with this as parent.
@@ -1096,6 +1097,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.5.1</version>
 				<configuration>
 					<outputDirectory>
 						${project.basedir}/target/surefire-reports-html</outputDirectory>
