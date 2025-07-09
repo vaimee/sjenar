@@ -42,38 +42,38 @@ public abstract class  DatasetACL {
     };
     //throwing accessors
     public void checkCreate(String graphName, String user) throws ACLException{
-        checkGrap(aclId.aiCreate, graphName, user);
+        checkGraph(aclId.aiCreate, graphName, user);
     }
     
     public void checkDrop(String graphName, String user) throws ACLException{
-        checkGrap(aclId.aiDrop, graphName, user);
+        checkGraph(aclId.aiDrop, graphName, user);
     }
     public void checkClear(String graphName, String user) throws ACLException {
-        checkGrap(aclId.aiClear, graphName, user);
+        checkGraph(aclId.aiClear, graphName, user);
     }
     
     public void checkDeleteData(String graphName, String user) throws ACLException {
-        checkGrap(aclId.aiDeleteData, graphName, user);
+        checkGraph(aclId.aiDeleteData, graphName, user);
     }
     public void checkInsertData(String graphName, String user) throws ACLException{
-        checkGrap(aclId.aiInsertData, graphName, user);
+        checkGraph(aclId.aiInsertData, graphName, user);
     }
     
     public void checkUpdate(String graphName, String user) throws ACLException{
-        checkGrap(aclId.aiUpdate, graphName, user);
+        checkGraph(aclId.aiUpdate, graphName, user);
     }
  
     public void checkQuery(String graphName, String user) throws ACLException{
-        checkGrap(aclId.aiQuery, graphName, user);
+        checkGraph(aclId.aiQuery, graphName, user);
     }
     
     //not throwing accessors
     //real work is done here
-    public void checkGrap(aclId id, String graphName, String user) throws ACLException {
-        final boolean f = checkGrapBase(id, graphName, user);
+    public void checkGraph(aclId id, String graphName, String user) throws ACLException {
+        final boolean f = checkGraphBase(id, graphName, user);
         if (f == false) 
             throw new ACLException(graphName, user);
     }
     
-    public abstract boolean checkGrapBase(aclId id, String graphName, String user);
+    public abstract boolean checkGraphBase(aclId id, String graphName, String user);
 }

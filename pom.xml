@@ -50,7 +50,7 @@
 		<developerConnection>
 			scm:git:https://gitbox.apache.org/repos/asf/jena.git</developerConnection>
 		<url>https://www.github.com/vaimee/sjenar</url>
-		<tag>sjena-1.0.0-SNAPSHOT</tag>
+		<tag>sjenar-1.0.0-SNAPSHOT</tag>
 	</scm>
 
 	<properties>

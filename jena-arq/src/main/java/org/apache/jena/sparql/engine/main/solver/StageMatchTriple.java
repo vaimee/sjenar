@@ -78,7 +78,7 @@ public class StageMatchTriple {
             final DatasetACL dacl = (DatasetACL) ctx.get(Symbol.create(DatasetACL.ACL_HANDLER_NAME));
             final String userName  = (String) ctx.get(Symbol.create(DatasetACL.ACL_USER_NAME));
             if (dacl != null && userName != null) {
-                if (dacl.checkGrapBase(DatasetACL.aclId.aiQuery, graphName, userName) == false)
+                if (dacl.checkGraphBase(DatasetACL.aclId.aiQuery, graphName, userName) == false)
                     return Iter.nullIterator();
             }
             

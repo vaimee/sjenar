@@ -68,7 +68,7 @@ class StageMatchTuple {
                 graphName = nGraph.toString();
             }
             
-            return acl.checkGrapBase(DatasetACL.aclId.aiQuery, graphName, usrName);
+            return acl.checkGraphBase(DatasetACL.aclId.aiQuery, graphName, usrName);
         }
         
     }

@@ -657,7 +657,7 @@ public class UpdateEngineWorker implements UpdateVisitor
         if (acl == null || usrName == null)
             return ;    //NO ACL CHECK PERFORMED
         
-        acl.checkGrap(id,graphName , usrName);
+        acl.checkGraph(id,graphName , usrName);
         
     }
     
