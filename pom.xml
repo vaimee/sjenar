@@ -54,9 +54,9 @@
         </distributionManagement>
 
 	<scm>
-		<connection>scm:git:https://gitbox.apache.org/repos/asf/jena.git</connection>
+		<connection>scm:git:https://github.com/vaimee/sjenar.git</connection>
 		<developerConnection>
-			scm:git:https://gitbox.apache.org/repos/asf/jena.git</developerConnection>
+			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>
 		<url>https://www.github.com/vaimee/sjenar</url>
 		<tag>sjenar-1.0.0-SNAPSHOT</tag>
 	</scm>
@@ -207,7 +207,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.10.1</version>
+						<version>3.3.1</version>
 						<configuration>
 							<skip>true</skip>
 						</configuration>
@@ -1096,7 +1096,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<modules></modules>
 	<reporting>
 		<!-- <outputDirectory>${project.build.directory}/site</outputDirectory> -->
 
@@ -1105,7 +1104,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.5.3</version>
 				<configuration>
 					<outputDirectory>
 						${project.basedir}/target/surefire-reports-html</outputDirectory>
