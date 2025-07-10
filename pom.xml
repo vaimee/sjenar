@@ -24,7 +24,7 @@
 	<groupId>com.vaimee</groupId>
 	<artifactId>sjenar</artifactId>
 	<packaging>pom</packaging>
-	<url>https://jena.apache.org/</url>
+	<url>https://vaimee.com</url>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<parent>
@@ -47,26 +47,26 @@
 
 	<distributionManagement>
   	  <repository>
-    	    <id>github-packages</id>
-    	      <name>GitHub Packages</name>
+    	    <id>github</id>
+    	      <name>GitHub VAIMEE Packages</name>
     	      <url>https://maven.pkg.github.com/vaimee/sjenar</url>
          </repository>
         </distributionManagement>
 
-	<scm>
-		<connection>scm:git:https://github.com/vaimee/sjenar.git</connection>
-		<developerConnection>
-			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>
-		<url>https://www.github.com/vaimee/sjenar</url>
-		<tag>sjenar-1.0.0-SNAPSHOT</tag>
-	</scm>
+<!--	<scm>-->
+<!--		<connection>scm:git:https://github.com/vaimee/sjenar.git</connection>-->
+<!--		<developerConnection>-->
+<!--			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>-->
+<!--		<url>https://www.github.com/vaimee/sjenar</url>-->
+<!--		<tag>sjenar-1.0.0-SNAPSHOT</tag>-->
+<!--	</scm>-->
 
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<revision>1.0.0-SNAPSHOT</revision>
+		<revision>${version}</revision>
 		
 		<ver.junit>4.13.2</ver.junit>
 
@@ -114,8 +114,6 @@
 		<ver.contract.tests>0.2.0</ver.contract.tests>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.outputTimestamp>2021-12-17T18:39:20Z</project.build.outputTimestamp>
-
 	</properties>
 
 	<issueManagement>
