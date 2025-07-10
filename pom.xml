@@ -45,6 +45,14 @@
 		<url>https://www.apache.org/</url>
 	</organization>
 
+	<distributionManagement>
+  	  <repository>
+    	    <id>github-packages</id>
+    	      <name>GitHub Packages</name>
+    	      <url>https://maven.pkg.github.com/vaimee/sjenar</url>
+         </repository>
+        </distributionManagement>
+
 	<scm>
 		<connection>scm:git:https://gitbox.apache.org/repos/asf/jena.git</connection>
 		<developerConnection>
