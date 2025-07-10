@@ -114,7 +114,7 @@
         <ver.contract.tests>0.2.0</ver.contract.tests>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputTimestamp>2021-12-17T18:39:20Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2025-07-10T18:56:45Z</project.build.outputTimestamp>
 
     </properties>
 
@@ -1110,23 +1110,23 @@
             </plugins>
         </pluginManagement>
     </build>
-    <reporting>
-        <!-- <outputDirectory>${project.build.directory}/site</outputDirectory> -->
+<!--    <reporting>-->
+<!--        &lt;!&ndash; <outputDirectory>${project.build.directory}/site</outputDirectory> &ndash;&gt;-->
 
-        <plugins>
+<!--        <plugins>-->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.3</version>
-                <configuration>
-                    <outputDirectory>
-                        ${project.basedir}/target/surefire-reports-html
-                    </outputDirectory>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-report-plugin</artifactId>-->
+<!--                <version>3.5.1</version>-->
+<!--                <configuration>-->
+<!--                    <outputDirectory>-->
+<!--                        ${project.basedir}/target/surefire-reports-html-->
+<!--                    </outputDirectory>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
-        </plugins>
-    </reporting>
+<!--        </plugins>-->
+<!--    </reporting>-->
 
 </project>
