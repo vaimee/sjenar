@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
-  
-  <!-- Repositories di Maven -->
-  <mirrors>
-    <mirror>
-      <id>central</id>
-      <mirrorOf>central</mirrorOf>
-      <url>https://repo.maven.apache.org/maven2</url>
-    </mirror>
-  </mirrors>
 
-  <!-- Repositori per pacchetti privati, se necessario -->
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/vaimee/sjenar</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
   <servers>
     <server>
       <id>github</id>
