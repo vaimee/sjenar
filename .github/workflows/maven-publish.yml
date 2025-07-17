@@ -33,5 +33,5 @@ jobs:
 
     - name: Publish to GitHub Packages
       env:
-        GITHUB_TOKEN: ${{ secretes.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
