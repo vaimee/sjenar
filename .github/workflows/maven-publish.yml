@@ -29,4 +29,4 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn clean install -s $GITHUB_WORKSPACE/settings.xml
