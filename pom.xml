@@ -53,20 +53,12 @@
         </repository>
     </distributionManagement>
 
-    <!--	<scm>-->
-    <!--		<connection>scm:git:https://github.com/vaimee/sjenar.git</connection>-->
-    <!--		<developerConnection>-->
-    <!--			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>-->
-    <!--		<url>https://www.github.com/vaimee/sjenar</url>-->
-    <!--		<tag>sjenar-1.0.0-SNAPSHOT</tag>-->
-    <!--	</scm>-->
-
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>${project.version}</revision>
 
         <ver.junit>4.13.2</ver.junit>
 
