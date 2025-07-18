@@ -25,7 +25,7 @@
     <artifactId>sjenar</artifactId>
     <packaging>pom</packaging>
     <url>https://jena.apache.org/</url>
-    <version>${ver.sjenar}</version>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.apache</groupId>
@@ -66,9 +66,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>${ver.sjenar}</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
 
-        <ver.sjenar>1.0.0</ver.sjenar>
         <ver.junit>4.13.2</ver.junit>
 
         <ver.slf4j>1.7.32</ver.slf4j>

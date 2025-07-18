@@ -27,8 +27,7 @@
 	<parent>
 		<groupId>com.vaimee</groupId>
 		<artifactId>sjenar</artifactId>
-		<version>${ver.sjenar}</version>
-		<relativePath>..</relativePath>
+		<version>${revision}</version>
 	</parent>
 
 	<description>Jena is a Java framework for building Semantic Web
@@ -45,13 +44,13 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-base</artifactId>
-			<version>${ver.sjenar}</version>
+			<version>${revision}</version>
 		</dependency>
 
 <!--		<dependency>-->
 <!--			<groupId>com.vaimee</groupId>-->
 <!--			<artifactId>sjenar-base</artifactId>-->
-<!--			<version>${ver.sjenar}</version>-->
+<!--			<version>${revision}</version>-->
 <!--			<classifier>tests</classifier>-->
 <!--			<scope>test</scope>-->
 <!--		</dependency>-->
@@ -59,7 +58,7 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-iri</artifactId>
-			<version>${ver.sjenar}</version>
+			<version>${revision}</version>
 		</dependency>
 
 		<dependency>

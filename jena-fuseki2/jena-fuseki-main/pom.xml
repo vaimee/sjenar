@@ -25,7 +25,8 @@
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
-    <version>${ver.sjenar}</version>
+    <version>${revision}</version>
+
   </parent> 
 
   <packaging>jar</packaging>
@@ -39,13 +40,13 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-core</artifactId>
-      <version>${ver.sjenar}</version>
+      <version>${revision}</version>
     </dependency>
 
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-fuseki-core</artifactId>-->
-<!--      <version>${ver.sjenar}</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
@@ -53,13 +54,13 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-access</artifactId>
-      <version>${ver.sjenar}</version>
+      <version>${revision}</version>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>${ver.sjenar}</version>
+      <version>${revision}</version>
     </dependency>
 
     <!-- For parsing Jetty configuration files -->

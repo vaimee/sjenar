@@ -26,8 +26,8 @@
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-db</artifactId>
-    <!--suppress MavenPropertyInParent -->
-    <version>${ver.sjenar}</version>
+    <version>${revision}</version>
+
   </parent> 
 
   <properties>
@@ -39,26 +39,26 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-transaction</artifactId>
-      <version>${ver.sjenar}</version>
+      <version>${revision}</version>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-index</artifactId>
-      <version>${ver.sjenar}</version>
+      <version>${revision}</version>
     </dependency>
 
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-dboe-index-test</artifactId>-->
-<!--      <version>${ver.sjenar}</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-dboe-base</artifactId>-->
-<!--      <version>${ver.sjenar}</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
@@ -70,11 +70,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/TC_*.java</include>
-          </includes>
-        </configuration>
+<!--        <configuration>-->
+<!--          <includes>-->
+<!--            <include>**/TC_*.java</include>-->
+<!--          </includes>-->
+<!--        </configuration>-->
       </plugin>
     </plugins>
   </build>
