@@ -25,7 +25,7 @@
     <artifactId>sjenar</artifactId>
     <packaging>pom</packaging>
     <url>https://jena.apache.org/</url>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${ver.sjenar}</version>
 
     <parent>
         <groupId>org.apache</groupId>
@@ -58,7 +58,7 @@
     <!--		<developerConnection>-->
     <!--			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>-->
     <!--		<url>https://www.github.com/vaimee/sjenar</url>-->
-    <!--		<tag>sjenar-1.0.0-SNAPSHOT</tag>-->
+    <!--		<tag>sjenar-${ver.sjenar}</tag>-->
     <!--	</scm>-->
 
     <properties>
@@ -66,8 +66,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>${ver.sjenar}</revision>
 
+        <ver.sjenar>1.0.0</ver.sjenar>
         <ver.junit>4.13.2</ver.junit>
 
         <ver.slf4j>1.7.32</ver.slf4j>
