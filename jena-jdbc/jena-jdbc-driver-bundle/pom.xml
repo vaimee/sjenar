@@ -23,6 +23,7 @@
 		<groupId>com.vaimee</groupId>
 		<artifactId>sjenar-jdbc</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
+<!--		<relativePath>../pom.xml</relativePath>-->
 	</parent>
 	<artifactId>sjenar-jdbc-driver-bundle</artifactId>
 	<name>Vaimee SJenar - JDBC Driver Bundle</name>
@@ -43,62 +44,22 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.vaimee</groupId>
-			<artifactId>sjenar-jdbc-driver-mem</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaimee</groupId>
-			<artifactId>sjenar-jdbc-driver-remote</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.vaimee</groupId>
-			<artifactId>sjenar-jdbc-driver-tdb</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-
-		<!-- Test Dependencies -->
-<!--		<dependency>-->
-<!--			<groupId>junit</groupId>-->
-<!--			<artifactId>junit</artifactId>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>com.vaimee</groupId>-->
 <!--			<artifactId>sjenar-jdbc-driver-mem</artifactId>-->
 <!--			<version>1.0.0-SNAPSHOT</version>-->
-<!--			<classifier>tests</classifier>-->
-<!--			<scope>test</scope>-->
 <!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>com.vaimee</groupId>-->
 <!--			<artifactId>sjenar-jdbc-driver-remote</artifactId>-->
 <!--			<version>1.0.0-SNAPSHOT</version>-->
-<!--			<classifier>tests</classifier>-->
-<!--			<scope>test</scope>-->
 <!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>com.vaimee</groupId>-->
 <!--			<artifactId>sjenar-jdbc-driver-tdb</artifactId>-->
 <!--			<version>1.0.0-SNAPSHOT</version>-->
-<!--			<classifier>tests</classifier>-->
-<!--			<scope>test</scope>-->
 <!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.vaimee</groupId>-->
-<!--			<artifactId>sjenar-jdbc-core</artifactId>-->
-<!--			<version>1.0.0-SNAPSHOT</version>-->
-<!--			<classifier>tests</classifier>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.vaimee</groupId>-->
-<!--			<artifactId>sjenar-fuseki-main</artifactId>-->
-<!--			<version>1.0.0-SNAPSHOT</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
+
 	</dependencies>
 
 	<build>
@@ -116,6 +77,26 @@
 						</transformer>
 					</transformers>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>module-info.class</exclude>
+								<exclude>META-INF/versions/**/module-info.class</exclude>
+								<exclude>META-INF/LICENSE*</exclude>
+								<exclude>META-INF/NOTICE*</exclude>
+								<exclude>META-INF/DEPENDENCIES</exclude>
+								<exclude>META-INF/LICENSE</exclude>
+								<exclude>META-INF/LICENSE.txt</exclude>
+								<exclude>META-INF/LICENSE.md</exclude>
+								<exclude>META-INF/NOTICE.md</exclude>
+								<exclude>META-INF/NOTICE.txt</exclude>
+								<exclude>META-INF/MANIFEST.MF</exclude>
+								<exclude>OSGI-INF/bundle.info</exclude>
+								<exclude>META-INF/maven/**</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 				<executions>
 					<execution>

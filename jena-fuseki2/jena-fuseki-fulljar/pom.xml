@@ -56,10 +56,10 @@
 <!--      <version>${project.version}</version>-->
 <!--    </dependency>-->
 
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.logging.log4j</groupId>-->
+<!--      <artifactId>log4j-slf4j-impl</artifactId>-->
+<!--    </dependency>-->
 
   </dependencies>
 
@@ -96,12 +96,15 @@
             <filter>
               <artifact>*:*</artifact>
               <excludes>
-                <!-- Some jars are signed but shading breaks that.
-                     Don't include signing files.
-                -->
+                <!-- Some jars are signed but shading breaks that. Don't
+                  include signing files. -->
                 <exclude>META-INF/*.SF</exclude>
                 <exclude>META-INF/*.DSA</exclude>
                 <exclude>META-INF/*.RSA</exclude>
+                <exclude>META-INF/LICENSE.*</exclude>
+                <exclude>META-INF/MANIFEST.*</exclude>
+                <exclude>META-INF/DEPENDENCIES</exclude>
+                <exclude>module-info.class</exclude>
               </excludes>
             </filter>
           </filters>

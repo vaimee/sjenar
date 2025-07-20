@@ -27,7 +27,6 @@
 		<groupId>com.vaimee</groupId>
 		<artifactId>sjenar</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<!--    <relativePath>..</relativePath>-->
 	</parent>
 
 	<description>ARQ is a SPARQL 1.1 query engine for Vaimee SJenar</description>

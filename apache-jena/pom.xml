@@ -35,7 +35,7 @@
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.3</version>
 <!--    <relativePath>..</relativePath>-->
   </parent>
 
@@ -145,10 +145,10 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
 
-    <!-- Require a logging implementation for command line tools --> 
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.36</version>
       <scope>compile</scope>
     </dependency>
 
@@ -182,15 +182,15 @@
               <descriptors>
                 <descriptor>assembly-jena-zip.xml</descriptor>
               </descriptors>
-              <tarLongFileFormat>gnu</tarLongFileFormat>
+<!--              <tarLongFileFormat>gnu</tarLongFileFormat>-->
             </configuration>
           </execution>
         </executions>
       </plugin>
-      
-      <!-- 
-      Use the dependencies plugin to copy the dependencies into the lib/ directory which makes the scripts work in dev enivronments 
-      - -> JENA-1173
+
+      <!--
+      Use the dependencies plugin to copy the dependencies into the lib/ directory which makes the scripts work in dev enivronments
+      - -> JENA-1173-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -210,11 +210,10 @@
           </execution>
         </executions>
       </plugin>
-      -->
 
-      <!-- 
+      <!--
       As we copy dependencies into lib/ to make scripts work in dev environments we also need to clean up that directory
-      - -> JENA-1173
+      - -> JENA-1173 -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <configuration>
@@ -225,7 +224,7 @@
           </filesets>
         </configuration>
       </plugin>
-      -->
+
     </plugins>
   </build>
 

@@ -44,23 +44,6 @@
       <version>1.0.0-SNAPSHOT</version>
     </dependency>
 
-<!--     testing -->
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-base</artifactId>-->
-<!--      <version>1.0.0-SNAPSHOT</version>-->
-<!--      <classifier>tests</classifier>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-    
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-arq</artifactId>-->
-<!--      <version>1.0.0-SNAPSHOT</version>-->
-<!--      <classifier>tests</classifier>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-    
   </dependencies>
 
 </project>
