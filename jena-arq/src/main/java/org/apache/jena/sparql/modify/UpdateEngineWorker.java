@@ -70,7 +70,7 @@ public class UpdateEngineWorker implements UpdateVisitor
     private final static Symbol     USER_NAME_SYMBOL = Symbol.create(DatasetACL.ACL_USER_NAME);
     private final static Symbol     ACL_NAME_SYMBOL = Symbol.create(DatasetACL.ACL_HANDLER_NAME);
     
-    final boolean enableDebugPrint = true;
+    final boolean enableDebugPrint = false;
     protected final DatasetGraph datasetGraph ;
     protected final boolean alwaysSilent = true ;
     protected final Binding inputBinding;       // Used for UpdateModify only

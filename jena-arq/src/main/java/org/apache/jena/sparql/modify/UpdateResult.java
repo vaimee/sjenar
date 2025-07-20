@@ -19,8 +19,8 @@ package org.apache.jena.sparql.modify;
  */
 
 
-
 import java.util.List;
+
 import org.apache.jena.sparql.core.Quad;
 
 /**
@@ -29,10 +29,10 @@ import org.apache.jena.sparql.core.Quad;
  */
 public class UpdateResult {
     public final List<Quad> deletedTuples;
-    public final List<Quad> updatedTuples;
+    public final List<Quad> addedTuples;
     public UpdateResult(List<Quad> del, List<Quad> upd) {
         deletedTuples = del; // processQuadList(del, db);
-        updatedTuples = upd; // processQuadList(upd, db);
+        addedTuples = upd; // processQuadList(upd, db);
     }
     
     @Override
@@ -41,11 +41,11 @@ public class UpdateResult {
         sb.append("Deleted quads");
         printQuadList(deletedTuples, sb);
         sb.append(System.lineSeparator());
-        sb.append("Updated quads");
-        printQuadList(updatedTuples, sb);
-        
+        sb.append("Added quads");
+        printQuadList(addedTuples, sb);
+
         return sb.toString();
-        
+
     }
     private void printQuadList(List<Quad> src, StringBuilder tgt) {
         if (src == null) {
@@ -54,11 +54,10 @@ public class UpdateResult {
             return;
         }
 
-        for(final Quad q : src) {
+        for (final Quad q : src) {
             tgt.append(System.lineSeparator());
             tgt.append("\t");
             tgt.append(q.toString());
         }
     }
-    
 }

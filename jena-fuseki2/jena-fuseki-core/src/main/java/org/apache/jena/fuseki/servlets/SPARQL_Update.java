@@ -200,7 +200,7 @@ public class SPARQL_Update extends ActionService
             final JsonObject jret  = new JsonObject();
             for(final UpdateResult ur : ret ) {
                 appendUpdateResult("deleted", jret, ur.deletedTuples);
-                appendUpdateResult("updated", jret, ur.updatedTuples);
+                appendUpdateResult("updated", jret, ur.addedTuples);
                    
             }
             final List<JsonObject> dummy = new ArrayList<>();
