@@ -26,7 +26,8 @@
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-db</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
+
   </parent> 
 
   <properties>
@@ -38,7 +39,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-base</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${revision}</version>
     </dependency>
 
   </dependencies>

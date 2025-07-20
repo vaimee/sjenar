@@ -25,8 +25,8 @@
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <version>${revision}</version>
+    <relativePath>../pom.xml</relativePath>
   </parent> 
 
   <description>TDB is a storage subsystem for Jena and ARQ, it is a native triple store providing persistent storage of triples/quads.</description>
@@ -41,14 +41,14 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>${revision}</version>
     </dependency>
 
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-arq</artifactId>-->
 <!--      <classifier>tests</classifier>-->
-<!--      <version>1.0.0-SNAPSHOT</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
@@ -56,7 +56,7 @@
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-core</artifactId>-->
 <!--      <classifier>tests</classifier>-->
-<!--      <version>1.0.0-SNAPSHOT</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
@@ -64,7 +64,7 @@
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-base</artifactId>-->
 <!--      <classifier>tests</classifier>-->
-<!--      <version>1.0.0-SNAPSHOT</version>-->
+<!--      <version>${revision}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
