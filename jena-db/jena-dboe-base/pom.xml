@@ -50,11 +50,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/TC_*.java</include>
-          </includes>
-        </configuration>
+<!--        <configuration>-->
+<!--          <includes>-->
+<!--            <include>**/TC_*.java</include>-->
+<!--          </includes>-->
+<!--        </configuration>-->
       </plugin>
 
       <plugin>
