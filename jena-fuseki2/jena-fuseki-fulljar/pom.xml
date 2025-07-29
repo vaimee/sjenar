@@ -26,40 +26,12 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
     <version>${revision}</version>
-<!--    <relativePath>../</relativePath>-->
-  </parent> 
+  </parent>
 
   <packaging>jar</packaging>
   <description>Fuseki Webapp - combined jar with built-in webserver.</description>
 
   <dependencies>
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-fuseki-webapp</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>org.apache.logging.log4j</groupId>-->
-<!--          <artifactId>log4j-web</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
-<!--    </dependency>-->
-
-    <!-- Include jena-cmds in the server jar so 
-         "java -cp server-jar jena.cmd ..." works
-         as a convenience in deployments.
-    -->
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-cmds</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--    </dependency>-->
 
   </dependencies>
 

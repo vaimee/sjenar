@@ -55,7 +55,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-libs</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <type>pom</type>
     </dependency>
 
@@ -63,35 +63,35 @@
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-base</artifactId>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <optional>true</optional>-->
 <!--    </dependency>     -->
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-core</artifactId>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <optional>true</optional>-->
 <!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-arq</artifactId>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <optional>true</optional>-->
 <!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-shacl</artifactId>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <optional>true</optional>-->
 <!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-shex</artifactId>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <classifier>tests</classifier>-->
 <!--      <optional>true</optional>-->
 <!--    </dependency>-->

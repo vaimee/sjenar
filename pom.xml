@@ -58,7 +58,7 @@
     <!--		<developerConnection>-->
     <!--			scm:git:https://github.com/vaimee/sjenar.git</developerConnection>-->
     <!--		<url>https://www.github.com/vaimee/sjenar</url>-->
-    <!--		<tag>sjenar-${revision}</tag>-->
+    <!--		<tag>sjenar-${project.parent.version}</tag>-->
     <!--	</scm>-->
 
     <properties>
@@ -709,46 +709,30 @@
         <!-- Run the enforcer plugin automatically at compile time -->
         <plugins>
             <plugin>
-                <groupId>com.hbakkum.maven.plugins</groupId>
-                <artifactId>resolve-parent-version-maven-plugin</artifactId>
-                <version>0.7</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.2</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>resolve-parent-version</goal>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <!--      <plugin>-->
-            <!--        <groupId>org.apache.maven.plugins</groupId>-->
-            <!--        <artifactId>maven-enforcer-plugin</artifactId>-->
-            <!--        <executions>-->
-            <!--          <execution>-->
-            <!--            <id>enforce</id>-->
-            <!--            <goals>-->
-            <!--              <goal>enforce</goal>-->
-            <!--            </goals>-->
-            <!--            <configuration combine.self="override">-->
-            <!--              <rules>-->
-            <!--                <dependencyConvergence />-->
-            <!--                <requirePluginVersions>-->
-            <!--                  <message>Best practice is to always define plugin
-            versions!</message>-->
-            <!--                  <banLatest>true</banLatest>-->
-            <!--                  <banRelease>true</banRelease>-->
-            <!--                </requirePluginVersions>-->
-            <!--                <requireReleaseDeps>-->
-            <!--                  <message>No SNAPSHOT dependencies are allowed!</message>-->
-            <!--                  <onlyWhenRelease>true</onlyWhenRelease>-->
-            <!--                </requireReleaseDeps>-->
-            <!--              </rules>-->
-            <!--              <fail>true</fail>-->
-            <!--              <failFast>false</failFast>-->
-            <!--            </configuration>-->
-            <!--          </execution>-->
-            <!--        </executions>-->
-            <!--      </plugin>-->
 
             <!-- Run the RAT Plugin -->
             <!--

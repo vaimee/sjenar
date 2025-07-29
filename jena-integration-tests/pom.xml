@@ -30,7 +30,6 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar</artifactId>
     <version>${revision}</version>
-    <relativePath>..</relativePath>
   </parent>
 
   <licenses>
@@ -45,7 +44,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-libs</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <type>pom</type>
     </dependency>
 
@@ -53,13 +52,13 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-rdfconnection</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-rdfconnection</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -67,14 +66,14 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-cmds</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -82,13 +81,13 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-main</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
     
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-core</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -96,7 +95,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-main</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -105,7 +104,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-base</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -113,13 +112,13 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-index-test</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-trans-data</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
@@ -128,14 +127,14 @@
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-core</artifactId>
       <classifier>tests</classifier>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>

@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-fuseki-core</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>

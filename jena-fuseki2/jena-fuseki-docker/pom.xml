@@ -28,7 +28,6 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
     <version>${revision}</version>
-    <relativePath>..</relativePath>
   </parent> 
   
   <description>Fuseki Docker</description>

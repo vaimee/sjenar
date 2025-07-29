@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-storage</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
   </dependencies>
@@ -82,12 +82,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>3.5.3</version>
-        <configuration>
-          <includes>
-            <include>**/TS_*.java</include>
-            <include>**/Scripts_*.java</include>
-          </includes>
-        </configuration>
       </plugin>
 
     </plugins>

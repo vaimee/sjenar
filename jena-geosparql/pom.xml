@@ -24,7 +24,6 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar</artifactId>
     <version>${revision}</version>
-<!--    <relativePath>..</relativePath>-->
   </parent>
 
   <description>GeoSPARQL implementation for Vaimee SJenar</description>
@@ -53,7 +52,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>

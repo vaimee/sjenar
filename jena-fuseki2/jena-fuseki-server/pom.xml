@@ -26,55 +26,12 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
     <version>${revision}</version>
-<!--    <relativePath>../</relativePath>-->
-  </parent> 
+  </parent>
 
   <packaging>jar</packaging>
   <description>Fuseki server - combined jar with built-in webserver.</description>
 
   <dependencies>
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-fuseki-main</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-text</artifactId>-->
-<!--      <version>${revision}</version>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-fuseki-access</artifactId>-->
-<!--      <version>${revision}</version>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-cmds</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
-<!--    -->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-api</artifactId>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.logging.log4j</groupId>-->
-<!--      <artifactId>log4j-core</artifactId>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
-
   </dependencies>
 
   <build>

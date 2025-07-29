@@ -26,19 +26,11 @@
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
     <version>${revision}</version>
-    <relativePath>..</relativePath>
-  </parent> 
+  </parent>
 
   <packaging>war</packaging>
 
   <dependencies>
-
-<!--    <dependency>-->
-<!--      <groupId>com.vaimee</groupId>-->
-<!--      <artifactId>sjenar-fuseki-webapp</artifactId>-->
-<!--      <version>${project.version}</version>-->
-<!--    </dependency>-->
-
     <!-- Require a logging implementation -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

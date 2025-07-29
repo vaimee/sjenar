@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
 <!--    <dependency>-->

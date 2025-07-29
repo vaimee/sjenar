@@ -39,7 +39,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-index</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>

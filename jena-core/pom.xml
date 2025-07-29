@@ -45,13 +45,13 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-base</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 <!--		<dependency>-->
 <!--			<groupId>com.vaimee</groupId>-->
 <!--			<artifactId>sjenar-base</artifactId>-->
-<!--			<version>${revision}</version>-->
+<!--			<version>${project.parent.version}</version>-->
 <!--			<classifier>tests</classifier>-->
 <!--			<scope>test</scope>-->
 <!--		</dependency>-->
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-iri</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>

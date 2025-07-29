@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-shaded-guava</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

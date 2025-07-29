@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-arq</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
 <!--    <dependency>-->
@@ -56,7 +56,7 @@
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-core</artifactId>-->
 <!--      <classifier>tests</classifier>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 
@@ -64,7 +64,7 @@
 <!--      <groupId>com.vaimee</groupId>-->
 <!--      <artifactId>sjenar-base</artifactId>-->
 <!--      <classifier>tests</classifier>-->
-<!--      <version>${revision}</version>-->
+<!--      <version>${project.parent.version}</version>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
 

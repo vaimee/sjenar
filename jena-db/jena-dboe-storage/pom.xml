@@ -41,7 +41,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-trans-data</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
   </dependencies>

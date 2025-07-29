@@ -20,15 +20,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Vaimee SJenar - Fuseki Binary Distribution</name>
-  <artifactId>vaimee-sjenar-fuseki</artifactId>
+  <artifactId>sjenar-fuseki-distribution</artifactId>
   <packaging>pom</packaging>
 
   <parent>
     <groupId>com.vaimee</groupId>
     <artifactId>sjenar-fuseki</artifactId>
     <version>${revision}</version>
-<!--    <relativePath>..</relativePath>-->
-  </parent> 
+  </parent>
   
   <description>Fuseki distribution</description>
 

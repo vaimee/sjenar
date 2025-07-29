@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.vaimee</groupId>
       <artifactId>sjenar-dboe-base</artifactId>
-      <version>${revision}</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
   </dependencies>
