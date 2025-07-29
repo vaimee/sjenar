@@ -40,17 +40,17 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-core</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-base</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-iri</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -161,7 +161,7 @@
 		<dependency>
 			<groupId>com.vaimee</groupId>
 			<artifactId>sjenar-shaded-guava</artifactId>
-			<version>${revision}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 

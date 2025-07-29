@@ -62,7 +62,7 @@
     <!--	</scm>-->
 
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -709,13 +709,26 @@
         <!-- Run the enforcer plugin automatically at compile time -->
         <plugins>
             <plugin>
-                <groupId>com.hbakkum.maven.plugins</groupId>
-                <artifactId>resolve-parent-version-maven-plugin</artifactId>
-                <version>0.7</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.7.2</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>resolve-parent-version</goal>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
                         </goals>
                     </execution>
                 </executions>
